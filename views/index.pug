@@ -1,0 +1,20 @@
+extends default
+
+block content
+	div.titleArea
+		h1 #{snakeName}'s Daily Monitor
+	div.dataEntryDisplayBlock
+		h2.enclosureTitle Enclosure Data:
+		hr.horizontalSeparator
+		form.formGrid(action="submitEnclosureData" method="get")
+			i.entryIcon.coolIcon.far.fa-snowflake
+			input.textEntry.coolInput(type="text" name="inputCoolSide" placeholder="Cool Side F°" required)
+			i.entryIcon.warmIcon.fab.fa-gripfire
+			input.textEntry.warmInput(type="text" name="inputWarmSide" placeholder="Warm Side F°" required)
+			i.entryIcon.humidIcon.fas.fa-cloud
+			input.textEntry.humidInput(type="text" name="inputHumidity" placeholder="Humidity %" required)
+			button.submitButton(type="submit" name="button") Chart It
+		div.chartArea.tempArea
+			canvas#tempChart(style="height: 300px; width: 100%")
+		div.chartArea.humidArea
+			canvas#humidChart(style="height: 300px; width: 100%")

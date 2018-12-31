@@ -1,0 +1,17 @@
+{
+  "name": "hebihibi",
+  "version": "1.0.0",
+  "description": "Daily Snake-Enclosure Data Tracker",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
+  },
+  "author": "James McNeilan",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.4.0",
+    "pug": "^2.0.3"
+  }
+}

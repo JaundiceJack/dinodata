@@ -1,0 +1,120 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+body {
+	background-color: #111;
+}
+
+/* Layout CSS */
+/* General Site Layout */
+.bodyGrid {
+	display: grid;
+	grid-template-columns: 1fr 600px 1fr;
+	grid-template-rows: 50px auto auto 50px;
+	grid-template-areas:". .          ."
+						". title      ."
+						". entry      ."
+						". .          .";
+	grid-gap: 10px;
+}
+.titleArea {
+	grid-area: title;
+	padding: 10px;
+}
+.dataEntryDisplayBlock {
+	grid-area: entry;
+}
+/* Data Entry Layout */
+.formGrid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(auto, 50px) 1fr);
+	grid-template-rows: repeat(2, 25px);
+	grid-template-areas: "coolIcon coolEntry warmIcon warmEntry humidIcon humidEntry"
+						 ".        .         .        .         .         submit";
+
+	padding: 10px 5px 10px 5px;
+	margin: 5px;
+	grid-gap: 10px;
+}
+.coolIcon {
+	grid-area: coolIcon;
+}
+.coolInput {
+	grid-area: coolEntry;
+}
+.warmIcon {
+	grid-area: warmIcon;
+}
+.warmInput {
+	grid-area: warmEntry;
+}
+.humidIcon {
+	grid-area: humidIcon;
+}
+.humidInput {
+	grid-area: humidEntry;
+}
+.submitButton {
+	grid-area: submit;
+}
+
+/* Styling CSS */
+.dataEntryDisplayBlock {
+	background: radial-gradient(#EEE, #FFF);
+	border-radius: 2px;
+}
+.titleArea {
+	border-radius: 2px;
+	background: linear-gradient(0deg, #DEF, #EEE, #FFF);
+	font-family: Electrolize, sans-serif;
+	text-align: center;
+}
+.chartArea {
+	margin: 10px;
+	border: 3px solid #BBB;
+	border-radius: 2px;
+}
+.enclosureTitle {
+	margin: 10px;
+	text-align: center;
+	font-family: Electrolize, sans-serif;
+}
+.horizontalSeparator {
+	margin: 0 10px;
+}
+
+.coolIcon {
+	color: blue;
+}
+.warmIcon {
+	color: orange;
+}
+.humidIcon {
+	color: #ABC;
+}
+.textEntry {
+	height: 25px;
+	box-shadow: 0 0 3px 0px #ABC;
+}
+.entryIcon {
+	font-size: 25px;
+	text-align: right;
+}
+.submitButton {
+	border-radius: 2px;
+	background: radial-gradient(#DDD, #BCE);
+	font-family: Electrolize, sans-serif;
+	font-size: 16px;
+	border: 1px outset #ABC;
+	transition-duration: 0.4s;
+}
+.submitButton:hover {
+	background: radial-gradient(#DDD, #ABC);
+	box-shadow: 1px 2px 5px 0px #555;
+}
+.submitButton:active {
+	background: radial-gradient(#FFF, #ABC);
+}
+
