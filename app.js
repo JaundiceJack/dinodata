@@ -37,9 +37,6 @@ app.get('/', (req, res) => {
 		res.render('index', {
 			snakeName: 'Jormun'
 		});
-		console.log("Users: ");
-		console.log(JSON.stringify(users));
-		console.log("End of Users.");
 	})
 });
 
