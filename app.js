@@ -33,11 +33,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Handle a GET request
 app.get('/', (req, res) => {
-	Users.find({}, (err, users) => {
-		res.render('index', {
-			snakeName: 'Jormun'
-		});
-	})
+	res.render('index', {
+		snakeName: 'Jormun'
+	});
 });
 
 // Start the server
