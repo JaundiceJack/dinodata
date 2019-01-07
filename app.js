@@ -19,7 +19,9 @@ db.on('error', (err) => {
 });
 
 // Load in database models
-let Users = require('./models/users');
+let Users = mongoose.model('Users', {snakeName: String});
+//let Users = require('./models/users');
+
 
 // Instantiate Express
 const app = express();
@@ -31,10 +33,21 @@ app.set('view engine', 'pug');
 // Set the location to serve static files (css/js)
 app.use(express.static(path.join(__dirname, 'public')));
 
+const query = Users.findOne({snakeName: "Jormun"});
+query.select('snakeName');
+var jormun = ""
+query.exec((err, snake) => {
+	if (err) return console.error(err);
+	jormun = snake.snakeName;
+});
+
+console.log(jormun);
+
+
 // Handle a GET request
 app.get('/', (req, res) => {
 	res.render('index', {
-		snakeName: 'Jormun'
+		snakeName: "Not Jormun"
 	});
 });
 
