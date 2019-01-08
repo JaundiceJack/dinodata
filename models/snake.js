@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // Test Schema
-let userSchema = mongoose.Schema({
+let snakeSchema = mongoose.Schema({
 	userName: {
 		type: String,
 		required: true
@@ -91,4 +91,4 @@ let userSchema = mongoose.Schema({
 })
 */
 
-let Users = module.exports = mongoose.model('Users', userSchema);
+let Snake = module.exports = mongoose.model('Snake', snakeSchema);
