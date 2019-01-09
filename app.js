@@ -7,49 +7,36 @@ const routes = require('./routes/index.js');
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost/hebihibidb');
 let db = mongoose.connection;
-
 // Check connection
 db.once('open', () => {	console.log('Connected to MongoDB'); });
-
 // Check for database errors
 db.on('error', (err) => { console.log(err); });
-
 // Load in database models
 let Snake = require('./models/snake');
 
-// Create and save a document Jormun
-//let jormun = new Snake({
-//	userName: "James",
-//	password: "emptybox",
-//	snakeName: "Jormun"
-//});
-
-// Save Jormun to the DB
-//jormun.save((err, snake) => {
-//	if (err) return console.error(err);
-//	console.log("Jormun saved to HebiHibiDB");
-//});
-
-// Create a query to the DB for Jormun
-//const query = Snake.find({snakeName: "Jormun"});
-
-// Select the snakeName field
-//query.select('snakeName');
-
-// Execute the query to retrieve his name
-//query.exec( (err, snake) => {
-//	console.log(snake.snakeName);
-//})
-
 // Instantiate Express
 const app = express();
-
 // Set the view location and view engine (pug)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-
 // Set the location to serve static files (css/js)
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+
+// Make some fake data for the chart
+var fakeTempData = [77, 75, 76, 76, 78, 79, 78];
+var fakeTempChartLabels = ['1/3/19', '1/4/19', '1/5/19', '1/6/19', '1/7/19', '1/8/19', '1/9/19'];
+// I got the fake data to render (client-side) by passing it in just like i did with Jormun's name
+// So now I'd like to set up how much data to display at once as a guideline of how many days to request and all that
+// I'd like to have some editable options
+// Days to display: 7, 14, 28, All=0
+let daysToDisplay = 7;
+let minTemp = 75;
+let maxTemp = 95;
+let minHumid = 55;
+let maxHumid = 85;
+
 
 // Handle a GET request
 app.get('/', (req, res) => {
@@ -68,7 +55,9 @@ app.get("/jormun", (req, res) => {
 		if (err) return console.error(err);
 		// Render index.html to the client
 		res.render('index', {
-			snakeName: snake.snakeName
+			snakeName: snake.snakeName,
+			tempChartLabels: fakeTempChartLabels,
+			tempData: fakeTempData
 		});
 	});
 })
