@@ -18,7 +18,7 @@ let snakeSchema = mongoose.Schema({
 
 // Full Schema
 /*
-let userSchema = mongoose.Schema({
+let schema = mongoose.Schema({
 	user: {
 		userName: {
 			type: String,
