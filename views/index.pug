@@ -20,48 +20,82 @@ block content
 			canvas#humidChart(style="height: 300px; width: 100%")
 
 		script.
-			var tempCanvas = document.getElementById("tempChart").getContext('2d');
-			var tempChart = new Chart(tempCanvas, {
-			    type: 'line',
-			    data: {
-			        labels: !{JSON.stringify(tempChartLabels)},
-			        datasets: [{
-			            label: 'Temperature',
-			            data: [#{tempData}],
-			            backgroundColor: [
-			                'rgba(255, 99, 132, 0.2)',
-			                'rgba(54, 162, 235, 0.2)',
-			                'rgba(255, 206, 86, 0.2)',
-			                'rgba(75, 192, 192, 0.2)',
-			                'rgba(153, 102, 255, 0.2)',
-			                'rgba(255, 159, 64, 0.2)',
-			                'rgba(153, 102, 255, 0.2)'
-			            ],
-			            borderColor: [
-			                'rgba(255,99,132,1)',
-			                'rgba(54, 162, 235, 1)',
-			                'rgba(255, 206, 86, 1)',
-			                'rgba(75, 192, 192, 1)',
-			                'rgba(153, 102, 255, 1)',
-			                'rgba(255, 159, 64, 1)',
-			                'rgba(153, 102, 255, 1)'
-			            ],
-			            borderWidth: 2
-			        }]
-			    },
-			    options: {
-			    	elements: {
-			    		line: {
-			    			tension: 0,
-			    			fill: false
-			    		}
-			    	},
-			        scales: {
-			            yAxes: [{
-			                ticks: {
-			                    beginAtZero:false
-			                }
-			            }]
-			        }
-			    }
-			});
+			window.onload = () => {
+					// Load data from node
+					var highTempData = [#{highTempData}];
+					var lowTempData = [#{lowTempData}];
+					var tempChartLabels = !{JSON.stringify(tempChartLabels)};
+					var humidData = [#{humidData}];
+					var humidChartLabels = !{JSON.stringify(humidChartLabels)};
+					
+					// Create the temperature chart
+					var tempCanvas = document.getElementById("tempChart").getContext('2d');
+					var tempChart = new Chart(tempCanvas, {
+							type: 'line',
+							data: {
+									labels: tempChartLabels,
+									datasets: [{
+											label: 'Warm Side',
+											data: highTempData,
+											backgroundColor: '#CBA',
+											borderColor: '#EDC',
+											borderWidth: 5
+									},
+									{
+										label: 'Cool Side',
+										data: lowTempData,
+										backgroundColor: '#ABC',
+										borderColor: "#CDE",
+										borderWidth: 5
+										}]
+							},
+							options: {
+								elements: {
+									line: {
+										tension: 0,
+										fill: false
+									}
+								},
+									scales: {
+											yAxes: [{
+													ticks: {
+															suggestedMin: 70,
+															suggestedMax: 100
+													}
+											}]
+									}
+							}
+					});
+					
+					// Create the humidity chart
+					var humidCanvas = document.getElementById('humidChart').getContext('2d');
+					var humidChart = new Chart(humidCanvas, {
+						type: 'line',
+						data: {
+							labels: humidChartLabels,
+							datasets: [{
+								label: 'Humidity',
+								data: humidData,
+								backgroundColor: '#ABD',
+								borderColor: "#CDF",
+								borderWidth: 5
+							}]
+						},
+						options: {
+							elements: {
+								line: {
+									tension: 0,
+									fill: false
+								}
+							},
+							scales: {
+								yAxes: [{
+									ticks: {
+										suggestedMin: 40,
+										suggestedMax: 90
+									}
+								}]
+							}
+						}
+					});
+				}
