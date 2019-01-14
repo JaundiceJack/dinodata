@@ -12,11 +12,52 @@ db.once('open', () => {	console.log('Connected to MongoDB'); });
 // Check for database errors
 db.on('error', (err) => { console.log(err); });
 // Load in database models
+let User = require('./models/user');
 let Snake = require('./models/snake');
+let Reading = require('./models/reading');
+let Datum = require('./models/datum');
 
 // Create a database entry for jormun
-//let jormun = new Snake({userName: "james", password: "gandr", snakeName: "jormun"});
-//jormun.save().then(() => console.log("Jormun saved to HHDB"));
+// Create a test user
+let james = new User({
+	name: "james",
+	password: "gandr",
+	preferences: {
+		useCelsius: true,
+		useGrams: true,
+		useCentimeters: true
+	}
+});
+// Create a test snake
+let jormun = new Snake({
+	name: "jormun",
+	morph: "Blue Eyed Leucistic",
+	weight: 240,
+	length: 32
+});
+// Put the snake in the user file
+james.snakes.push(jormun);
+// Make 7 data, give them different days
+let data = [0, 1, 2, 3, 4, 5, 6].map((day, index) => {
+	day = new Datum({
+		date: new Date(1, (index+12), 2019),
+		snakeId: Jormun.id
+	})
+});
+// Make one reading for each datum
+for (day in data){
+	let reading = new Reading({
+		time: Date.now(),
+		warmSide: 36,
+		coolSide: 27,
+		humidity: 66
+	});
+	day.cage.readings.push(reading);
+};
+// Assign the test data to the test user and save to the database
+james.data = data;
+james.save().then(() => console.log("User: James, saved to HHDB"));
+
 
 // Instantiate Express
 const app = express();
@@ -25,7 +66,6 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 // Set the location to serve static files (css/js)
 app.use(express.static(path.join(__dirname, 'public')));
-
 
 
 // Make some fake data for the chart
@@ -54,14 +94,12 @@ app.get('/', (req, res) => {
 
 // Handle a GET request for Jormun
 app.get("/jormun", (req, res) => {
-	// Obtain the snake in the URL
-	let name = req.url.substr(1);
 	// Find the snake in the DB
-	Snake.findOne({snakeName: name}, (err, snake) => {
+	User.findOne({userName: 'jaames'}, (err, user) => {
 		if (err) return console.error(err);
 		// Render index.html to the client
 		res.render('index', {
-			snakeName: snake.snakeName,
+			snakeName: user.snakes[0].name,
 			tempChartLabels: fakeTempChartLabels,
 			lowTempData: fakeLowTempData,
 			highTempData: fakeHighTempData,
@@ -70,6 +108,8 @@ app.get("/jormun", (req, res) => {
 		});
 	});
 })
+
+
 
 /*
 From the previous get request, I can see that you first instantiate the model,
