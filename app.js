@@ -12,14 +12,12 @@ db.once('open', () => {	console.log('Connected to MongoDB'); });
 // Check for database errors
 db.on('error', (err) => { console.log(err); });
 // Load in database models
-let User = require('./models/user');
-let Snake = require('./models/snake');
-let Reading = require('./models/reading');
-let Datum = require('./models/datum');
+let Models = require('./models/user');
 
+/*
 // Create a database entry for jormun
 // Create a test user
-let james = new User({
+let james = new Models.user({
 	name: "james",
 	password: "gandr",
 	preferences: {
@@ -28,8 +26,10 @@ let james = new User({
 		useCentimeters: true
 	}
 });
+
 // Create a test snake
-let jormun = new Snake({
+let jormun = new Models.snake({
+	userId: james.id,
 	name: "jormun",
 	morph: "Blue Eyed Leucistic",
 	weight: 240,
@@ -39,25 +39,25 @@ let jormun = new Snake({
 james.snakes.push(jormun);
 // Make 7 data, give them different days
 let data = [0, 1, 2, 3, 4, 5, 6].map((day, index) => {
-	day = new Datum({
+	return day = new Models.datum({
 		date: new Date(1, (index+12), 2019),
-		snakeId: Jormun.id
+		snakeId: jormun.id
 	})
 });
 // Make one reading for each datum
-for (day in data){
-	let reading = new Reading({
+for (let day = 0; day < data.length; day++){
+	let reading = new Models.reading({
 		time: Date.now(),
-		warmSide: 36,
-		coolSide: 27,
-		humidity: 66
+		warmSide: 36+day,
+		coolSide: 27+day,
+		humidity: 66+day
 	});
-	day.cage.readings.push(reading);
+	data[day].cage.readings.push(reading);
 };
 // Assign the test data to the test user and save to the database
 james.data = data;
 james.save().then(() => console.log("User: James, saved to HHDB"));
-
+*/
 
 // Instantiate Express
 const app = express();
@@ -92,10 +92,26 @@ app.get('/', (req, res) => {
 	});
 });
 
+
+function collectDateLabels(user, start, end){
+	let labels = [];
+	for(let i = 0; i < user.data.length; i++){
+		let date = Date.parse(user.data[i].date).toString("MM-DD-YY");
+		labels.push(date);
+	}
+	return labels;
+}
+
+Models.user.findOne({name: 'james'}, (err, user) => {
+	console.log(user);
+	console.log(collectDateLabels(user, 1, 2));
+})
+
+
 // Handle a GET request for Jormun
 app.get("/jormun", (req, res) => {
 	// Find the snake in the DB
-	User.findOne({userName: 'jaames'}, (err, user) => {
+	Models.user.findOne({name: 'james'}, (err, user) => {
 		if (err) return console.error(err);
 		// Render index.html to the client
 		res.render('index', {
