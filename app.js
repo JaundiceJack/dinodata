@@ -14,50 +14,10 @@ db.on('error', (err) => { console.log(err); });
 // Load in database models
 let Models = require('./models/user');
 
-/*
-// Create a database entry for jormun
-// Create a test user
-let james = new Models.user({
-	name: "james",
-	password: "gandr",
-	preferences: {
-		useCelsius: true,
-		useGrams: true,
-		useCentimeters: true
-	}
-});
-
-// Create a test snake
-let jormun = new Models.snake({
-	userId: james.id,
-	name: "jormun",
-	morph: "Blue Eyed Leucistic",
-	weight: 240,
-	length: 32
-});
-// Put the snake in the user file
-james.snakes.push(jormun);
-// Make 7 data, give them different days
-let data = [0, 1, 2, 3, 4, 5, 6].map((day, index) => {
-	return day = new Models.datum({
-		date: new Date(1, (index+12), 2019),
-		snakeId: jormun.id
-	})
-});
-// Make one reading for each datum
-for (let day = 0; day < data.length; day++){
-	let reading = new Models.reading({
-		time: Date.now(),
-		warmSide: 36+day,
-		coolSide: 27+day,
-		humidity: 66+day
-	});
-	data[day].cage.readings.push(reading);
-};
-// Assign the test data to the test user and save to the database
-james.data = data;
-james.save().then(() => console.log("User: James, saved to HHDB"));
-*/
+//Perform a test entry to the Database
+const test = require('./test');
+test.checkUser();
+test.saveUser();
 
 // Instantiate Express
 const app = express();
@@ -92,7 +52,7 @@ app.get('/', (req, res) => {
 	});
 });
 
-
+/*
 function collectDateLabels(user, start, end){
 	let labels = [];
 	for(let i = 0; i < user.data.length; i++){
@@ -101,12 +61,7 @@ function collectDateLabels(user, start, end){
 	}
 	return labels;
 }
-
-Models.user.findOne({name: 'james'}, (err, user) => {
-	console.log(user);
-	console.log(collectDateLabels(user, 1, 2));
-})
-
+*/
 
 // Handle a GET request for Jormun
 app.get("/jormun", (req, res) => {
