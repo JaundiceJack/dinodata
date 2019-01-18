@@ -1,5 +1,6 @@
 // Load in dependancies
 const express = require('express');
+const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
 const routes = require('./routes/index.js');
@@ -14,11 +15,6 @@ db.on('error', (err) => { console.log(err); });
 // Load in database models
 let Models = require('./models/user');
 
-//Perform a test entry to the Database
-const test = require('./test');
-test.checkUser();
-test.saveUser();
-
 // Instantiate Express
 const app = express();
 // Set the view location and view engine (pug)
@@ -26,7 +22,17 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 // Set the location to serve static files (css/js)
 app.use(express.static(path.join(__dirname, 'public')));
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
+app.use(bodyParser.json());
 
+
+
+//Perform a test entry to the Database
+//const test = require('./test');
+//test.checkUser();
+//test.saveUser();
 
 // Make some fake data for the chart
 const fakeLowTempData = [77, 75, 76, 76, 78, 79, 78];
@@ -80,6 +86,12 @@ app.get("/jormun", (req, res) => {
 	});
 })
 
+app.post("/cage/submit", (req, res) => {
+	console.log("Cage data submitted");
+	return;
+
+	req.body.coolSide;
+})
 
 
 /*

@@ -6,13 +6,13 @@ block content
 	div.dataEntryDisplayBlock
 		h2.enclosureTitle Enclosure Data:
 		hr.horizontalSeparator
-		form.formGrid(action="submitEnclosureData" method="post")
+		form.formGrid(action="/cage/submit" method="post")
 			i.entryIcon.coolIcon.far.fa-snowflake
-			input.textEntry.coolInput(type="text" name="inputCoolSide" placeholder="Cool Side F°" required)
+			input.textEntry.coolInput(type="text" name="coolSide" placeholder="Cool Side F°" required)
 			i.entryIcon.warmIcon.fab.fa-gripfire
-			input.textEntry.warmInput(type="text" name="inputWarmSide" placeholder="Warm Side F°" required)
+			input.textEntry.warmInput(type="text" name="warmSide" placeholder="Warm Side F°" required)
 			i.entryIcon.humidIcon.fas.fa-cloud
-			input.textEntry.humidInput(type="text" name="inputHumidity" placeholder="Humidity %" required)
+			input.textEntry.humidInput(type="text" name="humidity" placeholder="Humidity %" required)
 			button.submitButton(type="submit" name="button") Chart It
 		div.chartArea.tempArea
 			canvas#tempChart(style="height: 300px; width: 100%")
