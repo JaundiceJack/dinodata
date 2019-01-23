@@ -22,6 +22,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 // Set the location to serve static files (css/js)
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Connect body-parser
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
@@ -87,10 +89,27 @@ app.get("/jormun", (req, res) => {
 })
 
 app.post("/cage/submit", (req, res) => {
-	console.log("Cage data submitted");
-	return;
+	const reading = new Models.reading({
+		coolSide: req.body.coolSide,
+		warmSide: req.body.warmSide,
+		humidity: req.body.humidity
+	});
 
-	req.body.coolSide;
+
+
+	Models.user.find({}, (err, users) => {
+		console.log(users);
+	})
+	console.log("Cage data submitted");
+
+	res.render('index', {
+		snakeName: 'cage data submit test',
+		tempChartLabels: fakeTempChartLabels,
+		lowTempData: fakeLowTempData,
+		highTempData: fakeHighTempData,
+		humidChartLabels: fakeHumidChartLabels,
+		humidData: fakeHumidData
+	});
 })
 
 

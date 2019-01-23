@@ -8,11 +8,11 @@ block content
 		hr.horizontalSeparator
 		form.formGrid(action="/cage/submit" method="post")
 			i.entryIcon.coolIcon.far.fa-snowflake
-			input.textEntry.coolInput(type="text" name="coolSide" placeholder="Cool Side F°" required)
+			input#coolSide.textEntry.coolInput(type="text" name="coolSide" placeholder="Cool Side F°" required)
 			i.entryIcon.warmIcon.fab.fa-gripfire
-			input.textEntry.warmInput(type="text" name="warmSide" placeholder="Warm Side F°" required)
+			input#warmSide.textEntry.warmInput(type="text" name="warmSide" placeholder="Warm Side F°" required)
 			i.entryIcon.humidIcon.fas.fa-cloud
-			input.textEntry.humidInput(type="text" name="humidity" placeholder="Humidity %" required)
+			input#humidity.textEntry.humidInput(type="text" name="humidity" placeholder="Humidity %" required)
 			button.submitButton(type="submit" name="button") Chart It
 		div.chartArea.tempArea
 			canvas#tempChart(style="height: 300px; width: 100%")
