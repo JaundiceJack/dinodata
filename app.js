@@ -88,7 +88,19 @@ app.get("/jormun", (req, res) => {
 	});
 })
 
+app.get("/cage/submit", (req, res) => {
+	res.render('index', {
+		snakeName: 'submit test',
+		tempChartLabels: fakeTempChartLabels,
+		lowTempData: fakeLowTempData,
+		highTempData: fakeHighTempData,
+		humidChartLabels: fakeHumidChartLabels,
+		humidData: fakeHumidData
+	})
+});
+
 app.post("/cage/submit", (req, res) => {
+	// Gather reading data from user input
 	const reading = new Models.reading({
 		coolSide: req.body.coolSide,
 		warmSide: req.body.warmSide,
@@ -96,20 +108,19 @@ app.post("/cage/submit", (req, res) => {
 	});
 
 
-
+	// Find and print all current users
 	Models.user.find({}, (err, users) => {
 		console.log(users);
-	})
-	console.log("Cage data submitted");
-
-	res.render('index', {
-		snakeName: 'cage data submit test',
-		tempChartLabels: fakeTempChartLabels,
-		lowTempData: fakeLowTempData,
-		highTempData: fakeHighTempData,
-		humidChartLabels: fakeHumidChartLabels,
-		humidData: fakeHumidData
 	});
+
+	// Find and print james's data
+	Models.user.findOne({name: 'james'}).populate('data').exec( (err, user) => {
+		if (err) return console.log(err);
+
+		console.log(user.data);
+	});
+
+	// Find out how to render with CSS after a post.
 })
 
 
