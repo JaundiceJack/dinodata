@@ -1,50 +1,49 @@
 const mongoose = require('mongoose');
 
 let ReadingSchema = mongoose.Schema({
-	time: {
-		type: Date,
-		required: true,
-		default: Date.now()
-	},
-	warmSide: {
-		type: Number
-	},
-	coolSide: {
-		type: Number
-	},
-	humidity: {
-		type: Number
-	}
+	time: Date,
+	warmSide: Number,
+	coolSide: Number,
+	humidity: Number
 });
 
 let DatumSchema = mongoose.Schema({
+	// Since a user may have multiple snakes, record which snake the datum is for.
 	snakeId: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'snakes',
 		required: true
 	},
+	// Record the date the data was taken.
 	date: {
 		type: Date,
 		required: true,
 		default: Date.now()
 	},
-	cage: {
-		readings: [ReadingSchema],
-		maintenance: {
-			cageCleaned: {
-				type: Boolean,
-				default: false
-			},
-			bowlCleaned: {
-				type: Boolean,
-				default: false
-			},
-			bowlFilled: {
-				type: Boolean,
-				default: false
-			}
+	// Take a reading for cool & warm temperatures and the humidity.
+	// I've changed this from an array of readings to a flat reading
+	// I did this because when I was trying to query, I'd keep getting arrays of objects that I couldn't access
+	// I would like to change it back though, so that up to 24 readings may be taken in a day
+	/*
+	readings: [readingSchema] <-time, warmSide, coolSide, humidity
+	 */
+	reading: [ReadingSchema],
+	// Record what cage maintenance was done for the day.
+	maintenance: {
+		cageCleaned: {
+			type: Boolean,
+			default: false
+		},
+		bowlCleaned: {
+			type: Boolean,
+			default: false
+		},
+		bowlFilled: {
+			type: Boolean,
+			default: false
 		}
 	},
+	// Record snake details.
 	snake: {
 		weight: {
 			type: Number
@@ -60,6 +59,7 @@ let DatumSchema = mongoose.Schema({
 			type: Number
 		}
 	},
+	// If the snake was fed, record feeder details.
 	food: {
 		fedToday: {
 			type: Boolean,

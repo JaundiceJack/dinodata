@@ -32,9 +32,8 @@ app.use(bodyParser.json());
 
 
 //Perform a test entry to the Database
-//const test = require('./test');
-//test.checkUser();
-//test.saveUser();
+const test = require('./test');
+test.saveUser();
 
 // Make some fake data for the chart
 const fakeLowTempData = [77, 75, 76, 76, 78, 79, 78];
@@ -42,34 +41,29 @@ const fakeHighTempData = [88, 89, 90, 90, 87, 88, 88];
 const fakeHumidData = [55, 57, 65, 59, 60, 67, 65];
 const fakeTempChartLabels = ['1/3/19', '1/4/19', '1/5/19', '1/6/19', '1/7/19', '1/8/19', '1/9/19'];
 const fakeHumidChartLabels = ['1/3/19', '1/4/19', '1/5/19', '1/6/19', '1/7/19', '1/8/19', '1/9/19'];
-// I got the fake data to render (client-side) by passing it in just like i did with Jormun's name
-// So now I'd like to set up how much data to display at once as a guideline of how many days to request and all that
-// I'd like to have some editable options
-// Days to display: 7, 14, 28, All=0
-let daysToDisplay = 7;
-let minTemp = 75;
-let maxTemp = 95;
-let minHumid = 55;
-let maxHumid = 85;
 
 
 // Handle a GET request
 app.get('/', (req, res) => {
-	res.render('index', {
-		snakeName: "Not Jormun"
+	Models.user.findOne({name: 'james'}, (err, aUser) => {
+		console.log('----- Start Basic Query -----');
+		console.log(aUser.data[0]);
+		console.log('----- End Basic Query -----');
+	});
+	Models.user.findOne({name: 'james'}).exec( (err, aUser) => {
+		console.log('----- Start Data Query -----');
+		console.log(aUser.data[0].reading);
+		console.log('----- End Data Query -----');
+		res.render('index', {
+			snakeName: "Not Jormun",
+			tempChartLabels: fakeTempChartLabels,
+			lowTempData: fakeLowTempData,
+			highTempData: fakeHighTempData,
+			humidChartLabels: fakeHumidChartLabels,
+			humidData: fakeHumidData
+		});
 	});
 });
-
-/*
-function collectDateLabels(user, start, end){
-	let labels = [];
-	for(let i = 0; i < user.data.length; i++){
-		let date = Date.parse(user.data[i].date).toString("MM-DD-YY");
-		labels.push(date);
-	}
-	return labels;
-}
-*/
 
 // Handle a GET request for Jormun
 app.get("/jormun", (req, res) => {
@@ -86,53 +80,32 @@ app.get("/jormun", (req, res) => {
 			humidData: fakeHumidData
 		});
 	});
-})
-
-app.get("/cage/submit", (req, res) => {
-	res.render('index', {
-		snakeName: 'submit test',
-		tempChartLabels: fakeTempChartLabels,
-		lowTempData: fakeLowTempData,
-		highTempData: fakeHighTempData,
-		humidChartLabels: fakeHumidChartLabels,
-		humidData: fakeHumidData
-	})
 });
 
 app.post("/cage/submit", (req, res) => {
 	// Gather reading data from user input
-	const reading = new Models.reading({
+	const webReading = new Models.reading({
+		time: Date.now();
 		coolSide: req.body.coolSide,
 		warmSide: req.body.warmSide,
 		humidity: req.body.humidity
 	});
 
-
-	// Find and print all current users
-	Models.user.find({}, (err, users) => {
-		console.log(users);
-	});
-
-	// Find and print james's data
-	Models.user.findOne({name: 'james'}).populate('data').exec( (err, user) => {
+	// Update user james with the new readings
+	Models.user.updateOne(
+		{name: 'james'},
+		{$push: { 'data.0.reading': webReading}}
+		).exec( (err, aUser) => {
 		if (err) return console.log(err);
-
-		console.log(user.data);
 	});
+
+	console.log("Data submitted.");
 
 	// Find out how to render with CSS after a post.
-})
-
-
-/*
-From the previous get request, I can see that you first instantiate the model,
-then you can handle the request first, query the model/DB second, and pass the found data
-to the rendering third, all neatly nested in callbacks.
-How does it complicate once I move the routes outside of this file though?
-*/
+});
 
 // Start the server
-const port = 8081;
+const port = 8080;
 app.listen(port, () => {
 	console.log('Server started on port '+port);
 });
