@@ -82,10 +82,22 @@ app.get("/jormun", (req, res) => {
 	});
 });
 
+app.get("/cage/submit", (req, res) => {
+	// Render the homepage
+	res.render('index', {
+		snakeName: 'Snake',
+		tempChartLabels: fakeTempChartLabels,
+		lowTempData: fakeLowTempData,
+		highTempData: fakeHighTempData,
+		humidChartLabels: fakeHumidChartLabels,
+		humidData: fakeHumidData
+	});
+});
+
 app.post("/cage/submit", (req, res) => {
 	// Gather reading data from user input
 	const webReading = new Models.reading({
-		time: Date.now();
+		time: Date.now(),
 		coolSide: req.body.coolSide,
 		warmSide: req.body.warmSide,
 		humidity: req.body.humidity
@@ -96,10 +108,10 @@ app.post("/cage/submit", (req, res) => {
 		{name: 'james'},
 		{$push: { 'data.0.reading': webReading}}
 		).exec( (err, aUser) => {
-		if (err) return console.log(err);
-	});
-
-	console.log("Data submitted.");
+			if (err) return console.log(err);
+			console.log("Data submitted.");
+		}
+	);
 
 	// Find out how to render with CSS after a post.
 });
