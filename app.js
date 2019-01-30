@@ -68,11 +68,11 @@ app.get('/', (req, res) => {
 // Handle a GET request for Jormun
 app.get("/jormun", (req, res) => {
 	// Find the snake in the DB
-	Models.user.findOne({name: 'james'}, (err, user) => {
+	Models.user.findOne({name: 'james'}, (err, aUser) => {
 		if (err) return console.error(err);
 		// Render index.html to the client
 		res.render('index', {
-			snakeName: user.snakes[0].name,
+			snakeName: aUser.snakes[0].name,
 			tempChartLabels: fakeTempChartLabels,
 			lowTempData: fakeLowTempData,
 			highTempData: fakeHighTempData,
@@ -82,19 +82,7 @@ app.get("/jormun", (req, res) => {
 	});
 });
 
-app.get("/cage/submit", (req, res) => {
-	// Render the homepage
-	res.render('index', {
-		snakeName: 'Snake',
-		tempChartLabels: fakeTempChartLabels,
-		lowTempData: fakeLowTempData,
-		highTempData: fakeHighTempData,
-		humidChartLabels: fakeHumidChartLabels,
-		humidData: fakeHumidData
-	});
-});
-
-app.post("/cage/submit", (req, res) => {
+app.post("/cage/submit", (req, res, next) => {
 	// Gather reading data from user input
 	const webReading = new Models.reading({
 		time: Date.now(),
@@ -112,6 +100,9 @@ app.post("/cage/submit", (req, res) => {
 			console.log("Data submitted.");
 		}
 	);
+
+	// Reroute to the homepage
+	res.redirect('/');
 
 	// Find out how to render with CSS after a post.
 });
