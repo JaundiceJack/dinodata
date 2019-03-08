@@ -1,14 +1,50 @@
 doctype html
 html(lang="en-US")
 	head
-		title #{snakeName}'s Health Tracker
+		title Reptile LifeStyle
 		link(rel="stylesheet" type="text/css" href="./css/styles.css")
 		link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css")
-		link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Electrolize")
+		link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous")
 		meta(name="viewport" content="width=device-width, initial-scale=1" charset="utf-8")
 		script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js")
-	body.bodyGrid
+	body
+		main.siteGrid
+			// Header
+			header.header.headerGrid.headerGradient.borderE.topEdgeBorder
+				// Logo
+				h1.siteLogo Reptile Lifestyle
+				// Login Form
+				form#headerLogin.loginForm.loginGrid(action="post")
+					input#usernameEntry.usernameEntry.standardText.borderC(type="text" placeholder="Username")
+					input#passwordEntry.passwordEntry.standardText.borderC(type="text" placeholder="Password")
+					input#loginButton.loginButton.w-75.fancyText.borderB.gradientB.hoverItem.clickItem(type="submit" value="Log In")
+				// Sign Up Button
+				button#signUpButton.signUpButton.w-75.fancyText.borderB.gradientB.hoverItem.clickItem Sign Up
+			// Left Navigation
+			nav.nav
+				ul.navList.noBullets
+					li#homePageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
+						i.navButtonIcon.fas.fa-sign-in-alt
+						p.navButtonText.fancyText Home
+					li#infoPageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
+						i.navButtonIcon.fas.fa-dragon
+						p.navButtonText.fancyText Info
+					li#cagePageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
+						i.navButtonIcon.fas.fa-box
+						p.navButtonText.fancyText Cage
+					li#foodPageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
+						i.navButtonIcon.fas.fa-utensils
+						p.navButtonText.fancyText Food
 
-		block content
+			// Page Content
+			section.page.borderE.solidColorB
+				block content
+					// Provide default content in case the page does not load
+					P PAGE NOT FOUND 
 
-		
+			// Footer
+			footer.footer.footerGradient.borderE.bottomEdgeBorder
+				a.aboutLink
+				a.gitLink
+				a.personalLink
+
