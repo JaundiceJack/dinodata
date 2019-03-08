@@ -45,24 +45,7 @@ const fakeHumidChartLabels = ['1/3/19', '1/4/19', '1/5/19', '1/6/19', '1/7/19', 
 
 // Handle a GET request
 app.get('/', (req, res) => {
-	Models.user.findOne({name: 'james'}, (err, aUser) => {
-		console.log('----- Start Basic Query -----');
-		console.log(aUser.data[0]);
-		console.log('----- End Basic Query -----');
-	});
-	Models.user.findOne({name: 'james'}).exec( (err, aUser) => {
-		console.log('----- Start Data Query -----');
-		console.log(aUser.data[0].reading);
-		console.log('----- End Data Query -----');
-		res.render('index', {
-			snakeName: "Not Jormun",
-			tempChartLabels: fakeTempChartLabels,
-			lowTempData: fakeLowTempData,
-			highTempData: fakeHighTempData,
-			humidChartLabels: fakeHumidChartLabels,
-			humidData: fakeHumidData
-		});
-	});
+	res.render('index', {});
 });
 
 // Handle a GET request for Jormun
@@ -112,3 +95,21 @@ const port = 8080;
 app.listen(port, () => {
 	console.log('Server started on port '+port);
 });
+
+
+
+////// Deleted Code
+/*
+Models.user.findOne({name: 'james'}, (err, aUser) => {
+		console.log('----- Start Basic Query -----');
+		console.log(aUser.data[0]);
+		console.log('----- End Basic Query -----');
+	});
+
+Models.user.findOne({name: 'james'}).exec( (err, aUser) => {
+	console.log('----- Start Data Query -----');
+	console.log(aUser.data[0].reading);
+	console.log('----- End Data Query -----');
+
+
+*/

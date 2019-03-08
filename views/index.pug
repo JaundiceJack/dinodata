@@ -1,30 +1,32 @@
 extends default
 
 block content
-	div.titleArea
-		h1 #{snakeName}'s Daily Monitor
-	div.dataEntryDisplayBlock
-		h2.enclosureTitle Enclosure Data:
-		hr.horizontalSeparator
-		form.formGrid(action="/cage/submit" method="post")
-			i.entryIcon.coolIcon.far.fa-snowflake
-			input#coolSide.textEntry.coolInput(type="text" name="coolSide" placeholder="Cool Side F°" required)
-			i.entryIcon.warmIcon.fab.fa-gripfire
-			input#warmSide.textEntry.warmInput(type="text" name="warmSide" placeholder="Warm Side F°" required)
-			i.entryIcon.humidIcon.fas.fa-cloud
-			input#humidity.textEntry.humidInput(type="text" name="humidity" placeholder="Humidity %" required)
-			button.submitButton(type="submit" name="button") Chart It
-		div.chartArea.tempArea
-			canvas#tempChart(style="height: 300px; width: 100%")
-		div.chartArea.humidArea
-			canvas#humidChart(style="height: 300px; width: 100%")
-
-		script.
-			// Load data from node for charts in scripts.js
-			var highTempData = [#{highTempData}];
-			var lowTempData = [#{lowTempData}];
-			var tempChartLabels = !{JSON.stringify(tempChartLabels)};
-			var humidData = [#{humidData}];
-			var humidChartLabels = !{JSON.stringify(humidChartLabels)};
-			
-		script(src="./javascript/scripts.js")
+	// Home Page Content
+	div#homePage.homePageGrid
+		// Site Intro Image Area
+		div.heroShotArea
+			img.heroShot.borderD(src="https://static1.squarespace.com/static/5a543645e9bfdf89573cda02/t/5a76a313085229a61657f4f8/1517724492679/Iguana.jpg" alt="Image of reptiles and site abilities")
+		// Site Intro Text Area
+		div.siteIntroArea
+			div.textGrid
+				h3.h2Size.fancyText Keep Your Habitats Habitable
+				p.standardText Keeping your scaled friends happy often requires more preparation and know-how than many of us would expect. With Reptile Lifestyle, you can be confident that your dragons, serpents, and every species between are in their comfort zone.
+			div.textGrid
+				h3.h2Size.fancyText Know Exactly When They're Not
+				p.standardText Use our integrated sensors or plot enclosure conditions manually to be alerted when their conditions fall into unhealthy or dangerous ranges. You can also keep track of feeding schedules and weight to make sure they grow up into happy, healthy godzillas.
+		// Reptile Info Area
+		div.reptileInfoArea.listGrid.gradientC.borderE
+			h3.fancyText.textEffectC Habitable Ranges
+			ul.noBullets.standardText
+				li
+					a Ball Python
+				li
+					a Bearded Dragon
+				li
+					a Crested Gecko
+				li
+					a Iguana
+				li
+					a Chameleon
+				li
+					a Monitors
