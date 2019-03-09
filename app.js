@@ -43,10 +43,15 @@ const fakeTempChartLabels = ['1/3/19', '1/4/19', '1/5/19', '1/6/19', '1/7/19', '
 const fakeHumidChartLabels = ['1/3/19', '1/4/19', '1/5/19', '1/6/19', '1/7/19', '1/8/19', '1/9/19'];
 
 
-// Handle a GET request
+// Handle a GET request for the home page
 app.get('/', (req, res) => {
 	res.render('index', {});
 });
+
+// Handle a request for the cage page
+app.get('/cage', (req,res) => {
+	res.render('cagePage', {});
+})
 
 // Handle a GET request for Jormun
 app.get("/jormun", (req, res) => {

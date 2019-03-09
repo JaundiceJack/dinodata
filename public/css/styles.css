@@ -12,7 +12,7 @@
   --darkD: rgb(30,  35,  40);
   --textA: rgb(79,119,153);
   --textB: rgb(100, 30, 55);
-  --textC: rgb(200, 200, 100);  
+  --textC: rgb(200, 200, 100);
 }
 /* Remove pre-existing margins/padding */
 * {
@@ -84,7 +84,7 @@ html, body, main {
   display: grid;
   grid-template-columns: repeat(2, auto);
   grid-template-rows: repeat(2, 50%);
-  grid-template-areas: 
+  grid-template-areas:
     "username loginButton"
     "password loginButton";
   grid-gap: 0 10px;
@@ -127,7 +127,7 @@ html, body, main {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: repeat(2, auto);
-  grid-template-areas: 
+  grid-template-areas:
     "cageDataEntry    cageDataEntry"
     "temperatureChart humidityChart";
   grid-gap: 30px 30px;
@@ -142,7 +142,7 @@ html, body, main {
   display: grid;
   grid-template-rows: auto auto;
   grid-template-columns: auto;
-  grid-template-areas: 
+  grid-template-areas:
     "contentHeader"
     "contentContainer";
   grid-gap: 10px 0;
@@ -227,7 +227,16 @@ html, body, main {
 .navButtonText {
   /* Hide the button text while not hovered */
   display: none;
-  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  padding-top: 13px;
+  color: #222;
+  font-weight: bold;
+  text-shadow: 1px 1px 5px #DDD;
+}
+.navButtonIcon {
+  padding-top: 13px;
 }
 .activePageButton {
   text-align: center;
@@ -240,7 +249,6 @@ html, body, main {
 .activePageButton .navButtonText {display: block;}
 .navButton {
   text-align: center;
-  padding-top: 13px;
   height: 50px;
   width: 50px;
 }
@@ -260,11 +268,21 @@ html, body, main {
   display: none;
 }
 
-/* Inner Page Buttons */
+/* Buttons */
 .submitButton {
   height: 30px;
   width: 90px;
   vertical-align: middle;
+}
+.signUpButton {
+  padding-top: 22px;
+  text-decoration: none;
+  color: #222;
+  text-align: center;
+  font-size: 16px;
+}
+.loginButton {
+  font-size: 16px;
 }
 
 /* Page Text Entries */
@@ -272,12 +290,12 @@ html, body, main {
   height: 30px;
   width: 33px;
   vertical-align: middle;
-  
+
   border-width: 2px 0px 1px 2px;
   border-style: solid;
   border-color: var(--darkB);
   box-shadow: 1px 1px 2px 1px var(--darkB);
-  
+
   border-radius: 50% 0 0 50%;
 
   padding: 5px 0 0 7px;
@@ -346,7 +364,7 @@ html, body, main {
   border-style: solid;
   border-width: 2px 1px 1px 2px;
   border-radius: 5px;
-  border-color: var(--darkA); 
+  border-color: var(--darkA);
   box-shadow: 1px 1px 2px 1px var(--darkC);
   font-family: 'Righteous', Arial, Verdana;
 }
@@ -439,7 +457,7 @@ html, body, main {
 .textEffectB {
   color: var(--primaryB);
   text-shadow: 1px 1px 0px var(--darkD);
-  text-decoration: none; 
+  text-decoration: none;
 }
 .textEffectC {
   color: var(--textA);
@@ -473,7 +491,7 @@ html, body, main {
   border-style: solid;
   border-width: 2px 1px 1px 2px;
   border-radius: 5px;
-  border-color: var(--darkA); 
+  border-color: var(--darkA);
   box-shadow: 1px 1px 2px 1px var(--darkC);
 }
 .borderC {

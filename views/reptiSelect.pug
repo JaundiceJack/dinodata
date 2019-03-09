@@ -4,7 +4,7 @@ div#reptileChoiceArea.reptileChoiceArea.borderA.gradientA
 	ul.reptiSelectFlex.noBullets
 
 		// Get a list of user's reptiles from the database to make a list of selectable pets
-		- var usersReptiles = [];
+		- var usersReptiles = [{name: "Jormun"}];
 		each reptile in usersReptiles
 			li.hoverItem.clickItem
 				img.selectImage(src="https://www.iherp.com/Gallery/88314/157020_363331_Medium_1PceD7oheI.jpg" alt="")
