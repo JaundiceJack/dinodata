@@ -48,9 +48,24 @@ app.get('/', (req, res) => {
 	res.render('index', {});
 });
 
+// Handle a request for the account creation page
+app.get('/create_account', (req,res) => {
+	res.render('newAccountPage', {});
+})
+
+// Handle a request for the info page
+app.get('/info', (req,res) => {
+	res.render('infoPage', {});
+})
+
 // Handle a request for the cage page
 app.get('/cage', (req,res) => {
 	res.render('cagePage', {});
+})
+
+// Handle a request for the food page
+app.get('/food', (req,res) => {
+	res.render('foodPage', {});
 })
 
 // Handle a GET request for Jormun
