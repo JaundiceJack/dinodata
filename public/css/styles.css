@@ -122,6 +122,30 @@ html, body, main {
   margin-right: 10px;
 }
 
+/** Info Page Layout **/
+.infoPageGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(2, auto);
+  grid-template-areas:
+    "measurements health"
+    "morph        mood";
+  grid-gap: 30px 30px;
+  padding: 10px 10px 30px 10px;
+}
+.measurementArea {
+  grid-area: measurements;
+}
+.healthArea {
+  grid-area: health;
+}
+.moodArea {
+  grid-area: mood;
+}
+.morphArea {
+  grid-area: morph;
+}
+
 /** Cage Page Layout **/
 .cagePageGrid {
   display: grid;
@@ -187,7 +211,7 @@ html, body, main {
 .reptiSelectFlex > * {padding: 10px 20px 5px 5px;}
 .reptileChoiceArea {
   padding: 10px;
-  margin: 15px 15px 0 15px;
+  margin: 15px 15px 10px 15px;
 }
 
 
