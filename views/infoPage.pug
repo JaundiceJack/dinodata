@@ -20,16 +20,47 @@ block content
       whether the reptile is over or underweight.
     div.measurementArea.contentGrid
       h3.fancyText.h3Size.textEffectC.borderA.gradientC Measurements
-      div.borderD.solidColrC.medEvenPad
-        ul.noBullets
-          li
-            p Weight: 
-          li
-            p Length:
-          li
-            p Girth:
-          li
-            p Sizing Graph
+      div.borderD.solidColorC.medEvenPad
+        p.standardText To keep track of #{selected}'s growth, take measurements each month and enter them here.
+        form(method="post" action="info/measurements")
+          table(style="width: 100%")
+            tr
+              th 
+              th Date
+              th Measurement
+              th Units
+            tr
+              th Weight
+              th 
+                select
+                  option(value='Today')
+              th 
+                input(type="text")
+              th 
+                select 
+                  option(value='kg')
+            tr
+              th Length
+              th 
+                select
+                  option(value='Today')
+              th 
+                input(type="text")
+              th 
+                select 
+                  option(value='kg')
+            tr
+              th Girth
+              th 
+                select
+                  option(value='Today')
+              th 
+                input(type="text")
+              th 
+                select 
+                  option(value='kg')
+          button.buttonTypeA.fancyText.hoverItem.clickItem(type="submit") Enter 
+        p Sizing Graph
     
     
     // Handling and Mood
@@ -39,7 +70,7 @@ block content
       to pick their reaction to being handled. maybe I dont need this section
     div.moodArea.contentGrid
       h3.fancyText.h3Size.textEffectC.borderA.gradientC Mood
-      div.borderD.solidColrC.medEvenPad
+      div.borderD.solidColorC.medEvenPad
         ul.noBullets
           li
             p Date of last handling:
@@ -51,7 +82,7 @@ block content
       This one's straightforward. Allow selection of common morphs and user defined ones.
     div.morphArea.contentGrid
       h3.fancyText.h3Size.textEffectC.borderA.gradientC Morph
-      div.borderD.solidColrC.medEvenPad
+      div.borderD.solidColorC.medEvenPad
         ul.noBullets
           li
             p Morph Name:
@@ -65,7 +96,7 @@ block content
       state.
     div.healthArea.contentGrid
       h3.fancyText.h3Size.textEffectC.borderA.gradientC Health
-      div.borderD.solidColrC.medEvenPad
+      div.borderD.solidColorC.medEvenPad
         ul.noBullets
           li
             p Current Condition:
