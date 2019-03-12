@@ -19,50 +19,54 @@ block content
       Girth may aslo be recorded, which will be important for determining
       whether the reptile is over or underweight.
     div.measurementArea.contentGrid
-      h3.fancyText.h3Size.textEffectC.borderA.gradientC Measurements
-      div.borderD.solidColorC.medEvenPad
-        p.standardText To keep track of #{selected}'s growth, take measurements each month and enter them here.
-        form(method="post" action="info/measurements")
-          table(style="width: 100%")
-            tr
-              th 
-              th Date
-              th Measurement
-              th Units
-            tr
-              th Weight
-              th 
-                select
-                  option(value='Today')
-              th 
-                input(type="text")
-              th 
-                select 
-                  option(value='kg')
-            tr
-              th Length
-              th 
-                select
-                  option(value='Today')
-              th 
-                input(type="text")
-              th 
-                select 
-                  option(value='kg')
-            tr
-              th Girth
-              th 
-                select
-                  option(value='Today')
-              th 
-                input(type="text")
-              th 
-                select 
-                  option(value='kg')
-          button.buttonTypeA.fancyText.hoverItem.clickItem(type="submit") Enter 
-        p Sizing Graph
+        h3.fancyText.h3Size.textEffectC.borderA.gradientC Growth
+        div.borderD.solidColorC.medEvenPad
+            p.standardText To keep track of #{selected}'s growth, take measurements each month and enter them here.
+            form(method="post" action="info/measurements").growthGrid
+                p.standardText
+                p.standardText.colLabel Date
+                p.standardText.colLabel Measurement
+                p.standardText.colLabel Units
+                p.standardText.rowLabel Weight
+                select.borderC
+                    option(value="Today")
+                input(type="text").borderC
+                select.borderC
+                    option(value="kg")
+                p.standardText.rowLabel Length
+                select.borderC
+                    option(value="Today")
+                input.borderC(type="text")
+                select.borderC
+                    option(value="cm")
+                p.standardText.rowLabel Girth
+                select.borderC
+                    option(value="Today")
+                input.borderC(type="text")
+                select.borderC
+                    option(value="cm")
+                button(type="submit").submitMeasurementsButton.buttonTypeA.fancyText.hoverItem.clickItem Enter
+
     
-    
+    // Vet Info
+      Here I could track vet information such as past illnesses and vet visits.
+      The address/phone/email of your preferred vet and maybe a general one for each
+      state.
+    div.healthArea.contentGrid
+        h3.fancyText.h3Size.textEffectC.borderA.gradientC Health
+        div.borderD.solidColorC.medEvenPad
+            ul.noBullets
+                li
+                    p Current Condition:
+                li
+                    p Previous Illnesses:
+                li
+                    p Last Vet Visit:
+                li
+                    p Next Scheduled Visit:
+                li
+                    p Last Bath:
+
     // Handling and Mood
       Most reptiles require time to destress between handlings
       In this section I'd like to be able to inform and track how the Specific
@@ -90,23 +94,6 @@ block content
             p Morph Colors (4 or 5 dropdowns to select different colors)
 
 
-    // Vet Info
-      Here I could track vet information such as past illnesses and vet visits.
-      The address/phone/email of your preferred vet and maybe a general one for each
-      state.
-    div.healthArea.contentGrid
-      h3.fancyText.h3Size.textEffectC.borderA.gradientC Health
-      div.borderD.solidColorC.medEvenPad
-        ul.noBullets
-          li
-            p Current Condition:
-          li
-            p Previous Illnesses:
-          li
-            p Last Vet Visit:
-          li
-            p Next Scheduled Visit:
-          li
-            p Last Bath:
+
 
     // Note: Reproduction could be a separate page due to the genetic aspect

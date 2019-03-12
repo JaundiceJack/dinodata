@@ -132,6 +132,7 @@ html, body, main {
     "morph        mood";
   grid-gap: 30px 30px;
   padding: 10px 10px 30px 10px;
+  align-items: start;
 }
 .measurementArea {
   grid-area: measurements;
@@ -202,6 +203,17 @@ html, body, main {
 }
 .textGrid > h3 {margin-left: 10px;}
 .textGrid > p {}
+/** Growth Grid (4xX) **/
+.growthGrid {
+  display: grid;
+  grid-template-columns: auto 80px 1fr 80px;
+  grid-gap: 10px;
+}
+.submitMeasurementsButton {
+  grid-column: 4 / 5;
+}
+
+
 
 /** Reptile Selection Layout **/
 .reptiSelectFlex {
@@ -361,8 +373,9 @@ html, body, main {
 }
 .reptiSelectFlex li:hover *{border-color: var(--darkA);}
 
-
-
+/* Miscellaneous */
+.rowLabel {text-align: right;}
+.colLabel {text-align: center;}
 
 /**TOOL CLASSES**/
 /**************/
