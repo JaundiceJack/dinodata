@@ -213,7 +213,12 @@ html, body, main {
   grid-column: 4 / 5;
 }
 
-
+/** Color Selections Flex **/
+.colorFlex {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
 
 /** Reptile Selection Layout **/
 .reptiSelectFlex {
@@ -309,6 +314,7 @@ html, body, main {
   height: 30px;
   width: 90px;
   vertical-align: middle;
+  cursor: pointer;
 }
 .signUpButton {
   padding-top: 22px;
@@ -319,6 +325,7 @@ html, body, main {
 }
 .loginButton {
   font-size: 16px;
+  cursor: pointer;
 }
 
 /* Page Text Entries */
@@ -376,6 +383,77 @@ html, body, main {
 /* Miscellaneous */
 .rowLabel {text-align: right;}
 .colLabel {text-align: center;}
+.colorCBox {
+
+}
+
+/** Morph Color Options (generated in infoScripts.js) **/
+.cBoxContainer {
+  position: relative;
+  cursor: pointer;
+  margin: 5px;
+  width: 50px;
+  height: 60px;
+}
+.cBoxText {
+  font-family: 'Righteous';
+  text-align: center;
+  display: none;
+}
+.cBoxInput {
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
+}
+.cBoxBG {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+  border: 2px solid #333;
+}
+.cBoxContainer .cBoxInput:checked ~ .cBoxBG {
+  box-shadow: inset 0px 0px 10px 3px #4F4;
+}
+.cBoxContainer:hover .cBoxInput ~ .cBoxBG {
+  border: 2px solid orange;
+  box-shadow: inset 0px 0px 10px 5px #555;
+}
+.cBoxContainer:hover .cBoxText {
+  display: block;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.cBoxBG:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the check when checked */
+.cBoxContainer .cBoxInput:checked ~ .cBoxBG:after {
+  display: block;
+}
+
+/* Style the checkbox/indicator */
+.cBoxContainer .cBoxBG:after {
+  left: 18px;
+  top: 14px;
+  width: 5px;
+  height: 10px;
+  border: solid #229;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+
+
+
 
 /**TOOL CLASSES**/
 /**************/

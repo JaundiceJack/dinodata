@@ -2,6 +2,9 @@ extends default
 
 block content
 
+  // Bring in the scripts for this page
+  script(src="./javascript/infoScripts.js")
+
   // Include the reptile selections
   include reptiSelect
   
@@ -70,16 +73,10 @@ block content
       This one's straightforward. Allow selection of common morphs and user defined ones.
     div.morphArea.contentGrid
       h3.fancyText.h3Size.textEffectC.borderA.gradientC Morph
-      div.borderD.solidColorC.medEvenPad
-        ul.noBullets
-          li
-            p Morph Name:
-          li
-            p Morph Colors (4 or 5 dropdowns to select different colors)
+      div.borderD.solidColorC.medEvenPad        
         
-        script(src="./javascript/infoScripts.js")
-        
-        form(id="colorForm" action="/info/morph_colors" method="post")
+        p.standardText Choose your reptile's morph colors below:
+        form(id="colorForm" action="/info/morph_colors" method="post").colorFlex
           
           //dd
             - var colors = [{name: 'Black', hex: '#000'}, {name: 'White', hex: '#FFF'}];          
