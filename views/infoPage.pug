@@ -66,7 +66,30 @@ block content
                     p Next Scheduled Visit:
                 li
                     p Last Bath:
-
+    // Morph
+      This one's straightforward. Allow selection of common morphs and user defined ones.
+    div.morphArea.contentGrid
+      h3.fancyText.h3Size.textEffectC.borderA.gradientC Morph
+      div.borderD.solidColorC.medEvenPad
+        ul.noBullets
+          li
+            p Morph Name:
+          li
+            p Morph Colors (4 or 5 dropdowns to select different colors)
+        
+        script(src="./javascript/infoScripts.js")
+        
+        form(id="colorForm" action="/info/morph_colors" method="post")
+          
+          //dd
+            - var colors = [{name: 'Black', hex: '#000'}, {name: 'White', hex: '#FFF'}];          
+            each color in colors
+              - var colorID = color.name + 'CBox';
+              label.fancyText= color.name
+              input(id=colorID type="checkbox" onload="setColor(this, color.hex);").w-25.medEvenPad
+            else
+              p nada
+            
     // Handling and Mood
       Most reptiles require time to destress between handlings
       In this section I'd like to be able to inform and track how the Specific
@@ -82,16 +105,7 @@ block content
             p #{selected}'s recent mood:
 
     
-    // Morph
-      This one's straightforward. Allow selection of common morphs and user defined ones.
-    div.morphArea.contentGrid
-      h3.fancyText.h3Size.textEffectC.borderA.gradientC Morph
-      div.borderD.solidColorC.medEvenPad
-        ul.noBullets
-          li
-            p Morph Name:
-          li
-            p Morph Colors (4 or 5 dropdowns to select different colors)
+
 
 
 
