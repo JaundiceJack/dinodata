@@ -79,7 +79,11 @@ block content
           option
         p.standardText #{nameOfSelected}'s morph colors:
         
-        button(onclick="toggle('colorOptions')").buttonTypeA.gradientB.hoverItem.clickItem.smEvenPad Show Colors
+        button(onclick="toggle('colorOptions')").buttonTypeA.gradientB.hoverItem.clickItem.smEvenPad.medBotMarg Show Colors
+          p Show Colors
+          i.fas.fa-share.turn90(style="margin-left: 5px")
+          p Hide Colors
+          i.fas.fa-share(style="margin-left: 5px")
         div#colorOptions.hidden
           p.standardText Choose your reptile's morph colors below:
           form(id="colorForm" action="/info/morph_colors" method="post").colorFlex
