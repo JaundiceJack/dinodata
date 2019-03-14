@@ -24,7 +24,7 @@ block content
     div.measurementArea.contentGrid
         h3.fancyText.h3Size.textEffectC.borderA.gradientC Growth
         div.borderD.solidColorC.medEvenPad
-            p.standardText To keep track of #{selected}'s growth, take measurements each month and enter them here.
+            p.standardText To keep track of #{nameOfSelected}'s growth, take measurements each month and enter them here.
             form(method="post" action="info/measurements").growthGrid
                 p.standardText
                 p.standardText.colLabel Date
@@ -74,18 +74,16 @@ block content
     div.morphArea.contentGrid
       h3.fancyText.h3Size.textEffectC.borderA.gradientC Morph
       div.borderD.solidColorC.medEvenPad        
+        p.standardText #{nameOfSelected}'s morph:
+        select
+          option
+        p.standardText #{nameOfSelected}'s morph colors:
         
-        p.standardText Choose your reptile's morph colors below:
-        form(id="colorForm" action="/info/morph_colors" method="post").colorFlex
-          
-          //dd
-            - var colors = [{name: 'Black', hex: '#000'}, {name: 'White', hex: '#FFF'}];          
-            each color in colors
-              - var colorID = color.name + 'CBox';
-              label.fancyText= color.name
-              input(id=colorID type="checkbox" onload="setColor(this, color.hex);").w-25.medEvenPad
-            else
-              p nada
+        button(onclick="toggle('colorOptions')").buttonTypeA.gradientB.hoverItem.clickItem.smEvenPad Show Colors
+        div#colorOptions.hidden
+          p.standardText Choose your reptile's morph colors below:
+          form(id="colorForm" action="/info/morph_colors" method="post").colorFlex
+
             
     // Handling and Mood
       Most reptiles require time to destress between handlings
@@ -99,7 +97,7 @@ block content
           li
             p Date of last handling:
           li
-            p #{selected}'s recent mood:
+            p #{nameOfSelected}'s recent mood:
 
     
 

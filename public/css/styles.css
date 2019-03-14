@@ -217,7 +217,7 @@ html, body, main {
 .colorFlex {
   display: flex;
   flex-flow: row wrap;
-  justify-content: flex-start;
+  justify-content: space-evenly;
 }
 
 /** Reptile Selection Layout **/
@@ -391,14 +391,16 @@ html, body, main {
 .cBoxContainer {
   position: relative;
   cursor: pointer;
-  margin: 5px;
+  margin: 10px;
   width: 50px;
   height: 60px;
 }
 .cBoxText {
   font-family: 'Righteous';
+  color: #222;
   text-align: center;
   display: none;
+  text-transform: capitalize;
 }
 .cBoxInput {
   position: absolute;
@@ -408,15 +410,19 @@ html, body, main {
 }
 .cBoxBG {
   position: absolute;
-  top: 20px;
+  top: 21px;
   left: 0;
   width: 50px;
   height: 50px;
   border-radius: 5px;
-  border: 2px solid #333;
+  border: solid #333;
+  border-width: 1px 4px 4px 1px;
+  box-shadow: 2px 2px 3px 0px #666;
 }
 .cBoxContainer .cBoxInput:checked ~ .cBoxBG {
-  box-shadow: inset 0px 0px 10px 3px #4F4;
+  box-shadow: inset 0px 0px 10px 3px #222;
+  border: solid #333;
+  border-width: 4px 1px 1px 4px;
 }
 .cBoxContainer:hover .cBoxInput ~ .cBoxBG {
   border: 2px solid orange;
@@ -425,27 +431,28 @@ html, body, main {
 .cBoxContainer:hover .cBoxText {
   display: block;
 }
-
+.cBoxContainer .cBoxInput:checked ~ .cBoxText {
+  display: block;
+}
 /* Create the checkmark/indicator (hidden when not checked) */
 .cBoxBG:after {
   content: "";
   position: absolute;
   display: none;
 }
-
 /* Show the check when checked */
 .cBoxContainer .cBoxInput:checked ~ .cBoxBG:after {
   display: block;
 }
-
 /* Style the checkbox/indicator */
 .cBoxContainer .cBoxBG:after {
-  left: 18px;
-  top: 14px;
-  width: 5px;
-  height: 10px;
-  border: solid #229;
-  border-width: 0 3px 3px 0;
+  left: 15px;
+  top: 8px;
+  width: 10px;
+  height: 20px;
+  border: solid #2F2;
+  border-width: 0 5px 5px 0;
+  border-radius: 0 0 4px 0;
   -webkit-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
