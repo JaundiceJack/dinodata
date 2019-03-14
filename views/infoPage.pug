@@ -25,30 +25,29 @@ block content
         h3.fancyText.h3Size.textEffectC.borderA.gradientC Growth
         div.borderD.solidColorC.medEvenPad
             p.standardText To keep track of #{nameOfSelected}'s growth, take measurements each month and enter them here.
-            form(method="post" action="info/measurements").growthGrid
+            hr.medBotMarg
+            form(method="post" action="info/measurements").growthGrid.medBotMarg
                 p.standardText
-                p.standardText.colLabel Date
-                p.standardText.colLabel Measurement
-                p.standardText.colLabel Units
-                p.standardText.rowLabel Weight
-                select.borderC
-                    option(value="Today")
+                p.standardText Measurement
+                p.standardText Units
+
+                p.standardText.entryIcon.righted Weight:
                 input(type="text").borderC
-                select.borderC
-                    option(value="kg")
-                p.standardText.rowLabel Length
-                select.borderC
-                    option(value="Today")
+                label.standardText kg
+
+                p.standardText.righted Length:
                 input.borderC(type="text")
-                select.borderC
-                    option(value="cm")
-                p.standardText.rowLabel Girth
-                select.borderC
-                    option(value="Today")
+                label.standardText cm
+
+                p.standardText.righted Girth:
                 input.borderC(type="text")
-                select.borderC
-                    option(value="cm")
-                button(type="submit").submitMeasurementsButton.buttonTypeA.fancyText.hoverItem.clickItem Enter
+                label.standardText cm
+
+                button(type="submit").submitMeasurementsButton.buttonTypeA.fancyText.hoverItem.clickItem.smEvenPad
+                    label(for="button") Chart It
+                    i.fas.fa-share.turn90(style="margin-left: 5px")
+            div.borderA
+                canvas.chart
 
     
     // Vet Info
@@ -77,13 +76,10 @@ block content
         p.standardText #{nameOfSelected}'s morph:
         select
           option
-        p.standardText #{nameOfSelected}'s morph colors:
+        p.standardText.smBotMarg #{nameOfSelected}'s morph colors:
         
-        button(onclick="toggle('colorOptions');swap('colorToggle')")#colorToggle.buttonTypeA.gradientB.hoverItem.clickItem.smEvenPad.medBotMarg 
-          p Show Colors
-          i.fas.fa-share.turn90(style="margin-left: 5px")
-          i.fas.fa-share.flip(style="margin-left: 5px")
-          p Hide Colors
+        button(onclick="toggle('colorToggle', 'colorOptions')")#colorToggle.buttonTypeA.gradientB.hoverItem.clickItem.smEvenPad.smBotMarg Show Colors
+          i.fas.fa-angle-right.turn90(style="margin-left: 5px")
         div#colorOptions.hidden
           p.standardText Choose your reptile's morph colors below:
           form(id="colorForm" action="/info/morph_colors" method="post").colorFlex

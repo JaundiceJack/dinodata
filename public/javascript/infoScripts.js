@@ -1,27 +1,24 @@
 // Make a function to show or hide the color selection form
-function toggle(toggleTarget) {
+function toggle(buttonID, toggleTarget) {
+  let theButton = document.getElementById(buttonID);
   let target = document.getElementById(toggleTarget);
   if (target.classList.contains('hidden')) {
     target.classList.remove('hidden');
-  }
-  else target.classList.add('hidden');
-}
-
-function swap(this) {
-  let target = this;
-  let showText, showIcon, hideIcon, hideText = target.children;
-  if (target.classList.contains('hidden')) {
-    showText.style.display = 'inline';
-    showIcon.style.display = 'inline';
-    hideText.style.display = 'none';
-    hideIcon.style.display = 'none';
+    theButton.innerHTML = "Hide Colors <i class='fas fa-angle-right turn270' style='margin-left: 5px'></i>";
+    window.scrollTo(0,document.body.scrollHeight);
   }
   else {
-    showText.style.display = 'none';
-    showIcon.style.display = 'none';
-    hideText.style.display = 'inline';
-    hideIcon.style.display = 'inline';
+    target.classList.add('hidden');
+    theButton.innerHTML = "Show Colors <i class='fas fa-angle-right turn90' style='margin-left: 5px'></i>";
   }
+}
+
+function swap() {
+  /*
+  something.classList.remove('turn90');
+  something.classList.add('turn270');
+  something.innerHTML = "Hide Colors";
+  */
 }
 
 
@@ -122,6 +119,9 @@ window.onload = () => {
   // Make a submit button for the color form
   let sub_butt = document.createElement('input');
   sub_butt.classList.add('colorFormSubmitButton');
+  sub_butt.classList.add('buttonTypeA');
+  sub_butt.classList.add('smEvenPad');
+  sub_butt.style.margin = '20px 0 0 0';
   sub_butt.type = "submit";
   sub_butt.value = "Update Colors";
   colorForm.appendChild(sub_butt);
