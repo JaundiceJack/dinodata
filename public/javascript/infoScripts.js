@@ -2,9 +2,26 @@
 function toggle(toggleTarget) {
   let target = document.getElementById(toggleTarget);
   if (target.classList.contains('hidden')) {
-    target.classList.remove('hidden')
+    target.classList.remove('hidden');
   }
   else target.classList.add('hidden');
+}
+
+function swap(this) {
+  let target = this;
+  let showText, showIcon, hideIcon, hideText = target.children;
+  if (target.classList.contains('hidden')) {
+    showText.style.display = 'inline';
+    showIcon.style.display = 'inline';
+    hideText.style.display = 'none';
+    hideIcon.style.display = 'none';
+  }
+  else {
+    showText.style.display = 'none';
+    showIcon.style.display = 'none';
+    hideText.style.display = 'inline';
+    hideIcon.style.display = 'inline';
+  }
 }
 
 

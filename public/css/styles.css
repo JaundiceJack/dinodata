@@ -653,8 +653,9 @@ html, body, main {
 /***************************/
 /* Single Property Classes */
 /***************************/
-.hidden {display: none;}
-.noBullets {list-style-type: none;}
-.turn90 {transform: rotate(90deg);}
+.hidden { display: none;}
+.noBullets { list-style-type: none;}
+.turn90 { transform: rotate(90deg);}
+.flip { transform: rotate(270deg);}
 .centered {text-align: center;}
-.innerShadow {box-shadow: inset 0 0 8px 1px var(--darkD);}
+.innerShadow { box-shadow: inset 0 0 8px 1px var(--darkD);}
