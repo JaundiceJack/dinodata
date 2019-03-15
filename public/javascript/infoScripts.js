@@ -13,15 +13,6 @@ function toggle(buttonID, toggleTarget) {
   }
 }
 
-function swap() {
-  /*
-  something.classList.remove('turn90');
-  something.classList.add('turn270');
-  something.innerHTML = "Hide Colors";
-  */
-}
-
-
 // Define a list of color objects for the morph color selections (move to app.js later)
 let colors = [
   { name: 'navy',
@@ -121,6 +112,9 @@ window.onload = () => {
   sub_butt.classList.add('colorFormSubmitButton');
   sub_butt.classList.add('buttonTypeA');
   sub_butt.classList.add('smEvenPad');
+  sub_butt.classList.add('hoverItem');
+  sub_butt.classList.add('clickItem');
+  sub_butt.classList.add('h5Size');
   sub_butt.style.margin = '20px 0 0 0';
   sub_butt.type = "submit";
   sub_butt.value = "Update Colors";

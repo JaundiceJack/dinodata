@@ -207,7 +207,7 @@ html, body, main {
 .growthGrid {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  grid-gap: 10px;
+  grid-gap: 10px 0;
 }
 .submitMeasurementsButton {
   grid-column: 3 / 4;
@@ -331,7 +331,7 @@ html, body, main {
 /* Page Text Entries */
 .entryIcon {
   height: 30px;
-  width: 33px;
+  width: auto;
   vertical-align: middle;
 
   border-width: 2px 0px 1px 2px;
@@ -339,9 +339,9 @@ html, body, main {
   border-color: var(--darkB);
   box-shadow: 1px 1px 2px 1px var(--darkB);
 
-  border-radius: 50% 0 0 50%;
+  border-radius: 15px 0 0 15px;
 
-  padding: 5px 0 0 7px;
+  padding: 5px 10px 0 7px;
   margin: -3px -4px 0 0;
 }
 .entryIcon#snowIcon {background: #ABF;}
@@ -591,6 +591,12 @@ html, body, main {
 }
 .h4Size {
   font-size: 20px;
+}
+.h5Size {
+  font-size: 18px;
+}
+.h5Size {
+  font-size: 16px;
 }
 
 /*******************/
