@@ -339,7 +339,7 @@ html, body, main {
   display: flex;
   flex-flow: row nowrap;
   width: 100%;
-  height: minmax(30px, 90px);
+  height: auto;
   margin-right: 15px;
 }
 .entryIcon {
@@ -362,7 +362,7 @@ html, body, main {
   box-shadow: inset 0px 0px 5px 1px #444;
   cursor: pointer;
   font-family: "Righteous";
-  width: min-content;
+  width: auto;
   padding: 0 10px;
   background: radial-gradient(var(--primaryC), var(--lightD));
 }
@@ -547,7 +547,7 @@ html, body, main {
 .w-600 {width: 600px;}
 .w-700 {width: 700px;}
 .w-800 {width: 800px;}
-.w-min {width: min-content;}
+.w-min {width: auto;}
 
 /****************************/
 /* Spacing (margin/padding) */

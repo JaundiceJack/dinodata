@@ -29,17 +29,17 @@ block content
         form.startFlex.medBotMarg(method="post" action="info/measurements")
           div.entryArea.borderC.entryColorC.smBotMarg
             label.fancyText.entryIcon.w-75.righted Weight:
-            input.entryInput(type="text")
+            input.entryInput(type="text" placeholder="Enter their weight here,")
             button.entryButton.clickItem.hoverItem(onclick="") kg
 
           div.entryArea.borderC.entryColorC.smBotMarg
             label.fancyText.entryIcon.w-75.righted Length:
-            input.entryInput(type="text")
+            input.entryInput(type="text" placeholder="length here,")
             button.entryButton.clickItem.hoverItem(onclick="") cm
 
           div.entryArea.borderC.entryColorC.medBotMarg
             label.fancyText.entryIcon.w-75.righted Girth:
-            input.entryInput(type="text")
+            input.entryInput(type="text" placeholder="and their girth here.")
             button.entryButton.clickItem.hoverItem(onclick="") cm
 
           button.buttonTypeA.fancyText.hoverItem.clickItem.smEvenPad.medBotMarg(type="submit")
@@ -60,16 +60,17 @@ block content
           hr.bigBotMarg
           div.smBotMarg.smEvenPad
             label.fancyText Veterinary Info
-            form.smEvenPad
+            form#vetForm.smEvenPad
+              p#vetEditInstructions.hidden Editing Vet Info...
               div.entryArea.borderC.entryColorB.smBotMarg
                 label.basicText.entryIcon.w-150.righted Preferred Vet:
                 input.entryInput.hidden(type="text")
                 p.entryInput.basicText.solidColorC The Dragon Doctor
-                button.entryButton.clickItem.hoverItem(onclick="") Edit
+                button.entryButton.clickItem.hoverItem(onclick="editVet()") Edit
               div.entryArea.borderC.entryColorB.smBotMarg
                 label.basicText.entryIcon.w-150.righted Next Vist:
                 input.entryInput.hidden(type="text")
-                p.entryInput.basicText.solidColorB N/A
+                p.entryInput.basicText.solidColorC N/A
               div.entryArea.borderC.entryColorB.smBotMarg  
                 label.basicText.entryIcon.w-150.righted Previous Visit:
                 input.entryInput.hidden(type="text")
@@ -131,6 +132,8 @@ block content
     div.moodArea.contentGrid
       h3.fancyText.h3Size.textEffectC.borderA.gradientC Mood
       div.borderD.solidColorC.medEvenPad
+        p.standardText Some reptiles can be a bit moody. Track their handling and how they tend to react here.
+        hr.bigBotMarg
         ul.noBullets
           li
             p Date of last handling:

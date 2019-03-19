@@ -2,5 +2,26 @@ extends default
 
 block content
 
-  div#newAccountPage.newAccountPageGrid
   //This page will include the form to create a user account.
+  div.newAccountArea.contentGrid.smEvenPad
+    h3.fancyText.h3Size.textEffectC.borderA.gradientC Create a new account:
+    div.borderD.solidColorC.medEvenPad
+      p.standardText Once you've created an account, you'll be able to track the conditions of multiple reptiles.
+      hr.bigBotMarg
+      form.startFlex
+        div.entryArea.borderC.entryColorC.smBotMarg
+          label.entryIcon.w-200.righted Username:
+          input.entryInput(type="text")
+        div.entryArea.borderC.entryColorC.smBotMarg
+          label.entryIcon.w-200.righted Password:
+          input.entryInput(type="text")
+        div.entryArea.borderC.entryColorC.smBotMarg
+          label.entryIcon.w-200.righted Confirm Password:
+          input.entryInput(type="text")
+        div.entryArea.borderC.entryColorC.smBotMarg
+          label.entryIcon.w-200.righted Name of first reptile to monitor:
+          input.entryInput(type="text")
+        div.entryArea.borderC.entryColorC.bigBotMarg
+          label.entryIcon.w-200.righted Reptile type:
+          input.entryInput(type="text")
+        input.buttonTypeA.fancyText.hoverItem.clickItem.smEvenPad.medBotMarg(type="submit" value="Create Account")
