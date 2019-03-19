@@ -206,11 +206,11 @@ html, body, main {
 /** Growth Grid (4xX) **/
 .growthGrid {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: 1fr auto;
   grid-gap: 10px 0;
 }
 .submitMeasurementsButton {
-  grid-column: 3 / 4;
+  grid-column: 2 / 3;
 }
 
 /** Color Selections Flex **/
@@ -219,6 +219,12 @@ html, body, main {
   flex-flow: row wrap;
   justify-content: space-evenly;
 }
+.startFlex {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+}
+
 
 /** Reptile Selection Layout **/
 .reptiSelectFlex {
@@ -329,30 +335,42 @@ html, body, main {
 }
 
 /* Page Text Entries */
+.entryArea {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+  height: minmax(30px, 90px);
+  margin-right: 15px;
+}
 .entryIcon {
-  height: 30px;
-  width: auto;
-  vertical-align: middle;
-
-  border-width: 2px 0px 1px 2px;
-  border-style: solid;
-  border-color: var(--darkB);
-  box-shadow: 1px 1px 2px 1px var(--darkB);
-
-  border-radius: 15px 0 0 15px;
-
-  padding: 5px 10px 0 7px;
-  margin: -3px -4px 0 0;
+  margin: 5px 10px;
+  white-space: nowrap;
 }
-.entryIcon#snowIcon {background: #ABF;}
-.entryIcon#flameIcon {background: #FBA;}
-.entryIcon#cloudIcon {background: #BFA;}
-.chartEntry {
-  width: 150px;
-  height: 30px;
-  margin: 10px 15px 0 0;
+.entryInput {
+  height: 100%;
+  width: 100%;
   padding: 5px;
+  border-radius: 0 5px 5px 0;
+  border-width: 0 0 0 2px;
+  border-style: solid;
+  border-color: #555;
 }
+.entryButton {
+  border-width: 1px 1px 1px 3px;
+  border-radius: 0 4px 4px 0;
+  border-color: var(--darkA);
+  box-shadow: inset 0px 0px 5px 1px #444;
+  cursor: pointer;
+  font-family: "Righteous";
+  width: min-content;
+  padding: 0 10px;
+  background: radial-gradient(var(--primaryC), var(--lightD));
+}
+.entryColorA { background: #ABF; }
+.entryColorB { background: #FBA; }
+.entryColorC { background: #BFA; }
+
+
 
 /** Reptile Selection Icons **/
 .selectName {
@@ -383,7 +401,6 @@ html, body, main {
 /** Morph Color Options (generated in infoScripts.js) **/
 .cBoxContainer {
   position: relative;
-  cursor: pointer;
   margin: 10px;
   width: 50px;
   height: 60px;
@@ -522,6 +539,7 @@ html, body, main {
 .w-50  {width: 50px;}
 .w-75  {width: 75px;}
 .w-100 {width: 100px;}
+.w-150 {width: 150px;}
 .w-200 {width: 200px;}
 .w-300 {width: 300px;}
 .w-400 {width: 400px;}
@@ -529,6 +547,7 @@ html, body, main {
 .w-600 {width: 600px;}
 .w-700 {width: 700px;}
 .w-800 {width: 800px;}
+.w-min {width: min-content;}
 
 /****************************/
 /* Spacing (margin/padding) */
@@ -559,6 +578,9 @@ html, body, main {
 /****************/
 .fancyText {
   font-family: 'Righteous', Arial, Verdana;
+}
+.basicText {
+  font-family: Arial, Verdana;
 }
 .standardText {
   font-family: Arial, Verdana;
@@ -617,11 +639,11 @@ html, body, main {
   box-shadow: 1px 1px 2px 1px var(--darkC);
 }
 .borderC {
-  /* Good for text entries */
+  /* Good for labeled text entries */
   border-width: 2px 1px 1px 2px;
   border-style: solid;
   border-color: var(--darkB);
-  border-radius: 0 5px 5px 0;
+  border-radius: 15px 5px 5px 15px;
   box-shadow: 1px 1px 2px 1px var(--darkB);
 }
 .borderD {

@@ -73,6 +73,26 @@ let colors = [
 
 
 window.onload = () => {
+  // Display Selected colors
+  let currentColorsBox = document.getElementById('selectedColors');
+  for (let i = 0; i < colors.length; i++) {
+    if (colors[i].selected) {
+      let selectedColor = document.createElement('div');
+      selectedColor.classList.add('cBoxContainer');
+      let colorLabel = document.createElement('p');
+      colorLabel.classList.add('cBoxText');
+      colorLabel.innerHTML = colors[i].name;
+      let colorBG = document.createElement('span');
+      colorBG.classList.add('cBoxBG');
+      colorBG.style.background = colors[i].hex;
+      selectedColor.appendChild(colorLabel);
+      selectedColor.appendChild(colorBG);
+      currentColorsBox.appendChild(selectedColor);
+    }
+  }
+
+
+  // TODO: break up into functions, got too lengthy
   // generate morph color options
   let colorForm = document.getElementById('colorForm');
   // Colorform, the clown's chloroform. The more you know.
@@ -81,6 +101,7 @@ window.onload = () => {
     // Create a label for the current color
     let label = document.createElement("label");
     label.className = "cBoxContainer";
+    label.classList.add('tuchit');
 
     // Create a checkbox input to put in the label
     let cBox = document.createElement("input");

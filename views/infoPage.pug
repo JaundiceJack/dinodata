@@ -22,32 +22,31 @@ block content
       Girth may aslo be recorded, which will be important for determining
       whether the reptile is over or underweight.
     div.measurementArea.contentGrid
-        h3.fancyText.h3Size.textEffectC.borderA.gradientC Growth
-        div.borderD.solidColorC.medEvenPad
-            p.standardText To keep track of #{nameOfSelected}'s growth, take measurements each month and enter them here.
-            hr.medBotMarg
-            form(method="post" action="info/measurements").growthGrid.medBotMarg
-                p.standardText
-                p.standardText Measurement
-                p.standardText Units
+      h3.fancyText.h3Size.textEffectC.borderA.gradientC Growth
+      div.borderD.solidColorC.medEvenPad
+        p.standardText To keep track of #{nameOfSelected}'s growth, take measurements each month and enter them here.
+        hr.bigBotMarg
+        form.startFlex.medBotMarg(method="post" action="info/measurements")
+          div.entryArea.borderC.entryColorC.smBotMarg
+            label.fancyText.entryIcon.w-75.righted Weight:
+            input.entryInput(type="text")
+            button.entryButton.clickItem.hoverItem(onclick="") kg
 
-                p.standardText.entryIcon.righted Weight:
-                input(type="text").borderC
-                label.standardText kg
+          div.entryArea.borderC.entryColorC.smBotMarg
+            label.fancyText.entryIcon.w-75.righted Length:
+            input.entryInput(type="text")
+            button.entryButton.clickItem.hoverItem(onclick="") cm
 
-                p.standardText.entryIcon.righted Length:
-                input.borderC(type="text")
-                label.standardText cm
+          div.entryArea.borderC.entryColorC.medBotMarg
+            label.fancyText.entryIcon.w-75.righted Girth:
+            input.entryInput(type="text")
+            button.entryButton.clickItem.hoverItem(onclick="") cm
 
-                p.standardText.entryIcon.righted Girth:
-                input.borderC(type="text")
-                label.standardText cm
-
-                button(type="submit").submitMeasurementsButton.buttonTypeA.fancyText.hoverItem.clickItem.smEvenPad
-                    label(for="button") Chart It
-                    i.fas.fa-share.turn90(style="margin-left: 5px")
-            div.borderA
-                canvas.chart
+          button.buttonTypeA.fancyText.hoverItem.clickItem.smEvenPad.medBotMarg(type="submit")
+              label(for="button") Chart It
+              i.fas.fa-share.turn90(style="margin-left: 5px")
+        div.borderA
+            canvas.chart
 
     
     // Vet Info
@@ -57,32 +56,71 @@ block content
     div.healthArea.contentGrid
         h3.fancyText.h3Size.textEffectC.borderA.gradientC Health
         div.borderD.solidColorC.medEvenPad
-            ul.noBullets
-                li
-                    p Current Condition:
-                li
-                    p Previous Illnesses:
-                li
-                    p Last Vet Visit:
-                li
-                    p Next Scheduled Visit:
-                li
-                    p Last Bath:
+          p.standardText Save veterinary and health information
+          hr.bigBotMarg
+          div.smBotMarg.smEvenPad
+            label.fancyText Veterinary Info
+            form.smEvenPad
+              div.entryArea.borderC.entryColorB.smBotMarg
+                label.basicText.entryIcon.w-150.righted Preferred Vet:
+                input.entryInput.hidden(type="text")
+                p.entryInput.basicText.solidColorC The Dragon Doctor
+                button.entryButton.clickItem.hoverItem(onclick="") Edit
+              div.entryArea.borderC.entryColorB.smBotMarg
+                label.basicText.entryIcon.w-150.righted Next Vist:
+                input.entryInput.hidden(type="text")
+                p.entryInput.basicText.solidColorB N/A
+              div.entryArea.borderC.entryColorB.smBotMarg  
+                label.basicText.entryIcon.w-150.righted Previous Visit:
+                input.entryInput.hidden(type="text")
+                p.entryInput.basicText.solidColorC N/A
+              div.entryArea.borderC.entryColorB.smBotMarg  
+                label.basicText.entryIcon.w-150.righted Phone #:
+                input.entryInput.hidden(type="text")
+                p.entryInput.basicText.solidColorC 406-333-4444
+              div.entryArea.borderC.entryColorB.smBotMarg  
+                label.basicText.entryIcon.w-150.righted Email:
+                input.entryInput.hidden(type="text")
+                p.entryInput.basicText.solidColorC ryuuisha@dd.party
+              div.entryArea.borderC.entryColorB.smBotMarg
+                label.basicText.entryIcon.w-150.righted Address:
+                input.entryInput.hidden(type="text")
+                p.entryInput.basicText.solidColorC 333 Broadway Ave. Missoula MT, 59801
+          div.smEvenPad
+            label.fancyText Pathology
+            form.smEvenPad
+              div.entryArea.borderC.entryColorB.smBotMarg
+                label.basicText.entryIcon.w-200.righted Current Illness:
+                input.entryInput.hidden(type="text")
+                p.entryInput.basicText.solidColorC N/A
+                button.entryButton.clickItem.hoverItem(onclick="") Edit
+              div.entryArea.borderC.entryColorB
+                label.basicText.entryIcon.w-200.righted Previous Illnesses:
+                input.entryInput.hidden(type="text")
+                p.entryInput.basicText.solidColorC N/A
+
     // Morph
       This one's straightforward. Allow selection of common morphs and user defined ones.
     div.morphArea.contentGrid
       h3.fancyText.h3Size.textEffectC.borderA.gradientC Morph
-      div.borderD.solidColorC.medEvenPad        
-        p.standardText #{nameOfSelected}'s morph:
-        select
-          option
-        p.standardText.smBotMarg #{nameOfSelected}'s morph colors:
+      div.borderD.solidColorC.medEvenPad
+        p.standardText Here you can store the pattern and colors on your reptile(s).
+        hr.bigBotMarg
+      
+        div.entryArea.borderC.entryColorA
+          p.entryIcon.w-min.basicText #{nameOfSelected}'s morph:
+          select.entryInput
+            option(value="Blue Eyed Leucistic") Blue Eyed Leucistic
+        div.startFlex.medBotMarg
+          p.standardText(style="align-self: flex-end") #{nameOfSelected}'s morph colors:
+          div#selectedColors.startFlex
+            
         
-        button(onclick="toggle('colorToggle', 'colorOptions')")#colorToggle.buttonTypeA.gradientB.hoverItem.clickItem.smEvenPad.smBotMarg Show Colors
+        button#colorToggle.buttonTypeA.gradientB.hoverItem.clickItem.smEvenPad.smBotMarg(onclick="toggle('colorToggle', 'colorOptions')") Show Colors
           i.fas.fa-angle-right.turn90(style="margin-left: 5px")
         div#colorOptions.hidden
           p.standardText Choose your reptile's morph colors below:
-          form(id="colorForm" action="/info/morph_colors" method="post").colorFlex
+          form.colorFlex(id="colorForm" action="/info/morph_colors" method="post")
 
             
     // Handling and Mood
