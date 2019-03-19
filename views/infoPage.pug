@@ -134,16 +134,17 @@ block content
       div.borderD.solidColorC.medEvenPad
         p.standardText Some reptiles can be a bit moody. Track their handling and how they tend to react here.
         hr.bigBotMarg
-        ul.noBullets
-          li
-            p Date of last handling:
-          li
-            p #{nameOfSelected}'s recent mood:
-
-    
-
-
-
-
+        form.smEvenPad
+          div.entryArea.borderC.entryColorB.smBotMarg
+            label.basicText.entryIcon.w-200.righted Last handled:
+            input.entryInput.hidden(type="text")
+            p.entryInput.basicText.solidColorC N/A
+            button.entryButton.clickItem.hoverItem(onclick="") Edit
+          div.entryArea.borderC.entryColorB
+            label.basicText.entryIcon.w-200.righted #{nameOfSelected}'s mood':
+            select.entryInput.basicText.solidColorC(type="text")
+              option(value="Non-Stressed/Happy") Non-Stressed/Happy
+              option(value="A bit stressed") A bit stressed
+              option(value="Very stressed (will bite)") Very stressed (will bite)
 
     // Note: Reproduction could be a separate page due to the genetic aspect
