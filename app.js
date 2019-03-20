@@ -44,8 +44,8 @@ app.get('/', (req, res) => {
 });
 
 // Route to the user pages
-let user = require('./routes/users');
-app.use('/user', user);
+let user = require('./routes/profile');
+app.use('/profile', user);
 
 // Route to the monitoring pages
 let monitoring = require('./routes/monitoring');

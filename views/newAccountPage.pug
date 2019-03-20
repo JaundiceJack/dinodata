@@ -8,20 +8,20 @@ block content
     div.borderD.solidColorC.medEvenPad
       p.standardText Once you've created an account, you'll be able to track the conditions of multiple reptiles.
       hr.bigBotMarg
-      form.startFlex
+      form.startFlex(method="POST" action="/profile/create_user")
         div.entryArea.borderC.entryColorC.smBotMarg
           label.entryIcon.w-200.righted Username:
-          input.entryInput(type="text")
+          input.entryInput(type="text" name="username")
         div.entryArea.borderC.entryColorC.smBotMarg
           label.entryIcon.w-200.righted Password:
-          input.entryInput(type="text")
+          input.entryInput(type="text" name="password")
         div.entryArea.borderC.entryColorC.smBotMarg
           label.entryIcon.w-200.righted Confirm Password:
-          input.entryInput(type="text")
+          input.entryInput(type="text" name="passwordConfirm")
         div.entryArea.borderC.entryColorC.smBotMarg
           label.entryIcon.w-200.righted Name of first reptile to monitor:
-          input.entryInput(type="text")
+          input.entryInput(type="text" name="reptiname")
         div.entryArea.borderC.entryColorC.bigBotMarg
           label.entryIcon.w-200.righted Reptile type:
-          input.entryInput(type="text")
+          input.entryInput(type="text" name="reptitype")
         input.buttonTypeA.fancyText.hoverItem.clickItem.smEvenPad.medBotMarg(type="submit" value="Create Account")
