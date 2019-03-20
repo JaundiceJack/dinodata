@@ -20,7 +20,7 @@ html(lang="en-US")
 					input#passwordEntry.passwordEntry.standardText.borderC(type="text" placeholder="Password")
 					input#loginButton.loginButton.w-75.fancyText.borderB.gradientB.hoverItem.clickItem(type="submit" value="Log In")
 				// Sign Up Button
-				a#signUpButton.signUpButton.w-75.fancyText.borderB.gradientB.hoverItem.clickItem(href="/create_account") Sign Up
+				a#signUpButton.signUpButton.w-75.fancyText.borderB.gradientB.hoverItem.clickItem(href="/user/create_account") Sign Up
 			// Left Navigation
 			nav.nav
 				ul.navList.noBullets
@@ -29,13 +29,13 @@ html(lang="en-US")
 						a.navButtonText.fancyText(href="/") Home						
 					li#infoPageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
 						i.navButtonIcon.fas.fa-dragon
-						a.navButtonText.fancyText(href="/info") Info
+						a.navButtonText.fancyText(href="/monitoring/info") Info
 					li#cagePageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
 						i.navButtonIcon.fas.fa-box
-						a.navButtonText.fancyText(href="/cage") Cage
+						a.navButtonText.fancyText(href="/monitoring/cage") Cage
 					li#foodPageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
 						i.navButtonIcon.fas.fa-utensils
-						a.navButtonText.fancyText(href="/food") Food
+						a.navButtonText.fancyText(href="/monitoring/food") Food
 
 			// Page Content
 			section.page.borderE.solidColorB
