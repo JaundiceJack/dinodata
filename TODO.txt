@@ -1,0 +1,2 @@
+1. Bootstrap is currently unused. Once the website is functional, implement it to improve the look and responsiveness.
+2. You've made a route to the user profile page. Create a user profile page to display.

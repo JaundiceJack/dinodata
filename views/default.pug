@@ -2,12 +2,21 @@ doctype html
 html(lang="en-US")
 	head
 		title Reptile LifeStyle
+		// Bring in personal styles
 		link(rel="stylesheet" type="text/css" href="./css/styles.css")
+		// Bring in personal scripts
+		script(src="./javascript/scripts.js")
+		// Bring in Font Awesome Icons
 		link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css")
+		// Bring in Bootstrap
+		link(rel="stylesheet" href="./bower_components/bootstrap")
+		// Bring in Google Fonts
 		link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous")
 		meta(name="viewport" content="width=device-width, initial-scale=1" charset="utf-8")
+		// Bring in ChartJS base
 		script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js")
-		script(src="./javascript/scripts.js")
+
+		
 	body
 		main.siteGrid
 			// Header
@@ -48,3 +57,7 @@ html(lang="en-US")
 				a.aboutLink
 				a.gitLink
 				a.personalLink
+
+			// Include Bootstrap JS Components (Currently Unused)
+			script(src="./bower_components/jquery/dist/jquery.js")
+			script(src="./bower_components/bootstrap/dist/js/bootstrap.js")
