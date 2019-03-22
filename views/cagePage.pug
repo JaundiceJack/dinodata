@@ -12,14 +12,15 @@ block content
 			div.borderD.solidColrC.medEvenPad
 				p.standardText Select the reptile you want to track above, then enter the current enclosure conditions below.
 				p.standardText Once submitted, the data will be charted.
+				br
 				form(action="/cage/submit" method="post").startFlex
-					div.entryArea.borderC.entryColorA.w-200
+					div.entryArea.borderC.entryColorA.w-200.smBotMarg
 						i.entryIcon.far.fa-snowflake
 						input.entryInput(type="text" name="coolSide" placeholder="Cool Side F°" required)
-					div.entryArea.borderC.entryColorB.w-200
+					div.entryArea.borderC.entryColorB.w-200.smBotMarg
 						i.entryIcon.fab.fa-gripfire
 						input.entryInput(type="text" name="warmSide" placeholder="Warm Side F°" required)
-					div.entryArea.borderC.entryColorC.w-200
+					div.entryArea.borderC.entryColorC.w-200.smBotMarg
 						i.entryIcon.fas.fa-cloud
 						input.entryInput(type="text" name="humidity" placeholder="Humidity %" required)
 					button.submitButton.buttonTypeA.gradientB.hoverItem.clickItem(type="submit" name="button")

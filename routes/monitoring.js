@@ -10,7 +10,8 @@ router.use(express.static(path.join(__dirname, '../public')));
 router.get('/info', (req,res) => {
 	res.render('infoPage', {
 		nameOfSelected: "Jormun"
-	});
+	})
+	req.flash('success', "Hello Internet");
 })
 
 // Handle a request for the cage page

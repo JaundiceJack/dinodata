@@ -4,8 +4,6 @@ html(lang="en-US")
 		title Reptile LifeStyle
 		// Bring in personal styles
 		link(rel="stylesheet" type="text/css" href="./css/styles.css")
-		// Bring in personal scripts
-		script(src="./javascript/scripts.js")
 		// Bring in Font Awesome Icons
 		link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css")
 		// Bring in Bootstrap
@@ -48,6 +46,9 @@ html(lang="en-US")
 
 			// Page Content
 			section.page.borderE.solidColorB
+				// Display event messages
+				!= messages('message', locals)
+				
 				block content
 					// Provide default content in case the page does not load
 					p PAGE NOT FOUND 
@@ -61,3 +62,5 @@ html(lang="en-US")
 			// Include Bootstrap JS Components (Currently Unused)
 			script(src="./bower_components/jquery/dist/jquery.js")
 			script(src="./bower_components/bootstrap/dist/js/bootstrap.js")
+			// Bring in personal scripts
+			script(src="./javascript/scripts.js")

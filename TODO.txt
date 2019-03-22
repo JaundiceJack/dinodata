@@ -1,2 +1,5 @@
 1. Bootstrap is currently unused. Once the website is functional, implement it to improve the look and responsiveness.
 2. You've made a route to the user profile page. Create a user profile page to display.
+3. Add media queries to the CSS for tablet and phone resolutions.
+4. Add age display to the growth section.
+5. Add a reproduction page (involving punnet squares to track genetics).

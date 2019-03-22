@@ -30,10 +30,9 @@ html, body, main {
 
 
 
-
-/**************************/
-/* Layouts (Grids/Flexes) */
-/**************************/
+/**********************************/
+/* Desktop Layouts (Grids/Flexes) */
+/**********************************/
 /** Website's General Layout **/
 .siteGrid {
   display: grid;
@@ -235,6 +234,40 @@ html, body, main {
 .reptileChoiceArea {
   padding: 10px;
   margin: 15px 15px 10px 15px;
+}
+
+/*********************************/
+/* Tablet Layouts (Grids/Flexes) */
+/*********************************/
+@media screen and (max-width: 1300px) {
+  html, body, main {
+    width: 1000px; /* Tablet Resolution */
+    min-height: 100vh;
+  }
+  .infoPageGrid {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(4, auto);
+    grid-template-areas:
+      "measurements"
+      "health"
+      "morph"
+      "mood";
+  }
+  .cagePageGrid {
+
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, auto);
+    grid-template-areas:
+      "cageDataEntry"
+      "temperatureChart"
+      "humidityChart";
+}
+}
+@media screen and (max-width: 1000px) {
+  html, body, main {
+    width: 800px; /* Tablet Resolution */
+    min-height: 100vh;
+  }
 }
 
 

@@ -1,4 +1,5 @@
 // Create the temperature chart
+/*
 window.onload = () => {
 	var tempCanvas = document.getElementById("tempChart").getContext('2d');
 	var tempChart = new Chart(tempCanvas, {
@@ -70,3 +71,4 @@ window.onload = () => {
 		}
 	});
 }
+*/

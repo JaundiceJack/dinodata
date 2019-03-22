@@ -2,30 +2,19 @@ extends default
 
 block content
 
-  // Bring in the scripts for this page
-  script(src="./javascript/infoScripts.js")
-
   // Include the reptile selections
   include reptiSelect
   
+  // Set the page layout
   div#infoPage.infoPageGrid
-    //This page will include basic reptile info such as current and past weights,
-    //shedding schedules, bathing, and other non-food or cage related data.
     
     // Weight & Size & Age
-      Every type of reptile will have their weights tracked.
-      Recommended readings will be monthly.
-      I'd like an expandable graph to show plotted weight over time.
-      This section will also allow users to input the birthday/year of their
-      reptile which will be used to display their current age.
-      For size, it will primaryly be length from snout to tail tip.
-      Girth may aslo be recorded, which will be important for determining
-      whether the reptile is over or underweight.
     div.measurementArea.contentGrid
       h3.fancyText.h3Size.textEffectC.borderA.gradientC Growth
       div.borderD.solidColorC.medEvenPad
         p.standardText To keep track of #{nameOfSelected}'s growth, take measurements each month and enter them here.
-        hr.bigBotMarg
+        hr
+        br
         form.startFlex.medBotMarg(method="post" action="info/measurements")
           div.entryArea.borderC.entryColorC.smBotMarg
             label.fancyText.entryIcon.w-75.righted Weight:
@@ -47,17 +36,14 @@ block content
               i.fas.fa-share.turn90(style="margin-left: 5px")
         div.borderA
             canvas.chart
-
-    
+ 
     // Vet Info
-      Here I could track vet information such as past illnesses and vet visits.
-      The address/phone/email of your preferred vet and maybe a general one for each
-      state.
     div.healthArea.contentGrid
         h3.fancyText.h3Size.textEffectC.borderA.gradientC Health
         div.borderD.solidColorC.medEvenPad
           p.standardText Save veterinary and health information
-          hr.bigBotMarg
+          hr
+          br
           div.smBotMarg.smEvenPad
             label.fancyText Veterinary Info
             form#vetForm.smEvenPad
@@ -101,13 +87,12 @@ block content
                 p.entryInput.basicText.solidColorC N/A
 
     // Morph
-      This one's straightforward. Allow selection of common morphs and user defined ones.
     div.morphArea.contentGrid
       h3.fancyText.h3Size.textEffectC.borderA.gradientC Morph
       div.borderD.solidColorC.medEvenPad
         p.standardText Here you can store the pattern and colors on your reptile(s).
-        hr.bigBotMarg
-      
+        hr
+        br      
         div.entryArea.borderC.entryColorA
           p.entryIcon.w-min.basicText #{nameOfSelected}'s morph:
           select.entryInput
@@ -125,15 +110,12 @@ block content
 
             
     // Handling and Mood
-      Most reptiles require time to destress between handlings
-      In this section I'd like to be able to inform and track how the Specific
-      reptile should be handled. Like the last day it was out. Maybe a Color
-      to pick their reaction to being handled. maybe I dont need this section
     div.moodArea.contentGrid
       h3.fancyText.h3Size.textEffectC.borderA.gradientC Mood
       div.borderD.solidColorC.medEvenPad
         p.standardText Some reptiles can be a bit moody. Track their handling and how they tend to react here.
-        hr.bigBotMarg
+        hr
+        br
         form.smEvenPad
           div.entryArea.borderC.entryColorB.smBotMarg
             label.basicText.entryIcon.w-200.righted Last handled:
@@ -146,5 +128,6 @@ block content
               option(value="Non-Stressed/Happy") Non-Stressed/Happy
               option(value="A bit stressed") A bit stressed
               option(value="Very stressed (will bite)") Very stressed (will bite)
-
-    // Note: Reproduction could be a separate page due to the genetic aspect
+                
+    // Bring in the scripts for this page
+    script(src="./javascript/infoScripts.js")

@@ -3,6 +3,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const expressValidator = require('express-validator');
+const flash = require('connect-flash');
 
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost/hebihibidb');
@@ -19,8 +22,42 @@ const app = express();
 // Set the view location and view engine (pug)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
 // Set the location to serve static files (css/js)
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Express Session Middleware (keeps users logged in etc.)
+app.use(session({
+	secret: "abbabbabba",
+	resave: true,
+	saveUninitialized: true,
+	cookie: { secure: true }
+}));
+
+// Express Messages Middleware (in-window alerts)
+app.use(flash());
+app.use( (req, res, next) => {
+	res.locals.messages = require('express-messages')(req, res);
+	next();
+});
+
+// Express Validator Middleware
+app.use(expressValidator({
+	errorFormatter: (param, msg, value) => {
+		let namespace = param.split('.');
+		let root = namespace.shift();
+		let formParam = root;
+
+		while(namespace.length) {
+			formParam += '['+namespace.shift()+']';
+		}
+		return {
+			param: formParam,
+			msg: msg,
+			value: value
+		}
+	}
+}))
 
 // Connect body-parser
 // parse application/x-www-form-urlencoded
