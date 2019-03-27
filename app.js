@@ -17,12 +17,11 @@ db.on('error', (err) => { console.log(err); });
 // Load in database models
 let Models = require('./models/user');
 
-// Instantiate Express
+// Instantiate Express app
 const app = express();
 // Set the view location and view engine (pug)
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-
 // Set the location to serve static files (css/js)
 app.use(express.static(path.join(__dirname, 'public')));
 

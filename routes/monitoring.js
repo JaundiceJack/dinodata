@@ -8,10 +8,11 @@ router.use(express.static(path.join(__dirname, '../public')));
 // Beginning of get/post handling
 // Handle a request for the info page
 router.get('/info', (req,res) => {
+	req.flash('success', "Hello Internet");
 	res.render('infoPage', {
 		nameOfSelected: "Jormun"
 	})
-	req.flash('success', "Hello Internet");
+	
 })
 
 // Handle a request for the cage page
