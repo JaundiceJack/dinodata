@@ -1,4 +1,4 @@
 div.messages
 	each type in Object.keys(messages)
 		each message in messages[type]
-			div(class="alert basicText borderA gradientC smEvenPad m-3 alert-"+type) #{message}
+			div(class="alert text-info border border-info gradientC p-3 m-3 alert-"+type) #{message}

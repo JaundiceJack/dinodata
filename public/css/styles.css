@@ -49,7 +49,7 @@ html, body, main {
   grid-area: header;
   margin: 0 5px;
 }
-.nav {
+.navi {
   grid-area: nav;
   margin-left: 10px;
 }
@@ -309,9 +309,9 @@ html, body, main {
   display: none;
   width: 100%;
   height: 100%;
-  text-decoration: none;
+  text-decoration: none !important;
   padding-top: 13px;
-  color: #222;
+  color: #222 !important;
   font-weight: bold;
   text-shadow: 1px 1px 5px #DDD;
 }
@@ -357,8 +357,8 @@ html, body, main {
 }
 .signUpButton {
   padding-top: 22px;
-  text-decoration: none;
-  color: #222;
+  text-decoration: none !important;
+  color: #222 !important;
   text-align: center;
   font-size: 16px;
 }
@@ -372,7 +372,7 @@ html, body, main {
   display: flex;
   flex-flow: row nowrap;
   width: 100%;
-  height: auto;
+  height: 38px;
   margin-right: 15px;
 }
 .entryIcon {
@@ -568,19 +568,19 @@ html, body, main {
 /*************************/
 /* Sizing (height/width) */
 /*************************/
-.w-25  {width: 25px;}
-.w-50  {width: 50px;}
-.w-75  {width: 75px;}
-.w-100 {width: 100px;}
-.w-150 {width: 150px;}
-.w-200 {width: 200px;}
-.w-300 {width: 300px;}
-.w-400 {width: 400px;}
-.w-500 {width: 500px;}
-.w-600 {width: 600px;}
-.w-700 {width: 700px;}
-.w-800 {width: 800px;}
-.w-min {width: auto;}
+.width-25  {width: 25px;}
+.width-50  {width: 50px;}
+.width-75  {width: 75px;}
+.width-100 {width: 100px;}
+.width-150 {width: 150px;}
+.width-200 {width: 200px;}
+.width-300 {width: 300px;}
+.width-400 {width: 400px;}
+.width-500 {width: 500px;}
+.width-600 {width: 600px;}
+.width-700 {width: 700px;}
+.width-800 {width: 800px;}
+.width-min {width: auto;}
 
 /****************************/
 /* Spacing (margin/padding) */

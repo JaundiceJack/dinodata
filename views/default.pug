@@ -7,13 +7,10 @@ html(lang="en-US")
 		// Bring in Font Awesome Icons
 		link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css")
 		// Bring in Bootstrap
-		link(rel="stylesheet" href="./bower_components/bootstrap")
+		link(rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css")
 		// Bring in Google Fonts
 		link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous")
 		meta(name="viewport" content="width=device-width, initial-scale=1" charset="utf-8")
-		// Bring in ChartJS base
-		script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js")
-
 		
 	body
 		main.siteGrid
@@ -25,11 +22,11 @@ html(lang="en-US")
 				form#headerLogin.loginForm.loginGrid(action="post")
 					input#usernameEntry.usernameEntry.standardText.borderC(type="text" placeholder="Username")
 					input#passwordEntry.passwordEntry.standardText.borderC(type="text" placeholder="Password")
-					input#loginButton.loginButton.w-75.fancyText.borderB.gradientB.hoverItem.clickItem(type="submit" value="Log In")
+					input#loginButton.loginButton.width-75.fancyText.borderB.gradientB.hoverItem.clickItem(type="submit" value="Log In")
 				// Sign Up Button
-				a#signUpButton.signUpButton.w-75.fancyText.borderB.gradientB.hoverItem.clickItem(href="/profile/create_user") Sign Up
+				a#signUpButton.signUpButton.width-75.fancyText.borderB.gradientB.hoverItem.clickItem(href="/profile/create_user") Sign Up
 			// Left Navigation
-			nav.nav
+			nav.navi
 				ul.navList.noBullets
 					li#homePageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
 						i.navButtonIcon.fas.fa-sign-in-alt
@@ -59,8 +56,10 @@ html(lang="en-US")
 				a.gitLink
 				a.personalLink
 
-			// Include Bootstrap JS Components (Currently Unused)
+			// Include Bootstrap JS Components
 			script(src="./bower_components/jquery/dist/jquery.js")
 			script(src="./bower_components/bootstrap/dist/js/bootstrap.js")
+			// Bring in ChartJS base
+			script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js")
 			// Bring in personal scripts
 			script(src="./javascript/scripts.js")

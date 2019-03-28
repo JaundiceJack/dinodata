@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const session = require('express-session');
 const expressValidator = require('express-validator');
 const flash = require('connect-flash');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost/hebihibidb');
@@ -57,6 +59,22 @@ app.use(expressValidator({
 		}
 	}
 }))
+
+// Passport Authentication
+passport.use(new LocalStrategy(
+	(username, password, done) => {
+		User.findOne({username: username}, (err, user) => {
+			if (err) { return done(err); }
+			if (!user) {
+				return done(null, false, {message: 'Incorrect username.'});
+			}
+			if (!user.validPassword(password)) {
+				return done(null, false, { message: 'Incorrect password.'});
+			}
+			return done(null, user);
+		})
+	})
+)
 
 // Connect body-parser
 // parse application/x-www-form-urlencoded
