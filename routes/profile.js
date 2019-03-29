@@ -1,10 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
-const bcrypt = require('bcrypt');
-
-// Set the location to serve static files (css/js)
-router.use(express.static(path.join(__dirname, '../public')));
+const bcrypt = require('bcryptjs');
 
 // Bring in the user model
 const User = require('../models/user');
@@ -24,21 +20,19 @@ router.post('/create_user', (req, res) => {
 	const email = req.body.email;
 
 	// Validate input
-	req.bodyCheck('name', 'A username is required').notEmpty();
-	req.bodyCheck('email', 'An email address is required').notEmpty();
-	req.bodyCheck('email', 'Email entered is not valid').isEmail();
-	req.bodyCheck('password', 'A password is required').notEmpty();
-	req.bodyCheck('passwordConfirm', 'Passwords do not match').equals(req.body.password);
+	req.checkBody('username', 'A username is required').notEmpty();
+	req.checkBody('email', 'An email address is required').notEmpty();
+	req.checkBody('email', 'Email entered is not valid').isEmail();
+	req.checkBody('password', 'A password is required').notEmpty();
+	req.checkBody('passwordConfirm', 'Passwords do not match').equals(req.body.password);	
 
-	console.log(username, password, email);
-	
-/*
 	// Check for input errors
 	let errors = req.validationErrors();
 	if (errors){
 		res.render('newAccountPage', {
 			errors: errors
-		})
+		});
+		console.log('errors found.');
 	}
 
 	// Create a new user if no errors were found
@@ -50,19 +44,26 @@ router.post('/create_user', (req, res) => {
 		});
 
 		// Encrypt the password before saving the user
-		bcrypt.getSalt(10, (err, salt) => {
+		bcrypt.genSalt(10, (err, salt) => {
 			bcrypt.hash(newUser.password, salt, (err, hash) => {
-				if (err) console.log(err)
-				else {
-					newUser.password = hash;
-					// Finally save the user if they did everything right
-					newUser.save((err) => { if (err) console.log(err);})
-				}
+				if (err) { console.log(err); }				
+				newUser.password = hash;
+				// Finally save the user if they did everything right
+				newUser.save((err) => {
+					if (err) { 
+						console.log(err);
+						return;
+					}
+					else {
+						req.flash('success', "You've successfully registered for Reptile Lifestyle.");
+						res.redirect('../home');
+					} 
+				});
 			});
 		});
 	}
-	*/
 
+	// Take user home TODO: and log them in
 })
 
 // Request the user profile page

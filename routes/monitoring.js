@@ -1,9 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
-
-// Set the location to serve static files (css/js)
-router.use(express.static(path.join(__dirname, '../public')));
 
 // Beginning of get/post handling
 // Handle a request for the info page

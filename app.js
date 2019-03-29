@@ -17,7 +17,7 @@ db.once('open', () => {	console.log('Connected to MongoDB'); });
 // Check for database errors
 db.on('error', (err) => { console.log(err); });
 // Load in database models
-let Models = require('./models/user');
+let User = require('./models/user');
 
 // Instantiate Express app
 const app = express();
@@ -31,8 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
 	secret: "abbabbabba",
 	resave: true,
-	saveUninitialized: true,
-	cookie: { secure: true }
+	saveUninitialized: true
 }));
 
 // Express Messages Middleware (in-window alerts)
@@ -58,7 +57,7 @@ app.use(expressValidator({
 			value: value
 		}
 	}
-}))
+}));
 
 // Passport Authentication
 passport.use(new LocalStrategy(
@@ -82,20 +81,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
-//Perform a test entry to the Database
-const test = require('./test');
-test.saveUser();
-
-// TODO begin breaking the site up into more manageable routes
-// The users route should handle account creation and user settings
-// The monitoring route should handle info, cage, and food pages
-// Since the monitoring pages will depend on user verification,
-// I'll have to factor it in somehow
-
-// Handle a GET request for the home page
-app.get('/', (req, res) => {
-	res.render('index', {});
-});
 
 // Route to the user pages
 let user = require('./routes/profile');
@@ -105,11 +90,14 @@ app.use('/profile', user);
 let monitoring = require('./routes/monitoring');
 app.use('/monitoring', monitoring);
 
-
+// Route to the home page
+let home = require('./routes/home');
+app.use('/home', home);
 
 
 // Test out data submission
 app.post("/cage/submit", (req, res, next) => {
+	/*
 	// Gather reading data from user input
 	const webReading = new Models.reading({
 		time: Date.now(),
@@ -132,6 +120,7 @@ app.post("/cage/submit", (req, res, next) => {
 	res.redirect('/');
 
 	// Find out how to render with CSS after a post.
+	*/
 });
 
 // Start the server

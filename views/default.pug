@@ -3,11 +3,11 @@ html(lang="en-US")
 	head
 		title Reptile LifeStyle
 		// Bring in personal styles
-		link(rel="stylesheet" type="text/css" href="./css/styles.css")
+		link(rel="stylesheet" type="text/css" href="/css/styles.css")
 		// Bring in Font Awesome Icons
 		link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css")
 		// Bring in Bootstrap
-		link(rel="stylesheet" href="./bower_components/bootstrap/dist/css/bootstrap.css")
+		link(rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css")
 		// Bring in Google Fonts
 		link(rel="stylesheet" href="https://fonts.googleapis.com/css?family=Righteous")
 		meta(name="viewport" content="width=device-width, initial-scale=1" charset="utf-8")
@@ -30,7 +30,7 @@ html(lang="en-US")
 				ul.navList.noBullets
 					li#homePageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
 						i.navButtonIcon.fas.fa-sign-in-alt
-						a.navButtonText.fancyText(href="/") Home						
+						a.navButtonText.fancyText(href="/home") Home						
 					li#infoPageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
 						i.navButtonIcon.fas.fa-dragon
 						a.navButtonText.fancyText(href="/monitoring/info") Info
@@ -45,6 +45,9 @@ html(lang="en-US")
 			section.page.borderE.solidColorB
 				// Display event messages
 				!= messages('message', locals)
+				if errors
+					each error, i in errors
+						div.alert.alert-danger.m-4 #{error.msg}
 				
 				block content
 					// Provide default content in case the page does not load
@@ -57,9 +60,9 @@ html(lang="en-US")
 				a.personalLink
 
 			// Include Bootstrap JS Components
-			script(src="./bower_components/jquery/dist/jquery.js")
-			script(src="./bower_components/bootstrap/dist/js/bootstrap.js")
+			script(src="/bower_components/jquery/dist/jquery.js")
+			script(src="/bower_components/bootstrap/dist/js/bootstrap.js")
 			// Bring in ChartJS base
 			script(src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.bundle.min.js")
 			// Bring in personal scripts
-			script(src="./javascript/scripts.js")
+			script(src="/javascript/scripts.js")
