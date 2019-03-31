@@ -7,10 +7,10 @@ const session = require('express-session');
 const expressValidator = require('express-validator');
 const flash = require('connect-flash');
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const config = require('./config/database');
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost/hebihibidb');
+mongoose.connect(config.database);
 let db = mongoose.connection;
 // Check connection
 db.once('open', () => {	console.log('Connected to MongoDB'); });
@@ -26,6 +26,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 // Set the location to serve static files (css/js)
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Connect body-parser
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+// parse application/json
+app.use(bodyParser.json());
 
 // Express Session Middleware (keeps users logged in etc.)
 app.use(session({
@@ -59,69 +65,23 @@ app.use(expressValidator({
 	}
 }));
 
-// Passport Authentication
-passport.use(new LocalStrategy(
-	(username, password, done) => {
-		User.findOne({username: username}, (err, user) => {
-			if (err) { return done(err); }
-			if (!user) {
-				return done(null, false, {message: 'Incorrect username.'});
-			}
-			if (!user.validPassword(password)) {
-				return done(null, false, { message: 'Incorrect password.'});
-			}
-			return done(null, user);
-		})
-	})
-)
-
-// Connect body-parser
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-// parse application/json
-app.use(bodyParser.json());
+// Passport Configuration
+require('./config/passport')(passport);
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 // Route to the user pages
 let user = require('./routes/profile');
 app.use('/profile', user);
-
 // Route to the monitoring pages
 let monitoring = require('./routes/monitoring');
 app.use('/monitoring', monitoring);
-
 // Route to the home page
 let home = require('./routes/home');
 app.use('/home', home);
 
-
-// Test out data submission
-app.post("/cage/submit", (req, res, next) => {
-	/*
-	// Gather reading data from user input
-	const webReading = new Models.reading({
-		time: Date.now(),
-		coolSide: req.body.coolSide,
-		warmSide: req.body.warmSide,
-		humidity: req.body.humidity
-	});
-
-	// Update user james with the new readings
-	Models.user.updateOne(
-		{name: 'james'},
-		{$push: { 'data.0.reading': webReading}}
-		).exec( (err, aUser) => {
-			if (err) return console.log(err);
-			console.log("Data submitted.");
-		}
-	);
-
-	// Reroute to the homepage
-	res.redirect('/');
-
-	// Find out how to render with CSS after a post.
-	*/
-});
 
 // Start the server
 const port = 8080;
