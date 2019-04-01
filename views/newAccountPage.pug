@@ -3,11 +3,12 @@ extends default
 block content
 
   //This page will include the form to create a user account.
-  div.newAccountArea.contentGrid.smEvenPad
+  div.newAccountArea.contentGrid.p-3
     h3.fancyText.h3Size.textEffectC.borderA.gradientC Create a new account:
-    div.borderD.solidColorC.medEvenPad
+    div.borderD.solidColorC.p-3
       p.standardText Once you've created an account, you'll be able to track the conditions of multiple reptiles.
-      hr.bigBotMarg
+      hr
+      br
       form.startFlex(method="POST" action="/profile/create_user")
         div.entryArea.borderC.entryColorC.mb-3
           label.entryIcon.width-200.righted Username:
@@ -32,4 +33,4 @@ block content
         div.entryArea.borderC.entryColorC.mb-4
           label.entryIcon.width-200.righted Use metric?:
           input.entryInput(type="checkbox" name="metric" checked)
-        input.buttonTypeA.fancyText.hoverItem.clickItem.smEvenPad.medBotMarg(type="submit" value="Create Account")
+        input.buttonTypeA.fancyText.hoverItem.clickItem.p-3.mb-2(type="submit" value="Create Account")

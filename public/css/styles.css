@@ -72,33 +72,12 @@ html, body, main {
   padding: 10px;
 }
 .siteLogo {grid-area: logo;}
-.loginForm {grid-area: login;}
+.loginButton {grid-area: login;}
+.logoutButton {grid-area: signup;}
 .signUpButton {
   grid-area: signup;
   margin-left: 10px;
 }
-
-/** Login Form Layout **/
-.loginGrid {
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  grid-template-rows: repeat(2, 50%);
-  grid-template-areas:
-    "username loginButton"
-    "password loginButton";
-  grid-gap: 0 10px;
-}
-.usernameEntry {
-  grid-area: username;
-  margin-bottom: 2px;
-  padding-left: 5px;
-}
-.passwordEntry {
-  grid-area: password;
-  margin-top: 2px;
-  padding-left: 5px;
-}
-.loginButton {grid-area: loginButton;}
 
 /** Home Page Layout **/
 .homePageGrid {
@@ -275,6 +254,17 @@ html, body, main {
 /************************/
 /* Item Specific Styles */
 /************************/
+/* Overwrite default bootstrap alert styles */
+.alert-error {
+  color: #A94442;
+  background-color: #F2DEDE;
+  border-color: #EBCCD1;
+}
+.alert-success_msg {
+  color: #3C763D;
+  background-color: #DFF0D8;
+  border-color: #D6E9C6;
+}
 /* Website Logo */
 .siteLogo {
   background: linear-gradient(0deg, var(--darkD), var(--darkD), var(--darkB), var(--darkD));
@@ -355,16 +345,12 @@ html, body, main {
   vertical-align: middle;
   cursor: pointer;
 }
-.signUpButton {
+.headerButton {
   padding-top: 22px;
   text-decoration: none !important;
   color: #222 !important;
   text-align: center;
   font-size: 16px;
-}
-.loginButton {
-  font-size: 16px;
-  cursor: pointer;
 }
 
 /* Page Text Entries */

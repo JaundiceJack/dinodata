@@ -3,3 +3,6 @@
 3. Add media queries to the CSS for tablet and phone resolutions.
 4. Add age display to the growth section.
 5. Add a reproduction page (involving punnet squares to track genetics).
+6. Bootstrap alert styles seem to interfere with custom formats, fixit?
+7: Change the header grid to a flex (would make a little more sense)
+8: My flash messages don't seem to disappear, fixit.

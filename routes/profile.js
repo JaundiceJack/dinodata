@@ -1,18 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
 
 // Bring in the user model
 const User = require('../models/user');
 
-// Handle a request for the account creation page
+// User Creation Get Request
 router.get('/create_user', (req, res) => {
 	res.render('newAccountPage', {
 
 	});
-})
+});
 
-// Handle an account creation attempt
+// User Creation Post Request
 router.post('/create_user', (req, res) => {
 	// Obtain the entered text
 	const username = req.body.username;
@@ -20,8 +21,6 @@ router.post('/create_user', (req, res) => {
 	const email = req.body.email;
 	const metric = req.body.metric;
 	const metricBool = metric === 'on' ? true : false;
-
-	console.log(metricBool);
 
 	// Validate input
 	req.checkBody('username', 'A username is required').notEmpty();
@@ -60,7 +59,7 @@ router.post('/create_user', (req, res) => {
 					}
 					else {
 						req.flash('success', "You've successfully registered for Reptile Lifestyle.");
-						res.redirect('../home');
+						res.redirect('/profile/login');
 					}
 				});
 			});
@@ -70,7 +69,32 @@ router.post('/create_user', (req, res) => {
 	// Take user home TODO: and log them in
 });
 
-// Request the user profile page
+
+// Login Get Request
+router.get('/login', (req, res) => {
+	res.render('loginPage', {
+
+	})
+});
+
+// Login Post Request
+router.post('/login', (req, res, next) => {
+	passport.authenticate('local', {
+		successRedirect: '/home',
+		failureRedirect: '/profile/login',
+		failureFlash: true
+	})(req, res, next);
+});
+
+// Logout Request
+router.get('/logout', (req, res) => {
+	req.logout();
+	req.flash('success', "You're now logged out.");
+	res.redirect('/profile/login');
+})
+
+
+// User Profile Get Request
 router.get('/:id', (req, res) => {
 	// Validate
 

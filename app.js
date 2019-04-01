@@ -71,6 +71,11 @@ require('./config/passport')(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
+// User Authentication Route
+app.get('*', (req, res, next) => {
+	res.locals.user = req.user || null;
+	next();
+})
 
 // Route to the user pages
 let user = require('./routes/profile');

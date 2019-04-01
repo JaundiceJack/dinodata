@@ -18,13 +18,14 @@ html(lang="en-US")
 			header.header.headerGrid.headerGradient.borderE.topEdgeBorder
 				// Logo
 				h1.siteLogo Reptile Lifestyle
-				// Login Form
-				form#headerLogin.loginForm.loginGrid(action="post")
-					input#usernameEntry.usernameEntry.standardText.borderC(type="text" placeholder="Username")
-					input#passwordEntry.passwordEntry.standardText.borderC(type="text" placeholder="Password")
-					input#loginButton.loginButton.width-75.fancyText.borderB.gradientB.hoverItem.clickItem(type="submit" value="Log In")
-				// Sign Up Button
-				a#signUpButton.signUpButton.width-75.fancyText.borderB.gradientB.hoverItem.clickItem(href="/profile/create_user") Sign Up
+				//Only show login/signup when no user logged in
+				if user
+					a.headerButton.logoutButton.width-75.fancyText.borderB.gradientB.hoverItem.clickItem(href="/profile/logout") Log Out
+				else
+					// Login In Button
+					a.headerButton.loginButton.width-75.fancyText.borderB.gradientB.hoverItem.clickItem(href="/profile/login") Log In
+					// Sign Up Button
+					a.headerButton.signUpButton.width-75.fancyText.borderB.gradientB.hoverItem.clickItem(href="/profile/create_user") Sign Up
 			// Left Navigation
 			nav.navi
 				ul.navList.noBullets

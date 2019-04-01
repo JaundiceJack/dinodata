@@ -3,11 +3,28 @@
 const mongoose = require('mongoose');
 
 const reptileSchema = mongoose.Schema({
-	basic: {
-		owner: String, // include a foreign key to the user_id
-		name: String,
-		morph: String
+	
+	owner_id: String, // include a foreign key to the user_id
+	name: String,
+	
+	morph: {
+		morphName: String,
+		colors: []
+	},
+	growth: {
+		weight: [],
+		length: [],
+		girth: [],
+		age: Number
 	}
+	vet: {
+
+	}
+	mood: {
+		
+	}
+	
+	
 
 })
 

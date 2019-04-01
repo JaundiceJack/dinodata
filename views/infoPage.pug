@@ -16,24 +16,24 @@ block content
         hr
         br
         form.startFlex.medBotMarg(method="post" action="info/measurements")
-          div.entryArea.borderC.entryColorC.smBotMarg
+          div.entryArea.borderC.entryColorC.mb-2
             label.fancyText.entryIcon.width-75.righted Weight:
             input.entryInput(type="text" placeholder="Enter their weight here,")
             button.entryButton.clickItem.hoverItem(onclick="") kg
 
-          div.entryArea.borderC.entryColorC.smBotMarg
+          div.entryArea.borderC.entryColorC.mb-2
             label.fancyText.entryIcon.width-75.righted Length:
             input.entryInput(type="text" placeholder="length here,")
             button.entryButton.clickItem.hoverItem(onclick="") cm
 
-          div.entryArea.borderC.entryColorC.medBotMarg
+          div.entryArea.borderC.entryColorC.mb-3
             label.fancyText.entryIcon.width-75.righted Girth:
             input.entryInput(type="text" placeholder="and their girth here.")
             button.entryButton.clickItem.hoverItem(onclick="") cm
 
-          button.buttonTypeA.fancyText.hoverItem.clickItem.smEvenPad.medBotMarg(type="submit")
-              label(for="button") Chart It
-              i.fas.fa-share.turn90(style="margin-left: 5px")
+          button.buttonTypeA.hoverItem.clickItem.p-3.mb-2(type="submit")
+              label.fancyText Chart It
+              i.fas.fa-share.turn90.ml-1
         div.borderA
             canvas.chart
  
