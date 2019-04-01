@@ -340,10 +340,13 @@ html, body, main {
 
 /* Buttons */
 .submitButton {
-  height: 30px;
-  width: 90px;
-  vertical-align: middle;
   cursor: pointer;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+/* Bootstrap messin with mah labels */
+label {
+  margin: 0 !important;
 }
 .headerButton {
   padding-top: 22px;

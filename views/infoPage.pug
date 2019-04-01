@@ -14,8 +14,13 @@ block content
       div.borderD.solidColorC.medEvenPad
         p.standardText To keep track of #{nameOfSelected}'s growth, take measurements each month and enter them here.
         hr
-        br
         form.startFlex.medBotMarg(method="post" action="info/measurements")
+          div.entryArea.borderC.entryColorC.mb-2
+            label.fancyText.entryIcon.width-75.righted Age:
+            input.entryInput.hidden(type="text" placeholder="Enter their weight here,")
+            p.entryInput.basicText.solidColorC #{ageOfSelected}
+            button.entryButton.clickItem.hoverItem(onclick="") Edit
+
           div.entryArea.borderC.entryColorC.mb-2
             label.fancyText.entryIcon.width-75.righted Weight:
             input.entryInput(type="text" placeholder="Enter their weight here,")
@@ -31,7 +36,7 @@ block content
             input.entryInput(type="text" placeholder="and their girth here.")
             button.entryButton.clickItem.hoverItem(onclick="") cm
 
-          button.buttonTypeA.hoverItem.clickItem.p-3.mb-2(type="submit")
+          button.buttonTypeA.gradientB.hoverItem.clickItem.p-2.mb-2(type="submit")
               label.fancyText Chart It
               i.fas.fa-share.turn90.ml-1
         div.borderA
@@ -43,40 +48,39 @@ block content
         div.borderD.solidColorC.medEvenPad
           p.standardText Save veterinary and health information
           hr
-          br
-          div.smBotMarg.smEvenPad
+          div.mb-2.p-2
             label.fancyText Veterinary Info
-            form#vetForm.smEvenPad
+            form#vetForm.p-2
               p#vetEditInstructions.hidden Editing Vet Info...
-              div.entryArea.borderC.entryColorB.smBotMarg
+              div.entryArea.borderC.entryColorB.mb-2
                 label.basicText.entryIcon.width-150.righted Preferred Vet:
                 input.entryInput.hidden(type="text")
                 p.entryInput.basicText.solidColorC The Dragon Doctor
                 button.entryButton.clickItem.hoverItem(onclick="editVet()") Edit
-              div.entryArea.borderC.entryColorB.smBotMarg
+              div.entryArea.borderC.entryColorB.mb-2
                 label.basicText.entryIcon.width-150.righted Next Vist:
                 input.entryInput.hidden(type="text")
                 p.entryInput.basicText.solidColorC N/A
-              div.entryArea.borderC.entryColorB.smBotMarg  
+              div.entryArea.borderC.entryColorB.mb-2  
                 label.basicText.entryIcon.width-150.righted Previous Visit:
                 input.entryInput.hidden(type="text")
                 p.entryInput.basicText.solidColorC N/A
-              div.entryArea.borderC.entryColorB.smBotMarg  
+              div.entryArea.borderC.entryColorB.mb-2  
                 label.basicText.entryIcon.width-150.righted Phone #:
                 input.entryInput.hidden(type="text")
                 p.entryInput.basicText.solidColorC 406-333-4444
-              div.entryArea.borderC.entryColorB.smBotMarg  
+              div.entryArea.borderC.entryColorB.mb-2  
                 label.basicText.entryIcon.width-150.righted Email:
                 input.entryInput.hidden(type="text")
                 p.entryInput.basicText.solidColorC ryuuisha@dd.party
-              div.entryArea.borderC.entryColorB.smBotMarg
+              div.entryArea.borderC.entryColorB.mb-2
                 label.basicText.entryIcon.width-150.righted Address:
                 input.entryInput.hidden(type="text")
                 p.entryInput.basicText.solidColorC 333 Broadway Ave. Missoula MT, 59801
-          div.smEvenPad
+          div.p-2
             label.fancyText Pathology
-            form.smEvenPad
-              div.entryArea.borderC.entryColorB.smBotMarg
+            form.p-2
+              div.entryArea.borderC.entryColorB.mb-2
                 label.basicText.entryIcon.width-200.righted Current Illness:
                 input.entryInput.hidden(type="text")
                 p.entryInput.basicText.solidColorC N/A
@@ -91,8 +95,7 @@ block content
       h3.fancyText.h3Size.textEffectC.borderA.gradientC Morph
       div.borderD.solidColorC.medEvenPad
         p.standardText Here you can store the pattern and colors on your reptile(s).
-        hr
-        br      
+        hr  
         div.entryArea.borderC.entryColorA
           p.entryIcon.width-min.basicText #{nameOfSelected}'s morph:
           select.entryInput
@@ -102,7 +105,7 @@ block content
           div#selectedColors.startFlex
             
         
-        button#colorToggle.buttonTypeA.gradientB.hoverItem.clickItem.smEvenPad.smBotMarg(onclick="toggle('colorToggle', 'colorOptions')") Show Colors
+        button#colorToggle.buttonTypeA.gradientB.hoverItem.clickItem.p-2.mb-2(onclick="toggle('colorToggle', 'colorOptions')") Show Colors
           i.fas.fa-angle-right.turn90(style="margin-left: 5px")
         div#colorOptions.hidden
           p.standardText Choose your reptile's morph colors below:
@@ -115,9 +118,8 @@ block content
       div.borderD.solidColorC.medEvenPad
         p.standardText Some reptiles can be a bit moody. Track their handling and how they tend to react here.
         hr
-        br
-        form.smEvenPad
-          div.entryArea.borderC.entryColorB.smBotMarg
+        form.p-2
+          div.entryArea.borderC.entryColorB.mb-2
             label.basicText.entryIcon.width-200.righted Last handled:
             input.entryInput.hidden(type="text")
             p.entryInput.basicText.solidColorC N/A
@@ -130,4 +132,4 @@ block content
               option(value="Very stressed (will bite)") Very stressed (will bite)
                 
     // Bring in the scripts for this page
-    script(src="./javascript/infoScripts.js")
+    script(src="/javascript/infoScripts.js")

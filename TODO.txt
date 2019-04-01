@@ -6,3 +6,4 @@
 6. Bootstrap alert styles seem to interfere with custom formats, fixit?
 7: Change the header grid to a flex (would make a little more sense)
 8: My flash messages don't seem to disappear, fixit.
+9: Label margins are acting wierd, ...fixit

@@ -93,6 +93,15 @@ router.get('/logout', (req, res) => {
 	res.redirect('/profile/login');
 })
 
+// Create Reptile Get Request
+router.get('/create_reptile', (req, res) => {
+	res.render('newReptilePage', {
+
+	})
+});
+
+// Create Reptile Post Request
+
 
 // User Profile Get Request
 router.get('/:id', (req, res) => {

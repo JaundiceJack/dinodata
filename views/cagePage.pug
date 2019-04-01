@@ -7,25 +7,26 @@ block content
 	
 	div#cagePage.cagePageGrid
 		// Enclosure Data Entry Area
-		div#cageDataEntryArea.cageDataEntryArea.contentGrid
+		div.cageDataEntryArea.contentGrid
 			h3.fancyText.h3Size.textEffectC.borderA.gradientC Enter Enclosure Conditions:
-			div.borderD.solidColrC.medEvenPad
+			div.borderD.solidColorC.p-3
 				p.standardText Select the reptile you want to track above, then enter the current enclosure conditions below.
 				p.standardText Once submitted, the data will be charted.
-				br
+				hr
 				form(action="/cage/submit" method="post").startFlex
-					div.entryArea.borderC.entryColorA.width-200.smBotMarg
+					div.entryArea.borderC.entryColorA.mb-2
 						i.entryIcon.far.fa-snowflake
 						input.entryInput(type="text" name="coolSide" placeholder="Cool Side F°" required)
-					div.entryArea.borderC.entryColorB.width-200.smBotMarg
+					div.entryArea.borderC.entryColorB.mb-2
 						i.entryIcon.fab.fa-gripfire
 						input.entryInput(type="text" name="warmSide" placeholder="Warm Side F°" required)
-					div.entryArea.borderC.entryColorC.width-200.smBotMarg
+					div.entryArea.borderC.entryColorC.mb-2
 						i.entryIcon.fas.fa-cloud
 						input.entryInput(type="text" name="humidity" placeholder="Humidity %" required)
-					button.submitButton.buttonTypeA.gradientB.hoverItem.clickItem(type="submit" name="button")
-						label(for="button") Chart It
-						i.fas.fa-share.turn90(style="margin-left: 5px")
+					button(type="submit").submitButton.buttonTypeA.gradientB.hoverItem.clickItem.p-2
+						label Chart It
+						i.fas.fa-share.turn90.ml-1
+					br
 
 		// Enclosure Data Charts Area
 		// Temperature

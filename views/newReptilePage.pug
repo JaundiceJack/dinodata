@@ -1,0 +1,29 @@
+extends default
+
+block content
+
+  //This page will include the form to add a reptile to the current user.
+  div.newAccountArea.contentGrid.p-3
+    h3.fancyText.h3Size.textEffectC.borderA.gradientC Add Reptile:
+    div.borderD.solidColorC.p-3
+      p.standardText Add a new reptile to monitor.
+      hr
+      form.startFlex(method="POST" action="/profile/create_reptile")
+        div.entryArea.borderC.entryColorC.mb-3
+          label.entryIcon.width-200.righted Name:
+          input.entryInput(type="text" name="reptiname")
+        div.entryArea.borderC.entryColorC.mb-3
+          label.entryIcon.width-200.righted Reptile type:
+          select.entryInput(name="reptitype")
+            option(value="pythonRegius") Ball Python
+            option(value="pogonaGenus") Bearded Dragon
+        div.entryArea.borderC.entryColorC.mb-3
+          label.entryIcon.width-200.righted Age:
+          input.entryInput(type="text" name="reptiage")
+        div.entryArea.borderC.entryColorC.mb-3
+          label.entryIcon.width-200.righted Weight:
+          input.entryInput(type="text" name="reptiweight")
+        div.entryArea.borderC.entryColorC.mb-4
+          label.entryIcon.width-200.righted Length:
+          input.entryInput(type="text" name="reptilength")
+        input.buttonTypeA.fancyText.hoverItem.clickItem.p-2.mb-2(type="submit" value="Add Reptile")
