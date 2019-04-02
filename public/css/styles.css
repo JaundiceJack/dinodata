@@ -408,6 +408,7 @@ label {
   text-align: center;
   box-shadow: inset 1px 0px 4px 2px var(--darkD);
   pointer-events: none;
+  text-transform: capitalize;
 }
 .selectImage {
   width: 80px;

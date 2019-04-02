@@ -4,14 +4,16 @@ div#reptileChoiceArea.reptileChoiceArea.borderA.gradientA
 	ul.reptiSelectFlex.noBullets
 
 		// Get a list of user's reptiles from the database to make a list of selectable pets
-		- var usersReptiles = [{name: "Jormun"}];
-		each reptile in usersReptiles
+		each reptile in reptiles
 			li.hoverItem.clickItem.tuchit
-				img.selectImage(src="https://www.iherp.com/Gallery/88314/157020_363331_Medium_1PceD7oheI.jpg" alt="")
+				if reptile.type === "pythonRegius"
+					img.selectImage(src="https://www.iherp.com/Gallery/88314/157020_363331_Medium_1PceD7oheI.jpg" alt="Ball Python")
+				if reptile.type === "pogonaGenus"
+					img.selectImage(src="https://bbsmenagerie.files.wordpress.com/2013/10/beardie.jpg" alt="Bearded Dragon")
 				p.selectName= reptile.name
 
 
 		li.hoverItem.clickItem.tuchit
-			a(href="/profile/create_reptile")
+			a(href="/monitoring/create_reptile")
 				img.selectImage.p-2(src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-1/512/add-1-icon.png" alt="")
 				p.selectName Add

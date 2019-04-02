@@ -5,6 +5,8 @@ const passport = require('passport');
 
 // Bring in the user model
 const User = require('../models/user');
+// Bring in the reptile model
+const Reptile = require('../models/reptile');
 
 // User Creation Get Request
 router.get('/create_user', (req, res) => {
@@ -21,6 +23,8 @@ router.post('/create_user', (req, res) => {
 	const email = req.body.email;
 	const metric = req.body.metric;
 	const metricBool = metric === 'on' ? true : false;
+	const reptiname = req.body.reptiname.toLowerCase().trim();
+	const reptitype = req.body.reptitype;
 
 	// Validate input
 	req.checkBody('username', 'A username is required').notEmpty();
@@ -45,6 +49,12 @@ router.post('/create_user', (req, res) => {
 			email: email,
 			useMetric: metricBool
 		});
+		// Create a new reptile as well
+		let newReptile = new Reptile({
+			owner_id: newUser._id,
+			name: reptiname,
+			type: reptitype
+		});
 
 		// Encrypt the password before saving the user
 		bcrypt.genSalt(10, (err, salt) => {
@@ -58,8 +68,17 @@ router.post('/create_user', (req, res) => {
 						return;
 					}
 					else {
-						req.flash('success', "You've successfully registered for Reptile Lifestyle.");
-						res.redirect('/profile/login');
+						// Save the user's reptile
+						newReptile.save((err) => {
+							if (err) {
+								console.log(err);
+								return;
+							}
+							else {
+								req.flash('success', "You've successfully registered for Reptile Lifestyle.");
+								res.redirect('/profile/login');
+							}
+						})
 					}
 				});
 			});
@@ -80,7 +99,7 @@ router.get('/login', (req, res) => {
 // Login Post Request
 router.post('/login', (req, res, next) => {
 	passport.authenticate('local', {
-		successRedirect: '/home',
+		successRedirect: '/monitoring/info',
 		failureRedirect: '/profile/login',
 		failureFlash: true
 	})(req, res, next);
@@ -92,15 +111,6 @@ router.get('/logout', (req, res) => {
 	req.flash('success', "You're now logged out.");
 	res.redirect('/profile/login');
 })
-
-// Create Reptile Get Request
-router.get('/create_reptile', (req, res) => {
-	res.render('newReptilePage', {
-
-	})
-});
-
-// Create Reptile Post Request
 
 
 // User Profile Get Request

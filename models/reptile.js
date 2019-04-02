@@ -3,28 +3,29 @@
 const mongoose = require('mongoose');
 
 const reptileSchema = mongoose.Schema({
-	
+
 	owner_id: String, // include a foreign key to the user_id
 	name: String,
-	
+	type: String,
+
 	morph: {
 		morphName: String,
-		colors: []
+		colors: [String]
 	},
 	growth: {
-		weight: [],
-		length: [],
-		girth: [],
+		weight: [Number],
+		length: [Number],
+		girth: [Number],
 		age: Number
-	}
+	},
 	vet: {
 
-	}
+	},
 	mood: {
-		
+
 	}
-	
-	
+
+
 
 })
 
@@ -156,8 +157,3 @@ let UserSchema = mongoose.Schema({
 	snakes: [SnakeSchema],
 	data: [DatumSchema]
 });
-
-exports.user = mongoose.model('User', UserSchema);
-exports.datum = mongoose.model('Datum', DatumSchema);
-exports.reading = mongoose.model('Reading', ReadingSchema);
-exports.snake = mongoose.model('Snake', SnakeSchema);
