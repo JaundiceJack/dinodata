@@ -207,7 +207,7 @@ html, body, main {
 /** Reptile Selection Layout **/
 .reptiSelectFlex {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
 }
 .reptiSelectFlex > * {padding: 10px 20px 5px 5px;}
 .reptileChoiceArea {
@@ -420,6 +420,7 @@ label {
   box-shadow: inset 1px 1px 4px 2px var(--darkD);
 }
 .reptiSelectFlex li:hover *{border-color: var(--darkA);}
+.selectedReptile * {border-color: var(--primaryA);}
 
 /** Morph Color Options (generated in infoScripts.js) **/
 .cBoxContainer {

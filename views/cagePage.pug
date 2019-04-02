@@ -3,7 +3,7 @@ extends default
 block content
 
 	// Include the reptile selections
-	include reptiSelect
+	include reptiSelect.pug
 	
 	div#cagePage.cagePageGrid
 		// Enclosure Data Entry Area
@@ -13,7 +13,7 @@ block content
 				p.standardText Select the reptile you want to track above, then enter the current enclosure conditions below.
 				p.standardText Once submitted, the data will be charted.
 				hr
-				form(action="/cage/submit" method="post").startFlex
+				form(action="/monitoring/cage" method="post").startFlex
 					div.entryArea.borderC.entryColorA.mb-2
 						i.entryIcon.far.fa-snowflake
 						input.entryInput(type="text" name="coolSide" placeholder="Cool Side F°" required)

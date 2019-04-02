@@ -13,34 +13,6 @@ function toggle(buttonID, toggleTarget) {
   }
 }
 
-function editVet() {
-  // Get the form
-  let vetForm = document.getElementById('vetForm');
-
-  // See how childNodes works
-  console.log(vetForm.childNodes);
-  // childNodes only selects the first level of children, not all inner children.
-  console.log(vetForm.children);
-
-  // Get the instructions
-  let vetInstructions = document.getElementById('vetEditInstructions');
-  // Check if form is already being edited
-  // If so, disable input and return form to previous state
-  // If not, remove hidden class from each input and add hidden to the p elements to allow input to change vet info
-
-  // pseudo to enable editing
-  /*
-  if (vetInstructions.hasClass('hidden')){
-
-  }
-
-  // pseudo to disable
-  else {
-
-  }
-  */
-}
-
 // Define a list of color objects for the morph color selections (move to app.js later)
 let colors = [
   { name: 'navy',
@@ -168,6 +140,4 @@ window.onload = () => {
   sub_butt.type = "submit";
   sub_butt.value = "Update Colors";
   colorForm.appendChild(sub_butt);
-
-  console.log("page loaded");
 }

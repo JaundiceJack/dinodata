@@ -112,21 +112,4 @@ router.get('/logout', (req, res) => {
 	res.redirect('/profile/login');
 })
 
-
-// User Profile Get Request
-router.get('/:id', (req, res) => {
-	// Validate
-
-
-	// Find
-	User.findById(req.params.id, (err, user) => {
-
-		// Display
-		res.render('userAccountPage', {
-			currentUser: user
-		});
-	});
-
-});
-
 module.exports = router;
