@@ -9,3 +9,9 @@
 9: Label margins are acting wierd, ...fixit
 10: Having the reptile ID as the URL string looks a bit ugly, I'd like to replace it with the name
 	This would probably involve querying by name instead of ID and setting global ID then.
+
+11: I found a similar program (for pay) called ReptiWare. It does a bit of what I'm making (but looks cooler).
+	I did not see that it had graphs of information, but it did show tables of info,
+	I could make the charts and tables swappable with a button
+	They also didn't seem to use any sensor integration, so I'd have that over it as well.
+	Wow, They charge $7 per month or $70 per year. Its not a flat charge. I could charge for usage as well, but cheaper.

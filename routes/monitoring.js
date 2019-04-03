@@ -13,24 +13,26 @@ let currentID = null;
 // Hold the basic list of user reptiles (Not yet used, Using will reduce the number of queries I need to get to the next pages)
 let userReptiles = [];
 
+
 // Grab reptile information to put on the page.
 function monitoringDirect(req, res, user_id, reptile_id, routePath, renderPage) {
-	// Grab the list of reptiles
-	Reptile.find({owner_id: user_id}, '_id name type', (err, reptiles) => {
+	// Grab the focused reptile
+	Reptile.findOne({_id: reptile_id}, (err, reptile) => {
 		if (err) console.log(err);
-		// Grab the focused reptile
-		Reptile.findOne({_id: reptile_id}, (err, reptile) => {
+		currentID = reptile._id;
+		// Grab the focused reptile's readings
+		Reading.find({reptile_id: reptile._id}, (err, readings) => {
 			if (err) console.log(err);
-			currentID = reptile._id;
-			// Grab the focused reptile's readings
-			Reading.find({reptile_id: reptile._id}, (err, readings) => {
-				if (err) console.log(err);
-				res.render(renderPage, {
-					readings: readings,
-					reptiles: reptiles,
-					routePath: routePath,
-					selected: reptile_id
-				});
+			console.log(Reading.getDates(readings));
+			console.log(Reading.getWarmTemps(readings));
+			console.log(Reading.getCoolTemps(readings));
+			res.render(renderPage, {
+				readingDates: Reading.getDates(readings),
+				coolData: Reading.getWarmTemps(readings),
+				warmData: Reading.getCoolTemps(readings),
+				reptiles: userReptiles,
+				routePath: routePath,
+				selected: reptile_id
 			});
 		});
 	});
@@ -43,10 +45,10 @@ function monitoringRedirect(req, res, user_id, routePath) {
 	}
 	else {
 		// Find the user's reptiles
-		Reptile.find({owner_id: user_id}, (err, reptiles) => {
-			// If user has reptiles, redirect to the first's page
+		Reptile.find({owner_id: user_id}, "_id owner_id name type", (err, reptiles) => {
+			// If user has reptiles, set the placeholders and redirect
 			if (reptiles.length > 0) {
-				selectedID = reptiles[0]._id;
+				currentID = reptiles[0]._id;
 				userReptiles = reptiles;
 				res.redirect('/monitoring'+routePath+reptiles[0]._id);
 			}
@@ -154,6 +156,15 @@ router.get('/create_reptile', (req, res) => {
 	});
 });
 
+// Capitalize first letter (for reptile name after successful addition)
+function capitalize(name) {
+	let str = name.split(" ");
+	for (let i = 0; i < str.length; i++){
+		str[i] = str[i][0].toUpperCase() + str[i].substr(1);
+	}
+	return str.join(" ");
+}
+
 // Create Reptile Post Request
 router.post('/create_reptile', (req, res) => {
 	// Grab the entered info for a new reptile
@@ -184,8 +195,10 @@ router.post('/create_reptile', (req, res) => {
 				console.log(err);
 				return;
 			}
+			// Update the placeholder list with the new reptile and redirect
 			else {
-				req.flash('success', newReptile.name+" successfully added.");
+				userReptiles.push(newReptile);
+				req.flash('success', capitalize(newReptile.name)+" successfully added.");
 				res.redirect('/monitoring/info');
 			}
 		})

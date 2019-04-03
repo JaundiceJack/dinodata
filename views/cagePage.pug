@@ -36,9 +36,9 @@ block content
 		div.tempChartArea.contentGrid
 			h3.fancyText.h4Size.textEffectC.borderA.gradientC Temperatures:
 			div.borderA
-				canvas#temperatureChart.chart.temperatureChart
+				canvas#temperatureChart.temperatureChart.w-100.h-100(readingDates=readingDates, coolData=coolData, warmData=warmData)
 		// Humidity
 		div.humidChartArea.contentGrid
 			h3.fancyText.h4Size.textEffectC.borderA.gradientC Humidity:
 			div.borderA
-				canvas#humidityChart.chart.humidityChart
+				canvas#humidityChart.humidityChart.w-100.h-100
