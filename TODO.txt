@@ -7,5 +7,3 @@
 7: Change the header grid to a flex (would make a little more sense)
 8: My flash messages don't seem to disappear, fixit.
 9: Label margins are acting wierd, ...fixit
-10: Right now I'm sending all reptile data at once. This could get cumbersome later.
-	To fix it I'd like to turn the reptiselects into links and use variable get paths based on the reptiID

@@ -4,14 +4,12 @@ div.reptileChoiceArea.borderA.gradientA
 	ul.reptiSelectFlex.noBullets
 		// Make an icon for each reptile
 		each reptile in reptiles
-			li.hoverItem.clickItem.tuchit.reptiOption(id=reptile._id)
-				a(href="/monitoring"+routePath+reptile._id)
-					// Use a different icon for each reptile type
-					if reptile.type === "pythonRegius"
-						img.selectImage(src="https://www.iherp.com/Gallery/88314/157020_363331_Medium_1PceD7oheI.jpg" alt="Ball Python")
-					if reptile.type === "pogonaGenus"
-						img.selectImage(src="https://bbsmenagerie.files.wordpress.com/2013/10/beardie.jpg" alt="Bearded Dragon")
-					p.selectName= reptile.name
+			if reptile._id == selected
+				li.hoverItem.clickItem.tuchit.reptiOption.selectedReptile(id=reptile._id)
+					include reptiTypes.pug
+			else
+				li.hoverItem.clickItem.tuchit.reptiOption(id=reptile._id)
+					include reptiTypes.pug
 		// Create icons to add and remove reptiles
 		li.hoverItem.clickItem.tuchit
 			a(href="/monitoring/create_reptile")

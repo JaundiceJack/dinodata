@@ -8,7 +8,10 @@ const Reptile = require('../models/reptile');
 // Bring in the reading model
 const Reading = require('../models/reading');
 
+// Hold the current reptile ID
+let currentID = null;
 
+// Grab reptile information to put on the page.
 function monitoringDirect(req, res, user_id, reptile_id, routePath, renderPage) {
 	// Grab the list of reptiles
 	Reptile.find({owner_id: user_id}, '_id name type', (err, reptiles) => {
@@ -16,32 +19,41 @@ function monitoringDirect(req, res, user_id, reptile_id, routePath, renderPage) 
 		// Grab the focused reptile
 		Reptile.findOne({_id: reptile_id}, (err, reptile) => {
 			if (err) console.log(err);
+			currentID = reptile._id;
 			// Grab the focused reptile's readings
 			Reading.find({reptile_id: reptile._id}, (err, readings) => {
 				if (err) console.log(err);
 				res.render(renderPage, {
 					readings: readings,
 					reptiles: reptiles,
-					routePath: routePath
+					routePath: routePath,
+					selected: reptile_id
 				});
 			});
 		});
 	});
 };
 
+// Make sure user has reptiles and direct to the first
 function monitoringRedirect(req, res, user_id, routePath) {
-	// Find the user's reptiles
-	Reptile.find({owner_id: user_id}, (err, reptiles) => {
-		// If user has reptiles, redirect to the first's page
-		if (reptiles.length > 0) {
-			res.redirect('/monitoring'+routePath+reptiles[0]._id);
-		}
-		// Otherwise, take them to the reptile creation page
-		else {
-			req.flash('danger', "Please create a reptile.");
-			res.redirect('/monitoring/create_reptile');
-		}	
-	});
+	if (currentID != null) {
+		res.redirect('/monitoring'+routePath+currentID);
+	}
+	else {
+		// Find the user's reptiles
+		Reptile.find({owner_id: user_id}, (err, reptiles) => {
+			// If user has reptiles, redirect to the first's page
+			if (reptiles.length > 0) {
+				selectedID = reptiles[0]._id;
+				res.redirect('/monitoring'+routePath+reptiles[0]._id);
+			}
+			// Otherwise, take them to the reptile creation page
+			else {
+				req.flash('danger', "Please create a reptile.");
+				res.redirect('/monitoring/create_reptile');
+			}
+		});
+	}
 }
 
 // Info Page Get Request
@@ -87,6 +99,7 @@ router.get('/food', ensureAuthenticated, (req,res) => {
 // Cage Page Post Request
 router.post('/cage', ensureAuthenticated, (req, res) => {
 	// Grab entered enclosure readings
+	const date = req.body.date;
 	const warmSide = req.body.warmSide;
 	const coolSide = req.body.coolSide;
 	const humidity = req.body.humidity;
@@ -95,6 +108,7 @@ router.post('/cage', ensureAuthenticated, (req, res) => {
 	req.checkBody('cooSide', "Please enter the cool side's temperature.").notEmpty();
 	req.checkBody('warmSide', "Please enter the warm side's temperature.").notEmpty();
 	req.checkBody('humidity', "Please enter the humidity.").notEmpty();
+	req.checkBody('date', "Please enter a valid date. Or else.").isISO8601();
 
 	let errors = req.validationErrors();
 	if (errors) {
@@ -104,7 +118,8 @@ router.post('/cage', ensureAuthenticated, (req, res) => {
 	}
 	else {
 		let newReading = new Reading({
-			reptile_id: req.selected,
+			reptile_id: currentID,
+			date: date,
 			warm: warmSide,
 			cool: coolSide,
 			humidity: humidity
@@ -116,30 +131,11 @@ router.post('/cage', ensureAuthenticated, (req, res) => {
 				return;
 			}
 			else {
-				res.redirect('/monitoring/cage');
-			}
-		})
-	}
-})
-
-// Food Page Get Request
-router.get('/food', ensureAuthenticated, (req,res) => {
-	// Find the user's reptiles
-	Reptile.find({owner_id: req.user._id}, (err, reptiles) => {
-		// If user has reptiles, select the first and display
-		if (reptiles.length > 0) {
-			res.render('foodPage', {
-				reptiles: reptiles,
-				selected: reptiles[0]._id
-			});
-		}
-		// Otherwise, take them to the reptile creation page
-		else {
-			req.flash('danger', "Please create a reptile.");
-			res.redirect('/monitoring/create_reptile');
-		}
-		
-	});
+				req.flash('success', "Reading added.");
+				res.redirect('/cage/'+currentID);
+			};
+		});
+	};
 });
 
 // Create Reptile Get Request
