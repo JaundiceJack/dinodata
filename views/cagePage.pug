@@ -16,7 +16,7 @@ block content
 				form(action="/monitoring/cage" method="post").startFlex
 					div.entryArea.borderC.solidColorB.mb-2
 						label.entryIcon Date
-						input.entryInput(type='text' name="date" placeholder="Today") 
+						input.entryInput(type='date' name="date" min="2019-01-01") 
 					div.entryArea.borderC.entryColorA.mb-2
 						i.entryIcon.far.fa-snowflake
 						input.entryInput(type="text" name="coolSide" placeholder="Cool Side F°" required)

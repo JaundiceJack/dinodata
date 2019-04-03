@@ -3,13 +3,14 @@ div.reptileChoiceArea.borderA.gradientA
 	h2.fancyText.h2Size.textEffectA Select a Reptile to Monitor:
 	ul.reptiSelectFlex.noBullets
 		// Make an icon for each reptile
-		each reptile in reptiles
-			if reptile._id == selected
-				li.hoverItem.clickItem.tuchit.reptiOption.selectedReptile(id=reptile._id)
-					include reptiPictureLinks.pug
-			else
-				li.hoverItem.clickItem.tuchit.reptiOption(id=reptile._id)
-					include reptiPictureLinks.pug
+		if reptiles
+			each reptile in reptiles
+				if reptile._id == selected
+					li.hoverItem.clickItem.tuchit.reptiOption.selectedReptile(id=reptile._id)
+						include reptiPictureLinks.pug
+				else
+					li.hoverItem.clickItem.tuchit.reptiOption(id=reptile._id)
+						include reptiPictureLinks.pug
 		// Create icons to add and remove reptiles
 		li.hoverItem.clickItem.tuchit
 			a(href="/monitoring/create_reptile")

@@ -7,3 +7,5 @@
 7: Change the header grid to a flex (would make a little more sense)
 8: My flash messages don't seem to disappear, fixit.
 9: Label margins are acting wierd, ...fixit
+10: Having the reptile ID as the URL string looks a bit ugly, I'd like to replace it with the name
+	This would probably involve querying by name instead of ID and setting global ID then.

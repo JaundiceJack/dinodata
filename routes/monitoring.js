@@ -10,6 +10,8 @@ const Reading = require('../models/reading');
 
 // Hold the current reptile ID
 let currentID = null;
+// Hold the basic list of user reptiles (Not yet used, Using will reduce the number of queries I need to get to the next pages)
+let userReptiles = [];
 
 // Grab reptile information to put on the page.
 function monitoringDirect(req, res, user_id, reptile_id, routePath, renderPage) {
@@ -45,6 +47,7 @@ function monitoringRedirect(req, res, user_id, routePath) {
 			// If user has reptiles, redirect to the first's page
 			if (reptiles.length > 0) {
 				selectedID = reptiles[0]._id;
+				userReptiles = reptiles;
 				res.redirect('/monitoring'+routePath+reptiles[0]._id);
 			}
 			// Otherwise, take them to the reptile creation page
@@ -103,15 +106,18 @@ router.post('/cage', ensureAuthenticated, (req, res) => {
 	const warmSide = req.body.warmSide;
 	const coolSide = req.body.coolSide;
 	const humidity = req.body.humidity;
+	console.log('page data grabbed');
 
 	// Validate Entries
-	req.checkBody('cooSide', "Please enter the cool side's temperature.").notEmpty();
+	req.checkBody('coolSide', "Please enter the cool side's temperature.").notEmpty();
 	req.checkBody('warmSide', "Please enter the warm side's temperature.").notEmpty();
 	req.checkBody('humidity', "Please enter the humidity.").notEmpty();
 	req.checkBody('date', "Please enter a valid date. Or else.").isISO8601();
+	console.log('data validated');
 
 	let errors = req.validationErrors();
 	if (errors) {
+		console.log('errors were found in entered data');
 		res.render('cagePage', {
 			errors: errors
 		});
@@ -124,15 +130,18 @@ router.post('/cage', ensureAuthenticated, (req, res) => {
 			cool: coolSide,
 			humidity: humidity
 		});
+		console.log('new reading was created, saving...');
 		// Save the reptile to mongo
 		newReading.save( (err) => {
 			if (err) {
+				console.log('errors encountered while saving');
 				console.log(err);
 				return;
 			}
 			else {
+				console.log('reading successfully saved, rerouting...');
 				req.flash('success', "Reading added.");
-				res.redirect('/cage/'+currentID);
+				res.redirect('/monitoring/cage/'+currentID);
 			};
 		});
 	};
