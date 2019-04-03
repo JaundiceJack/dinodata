@@ -27,8 +27,7 @@ block content
         div.entryArea.borderC.entryColorC.mb-3
           label.entryIcon.width-200.righted Reptile type:
           select.entryInput(name="reptitype")
-            option(value="pythonRegius") Ball Python
-            option(value="pogonaGenus") Bearded Dragon
+            include reptiOptions.pug
         div.entryArea.borderC.entryColorC.mb-4
           label.entryIcon.width-200.righted Use metric?:
           input.entryInput(type="checkbox" name="metric" checked)
