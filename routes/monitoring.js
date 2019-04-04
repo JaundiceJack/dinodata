@@ -23,13 +23,13 @@ function monitoringDirect(req, res, user_id, reptile_id, routePath, renderPage) 
 		// Grab the focused reptile's readings
 		Reading.find({reptile_id: reptile._id}, (err, readings) => {
 			if (err) console.log(err);
-			console.log(Reading.getDates(readings));
-			console.log(Reading.getWarmTemps(readings));
-			console.log(Reading.getCoolTemps(readings));
+			console.log(Reading.getArray(readings, 'dates'));
+			console.log(Reading.getArray(readings,'cool'));
+			console.log(Reading.getArray(readings, 'warm'));
 			res.render(renderPage, {
-				readingDates: Reading.getDates(readings),
-				coolData: Reading.getWarmTemps(readings),
-				warmData: Reading.getCoolTemps(readings),
+				readingDates: Reading.getArray(readings, 'dates'),
+				coolData: Reading.getArray(readings, 'cool'),
+				warmData: Reading.getArray(readings, 'warm'),
 				reptiles: userReptiles,
 				routePath: routePath,
 				selected: reptile_id
