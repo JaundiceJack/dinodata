@@ -14,91 +14,66 @@ let currentID = null;
 let userReptiles = [];
 
 
-// Grab reptile information to put on the page.
-function monitoringDirect(req, res, user_id, reptile_id, routePath, renderPage) {
-	// Grab the focused reptile
-	Reptile.findOne({_id: reptile_id}, (err, reptile) => {
-		if (err) console.log(err);
-		currentID = reptile._id;
-		// Grab the focused reptile's readings
-		Reading.find({reptile_id: reptile._id}, (err, readings) => {
+// General direct for monitoring routes
+const monitoringDirect = (routePath, renderPage) => {
+	return (req, res, next) => {
+		// Grab the focused reptile
+		Reptile.findOne({_id: req.params.reptile_id}, (err, reptile) => {
 			if (err) console.log(err);
-			console.log(Reading.getArray(readings, 'dates'));
-			console.log(Reading.getArray(readings,'cool'));
-			console.log(Reading.getArray(readings, 'warm'));
+			currentID = reptile._id;
 			res.render(renderPage, {
-				readingDates: Reading.getArray(readings, 'dates'),
-				coolData: Reading.getArray(readings, 'cool'),
-				warmData: Reading.getArray(readings, 'warm'),
 				reptiles: userReptiles,
 				routePath: routePath,
-				selected: reptile_id
+				selected: reptile
 			});
-		});
-	});
+		});		
+	};
+};
+// Base page requests are rerouted to reptile-specific pages
+const monitoringRedirect = (routePath) => {
+	return (req, res, next) => {
+		// If a reptile has already been selected, route to its specific page
+		if (currentID != null) {
+			res.redirect('/monitoring'+routePath+currentID);
+		}
+		// Otherwise, find the user's first reptile
+		else {
+			Reptile.find({owner_id: req.user._id}, "_id owner_id name type", (err, reptiles) => {
+				// If user has reptiles, set the placeholders and redirect
+				if (reptiles.length > 0) {
+					currentID = reptiles[0]._id;
+					userReptiles = reptiles;
+					res.redirect('/monitoring'+routePath+reptiles[0]._id);
+				}
+				// Otherwise, take them to the reptile creation page
+				else {
+					req.flash('danger', "Please create a reptile.");
+					res.redirect('/monitoring/create_reptile');
+				}
+			});
+		};		
+	};
 };
 
-// Make sure user has reptiles and direct to the first
-function monitoringRedirect(req, res, user_id, routePath) {
-	if (currentID != null) {
-		res.redirect('/monitoring'+routePath+currentID);
-	}
-	else {
-		// Find the user's reptiles
-		Reptile.find({owner_id: user_id}, "_id owner_id name type", (err, reptiles) => {
-			// If user has reptiles, set the placeholders and redirect
-			if (reptiles.length > 0) {
-				currentID = reptiles[0]._id;
-				userReptiles = reptiles;
-				res.redirect('/monitoring'+routePath+reptiles[0]._id);
-			}
-			// Otherwise, take them to the reptile creation page
-			else {
-				req.flash('danger', "Please create a reptile.");
-				res.redirect('/monitoring/create_reptile');
-			}
-		});
-	}
-}
 
-// Info Page Get Request
-router.get('/info/:reptile_id', ensureAuthenticated, (req, res) => {
-	// Grab the ID of the selected reptile
-	const selectedID = req.params.reptile_id;
-	// Direct to the reptile's info page
-	monitoringDirect(req, res, req.user._id, selectedID, '/info/', 'infoPage');
-})
-// Info Page Redirect
-router.get('/info', ensureAuthenticated, (req, res) => {
-	// Direct to the reptile's info page
-	monitoringRedirect(req, res, req.user._id, '/info/');
+// Data Requests
+router.get('/cage/temperatures/:reptile_id', ensureAuthenticated, (req, res) => {
+	console.log("temperature request received.")
+	Reading.find({reptile_id: reptile_id}, (err, readings) => {
+		res.send(readings);
+	})
 })
 
-// Cage Page Get Request
-router.get('/cage/:reptile_id', ensureAuthenticated, (req, res) => {
-	// Grab the ID of the selected reptile
-	const selectedID = req.params.reptile_id;
-	// Direct to the reptile's cage page
-	monitoringDirect(req, res, req.user._id, selectedID, '/cage/', 'cagePage')
-});
-// Cage Page Redirect
-router.get('/cage', ensureAuthenticated, (req,res) => {
-	// Direct to the reptile's cage page
-	monitoringRedirect(req, res, req.user._id, '/cage/');
-});
+// Specific Monitoring Page Gets
+router.get('/info/:reptile_id',	ensureAuthenticated, monitoringDirect('/info/', 'infoPage'));
+router.get('/cage/:reptile_id',	ensureAuthenticated, monitoringDirect('/cage/', 'cagePage'));
+router.get('/food/:reptile_id', ensureAuthenticated, monitoringDirect('/food/', 'foodPage'));
 
-// food Page Get Request
-router.get('/food/:reptile_id', ensureAuthenticated, (req, res) => {
-	// Grab the ID of the selected reptile
-	const selectedID = req.params.reptile_id;
-	// Direct to the reptile's food page
-	monitoringDirect(req, res, req.user._id, selectedID, '/food/', 'foodPage')
-});
-// food Page Redirect
-router.get('/food', ensureAuthenticated, (req,res) => {
-	// Direct to the reptile's info page
-	monitoringRedirect(req, res, req.user._id, '/food/');
-});
+// Basic Redirects
+router.get('/info', ensureAuthenticated, monitoringRedirect('/info/'));
+router.get('/cage', ensureAuthenticated, monitoringRedirect('/cage/'));
+router.get('/food', ensureAuthenticated, monitoringRedirect('/food/'));
+
 
 
 // Cage Page Post Request

@@ -15,3 +15,6 @@
 	I could make the charts and tables swappable with a button
 	They also didn't seem to use any sensor integration, so I'd have that over it as well.
 	Wow, They charge $7 per month or $70 per year. Its not a flat charge. I could charge for usage as well, but cheaper.
+
+12: Ideally when enclosure data is entered, I'd like to check that the date is not already in the reptile's files
+	If the date is found I'd like to update the cool/warm/humid with the newly entered data
