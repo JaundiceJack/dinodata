@@ -18,3 +18,8 @@
 
 12: Ideally when enclosure data is entered, I'd like to check that the date is not already in the reptile's files
 	If the date is found I'd like to update the cool/warm/humid with the newly entered data
+
+13: IMPORTANT: I;m currently holding the user info on the server just to simplify the url,
+		If there's a lot of users that'll be a ton of memory,
+		Instead I should make reptile names required to be unique in the addition page and in the database
+		Doing that will let me search by name and user_id as easily as reptile_id

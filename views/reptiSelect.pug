@@ -5,7 +5,7 @@ div.reptileChoiceArea.borderA.gradientA
 		// Make an icon for each reptile
 		if reptiles
 			each reptile in reptiles
-				if reptile._id == selected
+				if reptile.name === selected.name
 					li.hoverItem.clickItem.tuchit.reptiOption.selectedReptile(id=reptile._id)
 						include reptiPictureLinks.pug
 				else

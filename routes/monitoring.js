@@ -10,10 +10,12 @@ const Reading = require('../models/reading');
 
 // Hold the current reptile ID
 let currentID = null;
+let currentName = "";
 // Hold the basic list of user reptiles (Not yet used, Using will reduce the number of queries I need to get to the next pages)
 let userReptiles = [];
+let currentUserReptileIndex = 0;
 
-
+/*
 // General direct for monitoring routes
 const monitoringDirect = (routePath, renderPage) => {
 	return (req, res, next) => {
@@ -26,24 +28,45 @@ const monitoringDirect = (routePath, renderPage) => {
 				routePath: routePath,
 				selected: reptile
 			});
-		});		
+		});
 	};
+};
+*/
+// TODO: This will route to the first reptile of a given name, I need to make sure names are unique
+const monitoringDirect = (routePath, renderPage) => {
+	return (req, res, next) => {
+		// if the name given is different from the current, set the id to search for
+		if (userReptiles[currentUserReptileIndex]['name'] !== req.params.reptile_name) {
+			for (let i = 0; i < userReptiles.length; i++) {
+				if (userReptiles[i]['name'] === req.params.reptile_name) {
+					currentID = userReptiles[i]['_id'];
+					currentName = userReptiles[i]['name'];
+					currentUserReptileIndex = i;
+					break; };};};
+		// Grab the focused reptile
+		Reptile.findById(currentID, (err, reptile) => {
+			if (err) console.log(err);
+			res.render(renderPage, {
+				reptiles: userReptiles,
+				routePath: routePath,
+				selected: reptile });});};
 };
 // Base page requests are rerouted to reptile-specific pages
 const monitoringRedirect = (routePath) => {
 	return (req, res, next) => {
 		// If a reptile has already been selected, route to its specific page
-		if (currentID != null) {
-			res.redirect('/monitoring'+routePath+currentID);
+		if (currentName !== "") {
+			res.redirect('/monitoring'+routePath+currentName);
 		}
 		// Otherwise, find the user's first reptile
 		else {
 			Reptile.find({owner_id: req.user._id}, "_id owner_id name type", (err, reptiles) => {
 				// If user has reptiles, set the placeholders and redirect
 				if (reptiles.length > 0) {
-					currentID = reptiles[0]._id;
+					currentID = reptiles[0]['_id'];
+					currentName = reptiles[0]['name'];
 					userReptiles = reptiles;
-					res.redirect('/monitoring'+routePath+reptiles[0]._id);
+					res.redirect('/monitoring'+routePath+reptiles[0].name);
 				}
 				// Otherwise, take them to the reptile creation page
 				else {
@@ -51,7 +74,7 @@ const monitoringRedirect = (routePath) => {
 					res.redirect('/monitoring/create_reptile');
 				}
 			});
-		};		
+		};
 	};
 };
 
@@ -65,9 +88,9 @@ router.get('/cage/temperatures/:reptile_id', ensureAuthenticated, (req, res) => 
 })
 
 // Specific Monitoring Page Gets
-router.get('/info/:reptile_id',	ensureAuthenticated, monitoringDirect('/info/', 'infoPage'));
-router.get('/cage/:reptile_id',	ensureAuthenticated, monitoringDirect('/cage/', 'cagePage'));
-router.get('/food/:reptile_id', ensureAuthenticated, monitoringDirect('/food/', 'foodPage'));
+router.get('/info/:reptile_name',	ensureAuthenticated, monitoringDirect('/info/', 'infoPage'));
+router.get('/cage/:reptile_name',	ensureAuthenticated, monitoringDirect('/cage/', 'cagePage'));
+router.get('/food/:reptile_name', ensureAuthenticated, monitoringDirect('/food/', 'foodPage'));
 
 // Basic Redirects
 router.get('/info', ensureAuthenticated, monitoringRedirect('/info/'));

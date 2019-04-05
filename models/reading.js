@@ -24,26 +24,25 @@ const Reading = module.exports = mongoose.model('Reading', readingSchema);
 // return an array of the requested data type or dates
 // make sure dates are sorted, I guess make sure they're returned from the query in order
 function makeDateString(dateObject) {
-	let dateString = "N/A";
-	if (dateObject) {
+	if (typeof dateObject === Date) {
 		let dateArray = dateObject.toUTCString().split(' ');
-		dateString = dateArray[2]+"-"+dateArray[1]+"-"+dateArray[3];
+		return dateArray[2]+"-"+dateArray[1]+"-"+dateArray[3];
 	}
-	return dateString;
 }
 module.exports.getArray = (readingsQuery, dataType) => {
 	// Prepare an array to return
 	let dataArray = [];
 	// Check that a query was returned
 	if (readingsQuery) {
-		for (let i = 0; i < readingsQuery.length; i++) {
+		for (let reading in readingsQuery) {
 			// Check the dataType and push the right string into dataArray
-			if (dataType === 'date') dataArray.push(makeDateString(readingsQuery[i].date));
-			else if (readingsQuery[i][dataType] === null){
+			if (dataType === 'dates') dataArray.push(makeDateString(reading.date));
+			else if (dataType === 'cool' && !reading.cool ||
+			 dataType === 'warm' && !reading.warm) {
 				dataArray.push("N/A");
-			}				
-			else {
-				dataArray.push(readingsQuery[i][dataType].toString());
+			}
+			else if (true) {
+				dataArray.push(reading.toString());
 			}
 		}
 	}
