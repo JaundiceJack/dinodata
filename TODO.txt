@@ -23,3 +23,21 @@
 		If there's a lot of users that'll be a ton of memory,
 		Instead I should make reptile names required to be unique in the addition page and in the database
 		Doing that will let me search by name and user_id as easily as reptile_id
+	I'm on the charting branch but my routing's all messed up so i gotta fix that before I can pass data in by ajax
+	The problem is, I don't want the url to be a big string of numbers so I'm using the names
+	I can't figure out how to have a persistent client reptile like the user so I've been querying for each reroute
+
+	When the user logs in, I want them taken to the cage page for their first reptile
+	If I imported the Reptile object to profile.js, I could....
+	this is really messy in my head
+
+	logging in should find the user's first reptile and take them to it.
+	there are 2 ways I could do that
+	1: import Reptile to profile and redirect directly to the page using the reptile name
+	2: direct to the base page which will perform the check and redirect the name'd page
+
+	I've been doing it the second way, but it seems very indirect
+
+	I could try setting the reptile links to a name and giving each one the reptile_id as a data-id,
+	but i can't see what id doo iwht it
+	

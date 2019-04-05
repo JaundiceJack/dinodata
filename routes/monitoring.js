@@ -8,95 +8,77 @@ const Reptile = require('../models/reptile');
 // Bring in the reading model
 const Reading = require('../models/reading');
 
-// Hold the current reptile ID
-let currentID = null;
-let currentName = "";
-// Hold the basic list of user reptiles (Not yet used, Using will reduce the number of queries I need to get to the next pages)
-let userReptiles = [];
-let currentUserReptileIndex = 0;
 
-/*
-// General direct for monitoring routes
-const monitoringDirect = (routePath, renderPage) => {
-	return (req, res, next) => {
-		// Grab the focused reptile
-		Reptile.findOne({_id: req.params.reptile_id}, (err, reptile) => {
-			if (err) console.log(err);
-			currentID = reptile._id;
-			res.render(renderPage, {
-				reptiles: userReptiles,
-				routePath: routePath,
-				selected: reptile
-			});
-		});
-	};
-};
-*/
-// TODO: This will route to the first reptile of a given name, I need to make sure names are unique
-const monitoringDirect = (routePath, renderPage) => {
-	return (req, res, next) => {
-		// if the name given is different from the current, set the id to search for
-		if (userReptiles[currentUserReptileIndex]['name'] !== req.params.reptile_name) {
-			for (let i = 0; i < userReptiles.length; i++) {
-				if (userReptiles[i]['name'] === req.params.reptile_name) {
-					currentID = userReptiles[i]['_id'];
-					currentName = userReptiles[i]['name'];
-					currentUserReptileIndex = i;
-					break; };};};
-		// Grab the focused reptile
-		Reptile.findById(currentID, (err, reptile) => {
-			if (err) console.log(err);
-			res.render(renderPage, {
-				reptiles: userReptiles,
-				routePath: routePath,
-				selected: reptile });});};
-};
-// Base page requests are rerouted to reptile-specific pages
-const monitoringRedirect = (routePath) => {
-	return (req, res, next) => {
-		// If a reptile has already been selected, route to its specific page
-		if (currentName !== "") {
-			res.redirect('/monitoring'+routePath+currentName);
+const fuckitt = (req, res) => {
+	return (err, reptilesFound) => {
+		if(!reptilesFound) {
+			req.flash('danger', "Please create a reptile to view this page.");
+			res.redirect("monitoring/create_reptile");
 		}
-		// Otherwise, find the user's first reptile
 		else {
-			Reptile.find({owner_id: req.user._id}, "_id owner_id name type", (err, reptiles) => {
-				// If user has reptiles, set the placeholders and redirect
-				if (reptiles.length > 0) {
-					currentID = reptiles[0]['_id'];
-					currentName = reptiles[0]['name'];
-					userReptiles = reptiles;
-					res.redirect('/monitoring'+routePath+reptiles[0].name);
+
+		}
+	}
+}
+const monitorWithName = (page) => {
+	return (req, res) => {
+		console.log(req.path);
+		Reptile.find({owner_id: req.user._id}, (err, reptilesFound) => {
+			if (err) console.log(err);
+			if (reptilesFound) {
+				let inList = false;
+				for (let reptile in reptilesFound) {
+					if (reptile.name === req.params.reptile_name) {
+						inList = true;
+						res.render(page, {
+							routePath: req.path+"/",
+							reptiles: reptilesFound,
+							selected: reptile
+						});
+					}
 				}
-				// Otherwise, take them to the reptile creation page
-				else {
-					req.flash('danger', "Please create a reptile.");
-					res.redirect('/monitoring/create_reptile');
+				if (!inList) {
+					req.flash('danger', "Reptile not found, first selected.");
+					res.render(page, {
+						routePath: req.path+"/",
+						reptiles: reptilesFound,
+						selected: reptilesFound[0]
+					});
 				}
-			});
-		};
-	};
-};
+			}
+			else {
+				req.flash('danger', "Please create a reptile to view this page.");
+				res.redirect("monitoring/create_reptile");
+			}
+		})		
+	}
+}
+
+const monitorWithoutName = () => {
+	return (req, res) => {
+		console.log(req.path);
+		Reptile.find({owner_id: req.user._id}, (err, reptilesFound) => {
+			if (err) console.log(err);
+			if (reptilesFound) {
+				res.redirect(req.path+"/"+reptilesFound[0].name);
+			}
+			else {
+				req.flash('danger', "Please create a reptile to view this page.");
+				res.redirect("monitoring/create_reptile");
+			}
+		});
+	}
+}
 
 
-// Data Requests
-router.get('/cage/temperatures/:reptile_id', ensureAuthenticated, (req, res) => {
-	console.log("temperature request received.")
-	Reading.find({reptile_id: reptile_id}, (err, readings) => {
-		res.send(readings);
-	})
-})
+router.get('/info/:reptile_name', ensureAuthenticated, monitorWithName('infoPage'));
+router.get('/cage/:reptile_name', ensureAuthenticated, monitorWithName('cagePage'));
+router.get('/food/:reptile_name', ensureAuthenticated, monitorWithName('foodPage'));
 
-// Specific Monitoring Page Gets
-router.get('/info/:reptile_name',	ensureAuthenticated, monitoringDirect('/info/', 'infoPage'));
-router.get('/cage/:reptile_name',	ensureAuthenticated, monitoringDirect('/cage/', 'cagePage'));
-router.get('/food/:reptile_name', ensureAuthenticated, monitoringDirect('/food/', 'foodPage'));
-
-// Basic Redirects
-router.get('/info', ensureAuthenticated, monitoringRedirect('/info/'));
-router.get('/cage', ensureAuthenticated, monitoringRedirect('/cage/'));
-router.get('/food', ensureAuthenticated, monitoringRedirect('/food/'));
-
+// Redirect any non-specific monitoring page requests to the name-specific reptile monitoring page
+router.get('/info', ensureAuthenticated, monitorWithoutName);
+router.get('/cage', ensureAuthenticated, monitorWithoutName);
+router.get('/food', ensureAuthenticated,  monitorWithoutName);
 
 
 // Cage Page Post Request
@@ -215,5 +197,6 @@ function ensureAuthenticated(req, res, next) {
 		res.redirect('/profile/login');
 	}
 }
+
 
 module.exports = router;
