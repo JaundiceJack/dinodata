@@ -33,16 +33,16 @@ html(lang="en-US")
 						i.navButtonIcon.fas.fa-sign-in-alt
 						a.navButtonText.fancyText(href="/home") Home
 					if user
-						if reptile				
+						if selected				
 							li#infoPageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
 								i.navButtonIcon.fas.fa-dragon
-								a.navButtonText.fancyText(href="/monitoring/info/"+reptile.name) Info
+								a.navButtonText.fancyText(href="/monitoring/info/"+selected.name) Info
 							li#cagePageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
 								i.navButtonIcon.fas.fa-box
-								a.navButtonText.fancyText(href="/monitoring/cage/"+reptile.name) Cage
+								a.navButtonText.fancyText(href="/monitoring/cage/"+selected.name) Cage
 							li#foodPageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
 								i.navButtonIcon.fas.fa-utensils
-								a.navButtonText.fancyText(href="/monitoring/food/"+reptile.name) Food
+								a.navButtonText.fancyText(href="/monitoring/food/"+selected.name) Food
 						else
 							li#infoPageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
 								i.navButtonIcon.fas.fa-dragon

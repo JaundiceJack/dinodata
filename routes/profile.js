@@ -99,7 +99,7 @@ router.get('/login', (req, res) => {
 // Login Post Request
 router.post('/login', (req, res, next) => {
 	passport.authenticate('local', {
-		successRedirect: '/monitoring/info',
+		successRedirect: '/monitoring/cage',
 		failureRedirect: '/profile/login',
 		failureFlash: true
 	})(req, res, next);

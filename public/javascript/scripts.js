@@ -57,25 +57,41 @@ function loadGrowthChart(canvas, reptile_id) {
 	console.log('loaded growth chart');
 }
 
-function loadChart(chartID) {
-	let canvas = document.getElementById(chartID);
-	let reptile_id = canvas.getAttribute('data-id');
-	if (canvas) {
-		// Something like this
-		requestData(reptile_id, parseXML(response)).parseData(response).chartData(dataLabels);
-	}
-}
-
 function loadData(url, reptile_id, callback) {
 	let request = new XMLHttpRequest();
 	request.onreadystatechange = () => {
 		if (this.readyState === 4 && this.status === 200) {
-			console.log(this.responseText);
-			callback(this.responseXML);
+			const chartData = JSON.parse(this.responseText);
+			console.log(chartData);
+			callback(chartData);
 		}
 	}
 	request.open('GET', url+reptile_id, true);
 	request.send();
+}
+
+function loadChart(chartID) {
+	let canvas = document.getElementById(chartID);
+	if (canvas) {
+		let reptile_id = canvas.getAttribute('data-id');
+		let url = "/monitoring/";
+		url += chartID === 'growthChart' ? "info/" : "cage/";
+		loadData(url, reptile_id, () => {
+			// TODO I have to parse the data into arrays the chartjs can use
+			if (chartID === 'temperatureChart') {
+				//load temperatureChart
+				return;
+			}
+			else if (chartID === "humidityChart") {
+				// loadHumidityChart
+				return;
+			}
+			else {
+				// load growthChart
+				return;
+			}
+		});
+	}
 }
 
 function loadCharts() {

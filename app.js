@@ -78,8 +78,8 @@ app.get('*', (req, res, next) => {
 })
 
 // Route to the user pages
-let user = require('./routes/profile');
-app.use('/profile', user);
+let profile = require('./routes/profile');
+app.use('/profile', profile);
 // Route to the monitoring pages
 let monitoring = require('./routes/monitoring');
 app.use('/monitoring', monitoring);
