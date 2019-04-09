@@ -1,13 +1,10 @@
 // User's Reptile Choice Area
 div.reptileChoiceArea.borderA.gradientA
 	h2.fancyText.h2Size.textEffectA Select a Reptile to Monitor:
-	if selected
-		div#reptile_id.hidden(name="reptile_id", data-id=selected._id)
-	else
-		div#reptile_id.hidden(name="reptile_id", data-id="N/A")
+	div#reptile_id(name="reptile_id", data-id=selected._id)
 	ul.reptiSelectFlex.noBullets
 		// Make an icon for each reptile
-		if reptiles
+		if reptiles && selected
 			each reptile in reptiles
 				if reptile.name === selected.name
 					li.hoverItem.clickItem.tuchit.reptiOption.selectedReptile(id=reptile._id)

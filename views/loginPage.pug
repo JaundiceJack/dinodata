@@ -10,9 +10,9 @@ block content
 			br
 			form.startFlex(method="POST" action="/profile/login")
 				div.entryArea.borderC.entryColorC.mb-3
-					label.entryIcon.width-200.righted Username:
-					input.entryInput(type="text" name="username")
+					label.entryIcon.width-200.righted(for="username") Username:
+					input.entryInput(type="text" name="username" autofocus)
 				div.entryArea.borderC.entryColorC.mb-3
-					label.entryIcon.width-200.righted Password:
+					label.entryIcon.width-200.righted(for="password") Password:
 					input.entryInput(type="text" name="password")
 				input.buttonTypeA.fancyText.hoverItem.clickItem.p-3.mb-2(type="submit" value="Log In")

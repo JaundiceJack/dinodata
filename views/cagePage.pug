@@ -13,13 +13,13 @@ block content
 				p.standardText Select the reptile you want to track above, then enter the current enclosure conditions below.
 				p.standardText Once submitted, the data will be charted.
 				hr
-				form(action="/monitoring/cage" method="post").startFlex
+				form(action="/monitoring/cage/"+selected._id, method="post").startFlex
 					div.entryArea.borderC.solidColorB.mb-2
 						label.entryIcon Date
 						input.entryInput(type='date' name="date" min="2019-01-01") 
 					div.entryArea.borderC.entryColorA.mb-2
 						i.entryIcon.far.fa-snowflake
-						input.entryInput(type="text" name="coolSide" placeholder="Cool Side F°" required)
+						input.entryInput(type="text" name="coolSide" placeholder="Cool Side F°" required autofocus)
 					div.entryArea.borderC.entryColorB.mb-2
 						i.entryIcon.fab.fa-gripfire
 						input.entryInput(type="text" name="warmSide" placeholder="Warm Side F°" required)
@@ -29,6 +29,7 @@ block content
 					button(type="submit").submitButton.buttonTypeA.gradientB.hoverItem.clickItem.p-2
 						label Chart It
 						i.fas.fa-share.turn90.ml-1
+
 					br
 
 		// Enclosure Data Charts Area

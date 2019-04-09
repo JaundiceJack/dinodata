@@ -19,7 +19,8 @@ function grabPage(req, res, page, route, reptilesFound) {
 				res.render(page, {
 					selected: reptilesFound[i],
 					reptiles: reptilesFound,
-					routePath: route
+					routePath: route,
+					errors: req.errors
 				});
 			}
 		}
@@ -30,10 +31,9 @@ function grabPage(req, res, page, route, reptilesFound) {
 	};
 };
 
-const openPage = (page, route) => {
-	console.log("Opening page...");
+const openPage = (page, route) => {	
 	return (req, res) => {
-		console.log("boop");
+		console.log("Opening page...");
 		Reptile.find({owner_id: req.user._id}, (err, reptilesFound) => {
 			if (err) console.log(err);
 			if (reptilesFound) {
@@ -59,21 +59,64 @@ router.get('/info', ensureAuthenticated, openPage('infoPage', '/info/'));
 router.get('/cage', ensureAuthenticated, openPage('cagePage', '/cage/'));
 router.get('/food', ensureAuthenticated, openPage('foodPage', '/food/'));
 
+
+// This doesnt seem to work but it'd be nice to extract the data validation into separate middleware
+router.param('reptile_id', (req,res,next, reptile_id) => {
+	// Ensure the ID exists
+	if (reptile_id === "N/A") {
+		req.flash('Please select a reptile.');
+		res.redirect('back');
+	}
+	else{
+		req.reptile_id = reptile_id;
+		next();
+	}
+})
+
+// TODO: Errors are currently an unconnected to the request, I should set them to req.errors if i want to pass them to the next route
 // Cage Page Post Request
-router.post('/cage', ensureAuthenticated, (req, res) => {
+router.post('/cage/:reptile_id', ensureAuthenticated, (req, res) => {
 	// Grab entered enclosure readings
 	const date = req.body.date;
 	const warmSide = req.body.warmSide;
 	const coolSide = req.body.coolSide;
 	const humidity = req.body.humidity;
-	console.log('page data grabbed');
+	const reptile_id = req.params.reptile_id;
+
 	// Validate Entries
-	req.checkBody('coolSide', "Please enter the cool side's temperature.").notEmpty();
-	req.checkBody('warmSide', "Please enter the warm side's temperature.").notEmpty();
-	req.checkBody('humidity', "Please enter the humidity.").notEmpty();
 	req.checkBody('date', "Please enter a valid date. Or else.").isISO8601();
-	console.log('data validated');
+	req.checkBody('coolSide', "Please enter the cool side's temperature.").notEmpty();
+	req.checkBody('coolSide', "Please enter the cool side's temperature.").isFloat();
+	req.checkBody('warmSide', "Please enter the warm side's temperature.").notEmpty();
+	req.checkBody('warmSide', "Please enter the warm side's temperature.").isFloat();
+	req.checkBody('humidity', "Please enter the humidity.").notEmpty();
+	req.checkBody('humidity', "Please enter the humidity.").isFloat();
+
 	let errors = req.validationErrors();
+	req.errors = errors;
+	console.log(req.errors);
+	Reptile.findOne({_id: reptile_id, owner_id: req.user._id, }, (err, reptile) => {
+		if (!reptile) {
+			req.flash("The reptile you're attempting to update was not found.");
+			res.redirect(req.header('Referer'));
+		}
+		/* Find a way to pass errors into a redirect
+		else if (errors) {
+			req.errors = errors;
+			res.redirect('/monitoring/cage/'+reptile.name);
+		}
+		*/
+		else {
+			console.log('heya');
+		}
+	})
+	res.redirect(req.header('Referer'));
+
+	// I need to find either the reptile's ID or name, preferrably ID, so that I can update the reptile's readings
+
+
+	/*
+	
 	if (errors) {
 		//!! TODO rendering the page like this will leave reptiles empty. redirect with errors
 		console.log('errors were found in entered data');
@@ -100,7 +143,9 @@ router.post('/cage', ensureAuthenticated, (req, res) => {
 			else {
 				console.log('reading successfully saved, rerouting...');
 				req.flash('success', "Reading added.");
-				res.redirect('/monitoring/cage/'+currentID); }})}}
+				res.redirect('/monitoring/cage/'+currentID); }})}
+*/
+	}
 );
 
 // Create Reptile Get Request
