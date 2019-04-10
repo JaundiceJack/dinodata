@@ -60,6 +60,18 @@ router.get('/info', ensureAuthenticated, openPage('infoPage', '/info/'));
 router.get('/cage', ensureAuthenticated, openPage('cagePage', '/cage/'));
 router.get('/food', ensureAuthenticated, openPage('foodPage', '/food/'));
 
+router.get('/cage/temp/:reptile_id', ensureAuthenticated, (req, res) => {
+	Reading.find({reptile_id: req.params.reptile_id}, (err, readings) => {
+		if (err) console.log(err);
+		res.send(JSON.stringify(readings));
+	});
+});
+router.get('/cage/humi/:reptile_id', ensureAuthenticated, (req, res) => {
+	Reading.find({reptile_id: req.params.reptile_id}, (err, readings) => {
+		if (err) console.log(err);
+		res.send(JSON.stringify(readings));
+	});
+});
 
 // This doesnt seem to work but it'd be nice to extract the data validation into separate middleware
 router.param('reptile_id', (req,res,next, reptile_id) => {
