@@ -20,8 +20,9 @@ function grabPage(req, res, page, route, reptilesFound) {
 					selected: reptilesFound[i],
 					reptiles: reptilesFound,
 					routePath: route,
-					errors: req.errors
+					errors: req.session.errors
 				});
+				req.session.errors = null;
 			}
 		}
 	}
@@ -31,7 +32,7 @@ function grabPage(req, res, page, route, reptilesFound) {
 	};
 };
 
-const openPage = (page, route) => {	
+const openPage = (page, route) => {
 	return (req, res) => {
 		console.log("Opening page...");
 		Reptile.find({owner_id: req.user._id}, (err, reptilesFound) => {
@@ -76,7 +77,7 @@ router.param('reptile_id', (req,res,next, reptile_id) => {
 // TODO: Errors are currently an unconnected to the request, I should set them to req.errors if i want to pass them to the next route
 // Cage Page Post Request
 router.post('/cage/:reptile_id', ensureAuthenticated, (req, res) => {
-	// Grab entered enclosure readings
+	// Grab entered enclosure readings and the reptile ID
 	const date = req.body.date;
 	const warmSide = req.body.warmSide;
 	const coolSide = req.body.coolSide;
@@ -86,72 +87,56 @@ router.post('/cage/:reptile_id', ensureAuthenticated, (req, res) => {
 	// Validate Entries
 	req.checkBody('date', "Please enter a valid date. Or else.").isISO8601();
 	req.checkBody('coolSide', "Please enter the cool side's temperature.").notEmpty();
-	req.checkBody('coolSide', "Please enter the cool side's temperature.").isFloat();
+	req.checkBody('coolSide', "Please use numbers for the cool temperature.").isFloat();
 	req.checkBody('warmSide', "Please enter the warm side's temperature.").notEmpty();
-	req.checkBody('warmSide', "Please enter the warm side's temperature.").isFloat();
+	req.checkBody('warmSide', "Please use numbers for the warm temperature.").isFloat();
 	req.checkBody('humidity', "Please enter the humidity.").notEmpty();
-	req.checkBody('humidity', "Please enter the humidity.").isFloat();
-
+	req.checkBody('humidity', "Please use numbers for the humidity percentage.").isFloat();
+	// Get entry errors
 	let errors = req.validationErrors();
-	req.errors = errors;
-	console.log(req.errors);
+
+	//Grab the reptile
 	Reptile.findOne({_id: reptile_id, owner_id: req.user._id, }, (err, reptile) => {
+		if (err) console.log(err);
 		if (!reptile) {
 			req.flash("The reptile you're attempting to update was not found.");
 			res.redirect(req.header('Referer'));
 		}
-		/* Find a way to pass errors into a redirect
 		else if (errors) {
-			req.errors = errors;
+			req.session.errors = errors;
 			res.redirect('/monitoring/cage/'+reptile.name);
 		}
-		*/
+		// Generate a new reading for the reptile
 		else {
-			console.log('heya');
+			let newReading = new Reading({
+				reptile_id: reptile._id,
+				date: date,
+				warm: warmSide,
+				cool: coolSide,
+				humidity: humidity
+			});
+			newReading.save( (err) => {
+				if (err) {
+					console.log(err);
+					req.flash('Errors encountered while saving entries...');
+					res.redirect('/monitoring/cage/'+reptile.name);
+					return;
+ 				}
+				else {
+					req.flash('success', "Reading added.");
+					res.redirect('/monitoring/cage/'+reptile.name);
+				}
+			})
 		}
 	})
-	res.redirect(req.header('Referer'));
-
-	// I need to find either the reptile's ID or name, preferrably ID, so that I can update the reptile's readings
-
-
-	/*
-	
-	if (errors) {
-		//!! TODO rendering the page like this will leave reptiles empty. redirect with errors
-		console.log('errors were found in entered data');
-		res.render('cagePage', {
-			errors: errors })}
-	else {
-
-		//TODO Ill need to issue a query to the DB for the reptile by name,
-		//....OOORRR I could set the data-id of an element on the page to grab here
-		const currentID = req.body.reptile_id['data-id'];
-		let newReading = new Reading({
-			reptile_id: currentID,
-			date: date,
-			warm: warmSide,
-			cool: coolSide,
-			humidity: humidity })
-		console.log('new reading was created, saving...');
-		// Save the reptile to mongo
-		newReading.save( (err) => {
-			if (err) {
-				console.log('errors encountered while saving');
-				console.log(err);
-				return; }
-			else {
-				console.log('reading successfully saved, rerouting...');
-				req.flash('success', "Reading added.");
-				res.redirect('/monitoring/cage/'+currentID); }})}
-*/
-	}
-);
+});
 
 // Create Reptile Get Request
 router.get('/create_reptile', (req, res) => {
-	res.render('newReptilePage', {})}
-);
+	res.render('newReptilePage', {
+		errors: req.session.errors
+	})
+});
 
 // Capitalize first letter (for reptile name after successful addition)
 function capitalize(name) {
@@ -168,28 +153,33 @@ router.post('/create_reptile', (req, res) => {
 	const type = req.body.reptitype;
 	// Validate entries
 	req.checkBody('reptiname', 'Give the new reptile a name.').notEmpty();
+	req.checkBody('reptiname', 'Please only use letters for their name.').notAlpha();
 	// Check for input errors
 	let errors = req.validationErrors();
-	// If errors were found, rerender the page and display error messages
-	if (errors){
-		res.render('newReptilePage', {
-			errors: errors })}
-	// Create a new reptile if no errors were found
-	else{
+	if (errors) {
+		req.session.errors = errors;
+		res.redirect('/monitoring/create_reptile');
+	}
+	else {
 		let newReptile = new Reptile({
 			owner_id: req.user._id,
 			name: name,
-			type: type })
-		// Save the reptile to mongo
+			type: type
+		});
 		newReptile.save( (err) => {
 			if (err) {
 				console.log(err);
-				return; }
-			// Update the placeholder list with the new reptile and redirect
+				req.flash('Errors encountered while saving the new reptile...');
+				res.redirect('/monitoring/create_reptile');
+				return;
+			}
 			else {
 				req.flash('success', capitalize(newReptile.name)+" successfully added.");
-				res.redirect('/monitoring/info/'+newReptile.name); }})}}
-);
+				res.redirect('/monitoring/info/'+newReptile.name);
+			}
+		});
+	};
+});
 
 
 
