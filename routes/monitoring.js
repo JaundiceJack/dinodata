@@ -10,21 +10,18 @@ const Reading = require('../models/reading');
 
 
 function grabPage(req, res, page, route, reptilesFound) {
-	console.log("Grabbing page...");
 	if (req.params && req.params.reptile_name) {
-		console.log("URL parameter found...");
-		for (let i = 0; i < reptilesFound.length; i++ ) {
-			if (reptilesFound[i].name === req.params.reptile_name) {
-				console.log("Reptile found, rendering page...");
+		reptilesFound.forEach( (reptile) => {
+			if (reptile.name === req.params.reptile_name) {
 				res.render(page, {
-					selected: reptilesFound[i],
+					selected: reptile,
 					reptiles: reptilesFound,
 					routePath: route,
 					errors: req.session.errors
 				});
-				req.session.errors = null;
 			}
-		}
+		});
+		req.session.errors = null;
 	}
 	else {
 		console.log("URL parameter not found, directing to first reptile...");
@@ -34,15 +31,12 @@ function grabPage(req, res, page, route, reptilesFound) {
 
 const openPage = (page, route) => {
 	return (req, res) => {
-		console.log("Opening page...");
 		Reptile.find({owner_id: req.user._id}, (err, reptilesFound) => {
 			if (err) console.log(err);
 			if (reptilesFound) {
-				console.log("Reptiles found in DB");
 				grabPage(req, res, page, route, reptilesFound);
 			}
 			else {
-				console.log("Reptiles not found in DB");
 				req.flash('danger', "Please create a reptile.");
 				res.redirect('/monitoring/create_reptile');
 			}
@@ -61,16 +55,15 @@ router.get('/cage', ensureAuthenticated, openPage('cagePage', '/cage/'));
 router.get('/food', ensureAuthenticated, openPage('foodPage', '/food/'));
 
 router.get('/cage/temp/:reptile_id', ensureAuthenticated, (req, res) => {
-	Reading.find({reptile_id: req.params.reptile_id}, (err, readings) => {
+	Reading.find({reptile_id: req.params.reptile_id}).sort('date').exec( (err, readings) => {
 		if (err) console.log(err);
-		console.log(JSON.stringify(readings));
 		res.json(readings);
 	});
 });
 router.get('/cage/humi/:reptile_id', ensureAuthenticated, (req, res) => {
-	Reading.find({reptile_id: req.params.reptile_id}, (err, readings) => {
+	Reading.find({reptile_id: req.params.reptile_id}).sort('date').exec( (err, readings) => {
 		if (err) console.log(err);
-		res.send(readings);
+		res.json(readings);
 	});
 });
 
@@ -92,6 +85,7 @@ router.param('reptile_id', (req,res,next, reptile_id) => {
 router.post('/cage/:reptile_id', ensureAuthenticated, (req, res) => {
 	// Grab entered enclosure readings and the reptile ID
 	const date = req.body.date;
+	console.log(date);
 	const warmSide = req.body.warmSide;
 	const coolSide = req.body.coolSide;
 	const humidity = req.body.humidity;
@@ -166,7 +160,7 @@ router.post('/create_reptile', (req, res) => {
 	const type = req.body.reptitype;
 	// Validate entries
 	req.checkBody('reptiname', 'Give the new reptile a name.').notEmpty();
-	req.checkBody('reptiname', 'Please only use letters for their name.').notAlpha();
+	req.checkBody('reptiname', 'Please only use letters for their name.').isAlpha();
 	// Check for input errors
 	let errors = req.validationErrors();
 	if (errors) {

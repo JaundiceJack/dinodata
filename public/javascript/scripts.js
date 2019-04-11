@@ -4,10 +4,10 @@ function setDateInputsToToday() {
 	let dateControl = document.querySelector('input[type="date"]');
 	// If any were found, set them to today
 	if (dateControl != null) {
-		now = new Date();
+		const now = new Date();
 		const year = now.getFullYear();
 		const month = now.getMonth()+1 < 9 ? "0"+(now.getMonth()+1) : now.getMonth()+1;
-		const day = now.getDay() < 9 ? "0"+(now.getDay()) : now.getDay();
+		const day = now.getDate() < 9 ? "0"+(now.getDate()) : now.getDate();
 		const dateString = year+"-"+month+"-"+day;
 		dateControl.value = dateString;
 	}
@@ -50,8 +50,10 @@ function tempDataPoints(chartData) {
 	let coolData = [];
 	let warmData = [];
 	chartData.forEach( (datum) => {
-		let thisDate = new Date(datum.date);
-		let dateLabel = (thisDate.getMonth()+1) + "-" + thisDate.getDate();
+		let thisDate = new Date(datum.date.replace(/-/g, '\/').replace(/T.+/, ''));
+		let dateLabel = (thisDate.getMonth()+1).toString() + "-"
+		+ thisDate.getDate().toString() + "-"
+		+ thisDate.getFullYear().toString().substring(2);
 		dateLabels.push(dateLabel);
 		coolData.push(datum.cool);
 		warmData.push(datum.warm);
@@ -67,12 +69,15 @@ function tempDataPoints(chartData) {
 function humiDataPoints(chartData) {
 	let dateLabels = [];
 	let humiData = [];
-	for (let i = 0; i < chartData.length; i++) {
-		let thisDate = new Date(chartData[i].date);
-		let dateLabel = (thisDate.getMonth()+1) + "-" + thisDate.getDate();
+	chartData.forEach( (datum) => {
+		let thisDate = new Date(datum.date.replace(/-/g, '\/').replace(/T.+/, ''));
+		let dateLabel = (thisDate.getMonth()+1).toString() + "-"
+		+ thisDate.getDate().toString() + "-"
+		+ thisDate.getFullYear().toString().substring(2);
 		dateLabels.push(dateLabel);
-		humiData.push(chartData[i].humidity);
-	}
+		humiData.push(datum.humidity);
+	})
+
 	return {
 		dates: dateLabels,
 		humis: humiData
@@ -127,8 +132,6 @@ function loadChart(url, canvasID, parser, plotter) {
 		request.responseType = "json";
 		request.onreadystatechange = () => {
 			if (request.readyState == 4 && request.status == 200) {
-				console.log("Response was:");
-				console.log(request.response);
 				let chartData = request.response
 				plotter(chart, parser(chartData));
 			}
