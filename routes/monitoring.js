@@ -63,13 +63,14 @@ router.get('/food', ensureAuthenticated, openPage('foodPage', '/food/'));
 router.get('/cage/temp/:reptile_id', ensureAuthenticated, (req, res) => {
 	Reading.find({reptile_id: req.params.reptile_id}, (err, readings) => {
 		if (err) console.log(err);
-		res.send(JSON.stringify(readings));
+		console.log(JSON.stringify(readings));
+		res.json(readings);
 	});
 });
 router.get('/cage/humi/:reptile_id', ensureAuthenticated, (req, res) => {
 	Reading.find({reptile_id: req.params.reptile_id}, (err, readings) => {
 		if (err) console.log(err);
-		res.send(JSON.stringify(readings));
+		res.send(readings);
 	});
 });
 

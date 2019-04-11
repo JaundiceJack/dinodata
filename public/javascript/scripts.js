@@ -49,56 +49,68 @@ function tempDataPoints(chartData) {
 	let dateLabels = [];
 	let coolData = [];
 	let warmData = [];
-	for (let i = 0; i < chartData.length; i++) {
-		dateLabels.push(chartData[i].date)
-		coolData.push(chartData[i].cool);
-		warmData.push(chartData[i].warm);
-	}
-	return (dateLabels, coolData, warmData);
+	chartData.forEach( (datum) => {
+		let thisDate = new Date(datum.date);
+		let dateLabel = (thisDate.getMonth()+1) + "-" + thisDate.getDate();
+		dateLabels.push(dateLabel);
+		coolData.push(datum.cool);
+		warmData.push(datum.warm);
+	});
+
+	return {
+		dates: dateLabels,
+		cools: coolData,
+		warms: warmData
+	};
 }
 
 function humiDataPoints(chartData) {
 	let dateLabels = [];
 	let humiData = [];
 	for (let i = 0; i < chartData.length; i++) {
-		dateLabels.push(chartData[i].date)
+		let thisDate = new Date(chartData[i].date);
+		let dateLabel = (thisDate.getMonth()+1) + "-" + thisDate.getDate();
+		dateLabels.push(dateLabel);
 		humiData.push(chartData[i].humidity);
 	}
-	return (dateLabels, humiData);
+	return {
+		dates: dateLabels,
+		humis: humiData
+	};
 }
 
-function plotTempChart(chart, dates, cools, warms) {
+function plotTempChart(chart, labelObject) {
 	const coolSet = {
 		label: "Cool Temperatures",
-		data: cools,
-		backgroundColor: ['#EEEEEE'],
-		borderColor: ['#444444'],
+		data: labelObject.cools,
+		//backgroundColor: ['#001F3F'],
+		borderColor: ['#001F3F'],
 		borderWidth: 2
 	};
 	const warmSet = {
 		label: "Warm Temperatures",
-		data: warms,
-		backgroundColor: ['#EEEEEE'],
-		borderColor: ['#444444'],
+		data: labelObject.warms,
+		//backgroundColor: ['#FF0000'],
+		borderColor: ['#FF0000'],
 		borderWidth: 2
 	}
 
-	chart.data.labels.push(dateLabels);
+	chart.data.labels = labelObject.dates;
 	chart.data.datasets.push(coolSet);
-	chart.data.datasets.push(warmData);
+	chart.data.datasets.push(warmSet);
 	chart.update();
 }
 
-function plotHumiChart(chart, dates, humis) {
+function plotHumiChart(chart, labelObject) {
 	const humiSet = {
 		label: "Humidity",
-		data: humis,
-		backgroundColor: ['#EEEEEE'],
-		borderColor: ['#444444'],
+		data: labelObject.humis,
+		//backgroundColor: ['#EEEEEE'],
+		borderColor: ['#7FDBFF'],
 		borderWidth: 2		
 	}
 
-	chart.data.labels.push(dateLabels);
+	chart.data.labels = labelObject.dates;
 	chart.data.datasets.push(humiSet);
 	chart.update();
 }
@@ -112,18 +124,19 @@ function loadChart(url, canvasID, parser, plotter) {
 		let reptile_id = document.getElementById(canvasID).getAttribute('data-id');
 		let request = new XMLHttpRequest();
 		request.open('GET', url+reptile_id, true);
+		request.responseType = "json";
 		request.onreadystatechange = () => {
-			if (this.readyState == 4 && this.status == 200) {
-				// Once the data is sent, parse and plot the data onto the chart
-				const chartData = JSON.parse(this.responseText);
-				console.log(chartData);
-				console.log('dataempoy');
+			if (request.readyState == 4 && request.status == 200) {
+				console.log("Response was:");
+				console.log(request.response);
+				let chartData = request.response
 				plotter(chart, parser(chartData));
 			}
 		}
-		request.send();
+		request.send("");
 	}
 }
+
 
 window.onload = () => {
 	// Set date selectors to default to today.
