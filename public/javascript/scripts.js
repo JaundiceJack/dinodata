@@ -140,7 +140,6 @@ function loadChart(url, canvasID, parser, plotter) {
 	}
 }
 
-
 window.onload = () => {
 	// Set date selectors to default to today.
 	setDateInputsToToday();
