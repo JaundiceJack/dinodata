@@ -9,6 +9,15 @@ const Reptile = require('../models/reptile');
 const Reading = require('../models/reading');
 
 
+// Capitalize first letter (for reptile name mostly)
+function capitalize(name) {
+	let str = name.split(" ");
+	for (let i = 0; i < str.length; i++){
+		str[i] = str[i][0].toUpperCase() + str[i].substr(1); }
+	return str.join(" ");
+};
+
+// Render the given reptile's page
 function grabPage(req, res, page, route, reptilesFound) {
 	if (req.params && req.params.reptile_name) {
 		reptilesFound.forEach( (reptile) => {
@@ -29,6 +38,7 @@ function grabPage(req, res, page, route, reptilesFound) {
 	};
 };
 
+// Find the reptile in the DB and open it's page
 const openPage = (page, route) => {
 	return (req, res) => {
 		Reptile.find({owner_id: req.user._id}, (err, reptilesFound) => {
@@ -44,16 +54,17 @@ const openPage = (page, route) => {
 	}
 };
 
-
-
+// Reptile Specific Monitoring Routes
 router.get('/info/:reptile_name', ensureAuthenticated, openPage('infoPage', '/info/'));
 router.get('/cage/:reptile_name', ensureAuthenticated, openPage('cagePage', '/cage/'));
 router.get('/food/:reptile_name', ensureAuthenticated, openPage('foodPage', '/food/'));
 
+// Non-Specific Monitoring Routes (gets redirected to first reptile)
 router.get('/info', ensureAuthenticated, openPage('infoPage', '/info/'));
 router.get('/cage', ensureAuthenticated, openPage('cagePage', '/cage/'));
 router.get('/food', ensureAuthenticated, openPage('foodPage', '/food/'));
 
+// Cage Graph Data Requests
 router.get('/cage/temp/:reptile_id', ensureAuthenticated, (req, res) => {
 	Reading.find({reptile_id: req.params.reptile_id}).sort('date').exec( (err, readings) => {
 		if (err) console.log(err);
@@ -67,25 +78,10 @@ router.get('/cage/humi/:reptile_id', ensureAuthenticated, (req, res) => {
 	});
 });
 
-// This doesnt seem to work but it'd be nice to extract the data validation into separate middleware
-router.param('reptile_id', (req,res,next, reptile_id) => {
-	// Ensure the ID exists
-	if (reptile_id === "N/A") {
-		req.flash('Please select a reptile.');
-		res.redirect('back');
-	}
-	else{
-		req.reptile_id = reptile_id;
-		next();
-	}
-})
-
-// TODO: Errors are currently an unconnected to the request, I should set them to req.errors if i want to pass them to the next route
-// Cage Page Post Request
+// Cage Data Post Route
 router.post('/cage/:reptile_id', ensureAuthenticated, (req, res) => {
 	// Grab entered enclosure readings and the reptile ID
 	const date = req.body.date;
-	console.log(date);
 	const warmSide = req.body.warmSide;
 	const coolSide = req.body.coolSide;
 	const humidity = req.body.humidity;
@@ -102,7 +98,7 @@ router.post('/cage/:reptile_id', ensureAuthenticated, (req, res) => {
 	// Get entry errors
 	let errors = req.validationErrors();
 
-	//Grab the reptile
+	//Grab the reptile to make a reading for
 	Reptile.findOne({_id: reptile_id, owner_id: req.user._id, }, (err, reptile) => {
 		if (err) console.log(err);
 		if (!reptile) {
@@ -130,7 +126,7 @@ router.post('/cage/:reptile_id', ensureAuthenticated, (req, res) => {
 					return;
  				}
 				else {
-					req.flash('success', "Reading added.");
+					req.flash('success', "Reading for "+capitalize(reptile.name)+" added.");
 					res.redirect('/monitoring/cage/'+reptile.name);
 				}
 			})
@@ -138,29 +134,24 @@ router.post('/cage/:reptile_id', ensureAuthenticated, (req, res) => {
 	})
 });
 
-// Create Reptile Get Request
+// Reptile Creation Page Route
 router.get('/create_reptile', (req, res) => {
 	res.render('newReptilePage', {
 		errors: req.session.errors
 	})
+	req.session.errors = null;
 });
-
-// Capitalize first letter (for reptile name after successful addition)
-function capitalize(name) {
-	let str = name.split(" ");
-	for (let i = 0; i < str.length; i++){
-		str[i] = str[i][0].toUpperCase() + str[i].substr(1); }
-	return str.join(" ");
-}
-
-// Create Reptile Post Request
+// Reptile Creation Post Route
 router.post('/create_reptile', (req, res) => {
 	// Grab the entered info for a new reptile
 	const name = req.body.reptiname.toLowerCase().trim();
 	const type = req.body.reptitype;
+
 	// Validate entries
 	req.checkBody('reptiname', 'Give the new reptile a name.').notEmpty();
 	req.checkBody('reptiname', 'Please only use letters for their name.').isAlpha();
+	// TODO: Check that type is in the list of approved types
+
 	// Check for input errors
 	let errors = req.validationErrors();
 	if (errors) {
@@ -188,15 +179,15 @@ router.post('/create_reptile', (req, res) => {
 	};
 });
 
-
-
-// Prevent users from accessing the info pages until they've logged in
+// Prevent users from accessing the monitoring pages until they've logged in
 function ensureAuthenticated(req, res, next) {
 	if (req.isAuthenticated()) {
-		return next(); }
+		return next();
+	}
 	else{
 		req.flash('danger', "Please log in to view reptile information.");
-		res.redirect('/profile/login'); }
+		res.redirect('/profile/login');
+	}
 }
 
 

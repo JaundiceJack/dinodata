@@ -45,12 +45,14 @@ function createChart(canvasID) {
 	}
 }
 
+// Return the dates and temperature data in an object
 function tempDataPoints(chartData) {
 	let dateLabels = [];
 	let coolData = [];
 	let warmData = [];
 	chartData.forEach( (datum) => {
 		let thisDate = new Date(datum.date.replace(/-/g, '\/').replace(/T.+/, ''));
+		// Format the date to 'month-day-year'
 		let dateLabel = (thisDate.getMonth()+1).toString() + "-"
 		+ thisDate.getDate().toString() + "-"
 		+ thisDate.getFullYear().toString().substring(2);
@@ -66,11 +68,13 @@ function tempDataPoints(chartData) {
 	};
 }
 
+// Return the dates and humidity data in an object
 function humiDataPoints(chartData) {
 	let dateLabels = [];
 	let humiData = [];
 	chartData.forEach( (datum) => {
 		let thisDate = new Date(datum.date.replace(/-/g, '\/').replace(/T.+/, ''));
+		// Format the date to 'month-day-year'
 		let dateLabel = (thisDate.getMonth()+1).toString() + "-"
 		+ thisDate.getDate().toString() + "-"
 		+ thisDate.getFullYear().toString().substring(2);
@@ -84,6 +88,7 @@ function humiDataPoints(chartData) {
 	};
 }
 
+// Plot temperatures and update the chart
 function plotTempChart(chart, labelObject) {
 	const coolSet = {
 		label: "Cool Temperatures",
@@ -106,6 +111,7 @@ function plotTempChart(chart, labelObject) {
 	chart.update();
 }
 
+// Plot the humidity and update the chart
 function plotHumiChart(chart, labelObject) {
 	const humiSet = {
 		label: "Humidity",
@@ -120,7 +126,7 @@ function plotHumiChart(chart, labelObject) {
 	chart.update();
 }
 
-
+// Request data from the url and plot it on the given canvas
 function loadChart(url, canvasID, parser, plotter) {
 	// Grab the chart to plot
 	let chart = createChart(canvasID);
