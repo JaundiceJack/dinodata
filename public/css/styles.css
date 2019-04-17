@@ -112,18 +112,10 @@ html, body, main {
   padding: 10px 10px 30px 10px;
   align-items: start;
 }
-.measurementArea {
-  grid-area: measurements;
-}
-.healthArea {
-  grid-area: health;
-}
-.moodArea {
-  grid-area: mood;
-}
-.morphArea {
-  grid-area: morph;
-}
+.measurementArea { grid-area: measurements;}
+.healthArea {      grid-area: health;}
+.moodArea {        grid-area: mood;}
+.morphArea {       grid-area: morph;}
 
 /** Cage Page Layout **/
 .cagePageGrid {
@@ -139,6 +131,24 @@ html, body, main {
 .cageDataEntryArea {grid-area: cageDataEntry;}
 .tempChartArea {grid-area: temperatureChart;}
 .humidChartArea {grid-area: humidityChart;}
+
+/** Food Page Layout **/
+.foodPageGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: repeat(3, auto);
+  grid-template-areas:
+    "scheduling scheduling scheduling"
+    "foodEntry  foodEntry  waterEntry"
+    "foodChart  foodChart  foodChart";
+  grid-gap: 30px 30px;
+  padding: 10px 10px 30px 10px;
+  align-items: start;
+}
+.feedingScheduleArea { grid-area: scheduling; }
+.feedingEntryArea {    grid-area: foodEntry; }
+.waterEntryArea {      grid-area: waterEntry; }
+.feedingChartArea {    grid-area: foodChart; }
 
 /** General Content Grid (1 h3 and 1 div) **/
 .contentGrid {

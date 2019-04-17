@@ -2,9 +2,78 @@ extends default
 
 block content
 
-  // Include the reptile selections
-  include reptiSelect.pug
-  
-  div#foodPage.foodPageGrid
-    //This page will contain feeding schedules and history, as well as nutritional
-    //recomendations
+	// Include the reptile selections
+	include reptiSelect.pug
+
+	div#foodPage.foodPageGrid
+		// Feeding Schedule Info
+		div.feedingScheduleArea.contentGrid
+			h3.fancyText.h3Size.textEffectC.borderA.gradientC Scheduling
+			div.borderD.solidColorC.p-3
+				p Next Feeding:
+				p Previously Fed:
+				p Water Last Filled:
+
+		// Feeding Entry
+		div.feedingEntryArea.contentGrid
+			h3.fancyText.h3Size.textEffectC.borderA.gradientC Feeding
+			div.borderD.solidColorC.p-3
+				form(method="POST" action="/monitoring/food/fed/"+selected._id)
+					.form-row
+						.form-group.col-sm-6
+							.row
+								label.col-sm-2.col-form-label Date:
+								.col-sm-10
+									input.form-control(type="date")
+						.form-group.col-sm-6
+							.row
+								label.col-sm-2.col-form-label Weight:
+								.col-sm-10
+									input.form-control(type="text")
+					.form-row
+						.form-group.col-sm-6
+							.row
+								label.col-sm-3.col-form-label Category:
+								.col-sm-9
+									select.form-control
+										option Fruit
+										option Vegetable
+										option Insect
+										option Animal
+										option Egg
+										option Reptile Chow
+						fieldset.form-group.col-sm-6
+							.row
+								legend.col-sm-2.col-form-label Alive?
+								.col-sm-10
+									.form-check
+										input.form-check-input(type="radio")
+										label.form-check-label Yes
+									.form-check
+										input.form-check-input(type="radio" checked)
+										label.form-check-label No
+					.form-group.text-center
+						button.btn.btn-primary(type="submit") Reptile Fed
+
+		// Watering Entry				
+		div.waterEntryArea.contentGrid
+			h3.fancyText.h3Size.textEffectC.borderA.gradientC Water
+			div.borderD.solidColorC.p-3
+				form(method="POST" action="/monitoring/food/watered/"+selected._id)
+					.form-group.row
+						label.col-sm-2.col-form-label Date:
+						.col-sm-10
+							input.form-control(type="date")
+					.form-group.text-center
+						button.btn.btn-primary(type="submit") Water Filled
+
+		// Feeding Charts
+		div.feedingChartArea.contentGrid
+			h3.fancyText.h3Size.textEffectC.borderA.gradientC Diet & Portions
+			div.borderD.solidColorC.p-3
+				p Chart
+
+		// This page will contain feeding schedules and history, as well as nutritional recomendations
+		// Food types should be dropdowns based on the diet of the animal
+		// I'd like a feeding schedule and warning system.
+		// So that if its close to feeding time or past it, a dismissable warning will pop up thru the site.
