@@ -19,37 +19,32 @@ block content
 			h3.fancyText.h3Size.textEffectC.borderA.gradientC Feeding
 			div.borderD.solidColorC.p-3
 				form(method="POST" action="/monitoring/food/fed/"+selected._id)
-          div.col-sm-6
-            div.form-group
-              label.col-sm-2.col-form-label.text-right Date:
-              div.col-sm-10
-                input.form-control(type="date")
-            div.form-group
-              label.col-sm-2.col-form-label Weight:
-              div.col-sm-10
-                input.form-control(type="text")
-          div.col-sm-6
-            div.form-group
-              label.col-sm-3.col-form-label.text-right Category:
-              div.col-sm-9
-                select.form-control
-                  option Fruit
-                  option Vegetable
-                  option Insect
-                  option Animal
-                  option Egg
-                  option Reptile Chow
-            div.form-group
-              fieldset.form-row
-								legend.col-sm-2.col-form-label Alive?
-								div.col-sm-10
-									div.form-check
-										input.form-check-input(type="radio")
-										label.form-check-label Yes
-									div.form-check
-										input.form-check-input(type="radio" checked)
-										label.form-check-label No
-          div.form-group.text-center
+					div.formGrid2
+						div.form-group.form-row
+							label.col-sm-2.text-right Date:
+							input.col-sm-10.form-control(type="date")
+						div.form-group.form-row
+							label.col-sm-3.text-right Weight:
+							input.col-sm-9.form-control(type="text")
+						div.form-group.form-row
+							label.col-sm-3.text-right Category:
+							select.col-sm-9.form-control
+								option Fruit
+								option Vegetable
+								option Insect
+								option Animal
+								option Egg
+								option Reptile Chow
+						fieldset.form-group.form-row
+								label.col-sm-3.text-right Alive?
+								div.col-sm-9
+									div
+										input(type="radio")
+										label.ml-1 Yes
+									div
+										input(type="radio" checked)
+										label.ml-1 No
+					div.form-group.text-center
 						button.btn.btn-primary(type="submit") Reptile Fed  
 					
 

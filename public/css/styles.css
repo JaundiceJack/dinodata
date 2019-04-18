@@ -150,6 +150,18 @@ html, body, main {
 .waterEntryArea {      grid-area: waterEntry; }
 .feedingChartArea {    grid-area: foodChart; }
 
+
+/** **/
+.formGrid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 15px 20px;
+}
+.checkFlex {
+  display: flex;
+
+}
+
 /** General Content Grid (1 h3 and 1 div) **/
 .contentGrid {
   display: grid;
