@@ -17,25 +17,28 @@ function capitalize(name) {
 	return str.join(" ");
 };
 
+//req.query.name
+
 // Render the given reptile's page
 function grabPage(req, res, page, route, reptilesFound) {
-	if (req.params && req.params.reptile_name) {
-		reptilesFound.forEach( (reptile) => {
-			if (reptile.name === req.params.reptile_name) {
-				res.render(page, {
-					selected: reptile,
-					reptiles: reptilesFound,
-					routePath: route,
-					errors: req.session.errors
-				});
-			}
-		});
-		req.session.errors = null;
-	}
-	else {
+	if (!req.params.hasOwnProperty('reptile_name')) {
 		console.log("URL parameter not found, directing to first reptile...");
 		res.redirect('/monitoring/cage/'+reptilesFound[0].name);
-	};
+	}
+	reptilesFound.forEach( (reptile) => {
+		if (req.hasOwnProperty('params') &&
+				req['params'].hasOwnProperty('reptile_name') &&
+				reptile.name === req.params.reptile_name) {
+			res.render(page, {
+				selected: reptile,
+				reptiles: reptilesFound,
+				routePath: route,
+				errors: req.session.errors
+			});
+			req.session.errors = null;
+		}
+	});
+
 };
 
 // Find the reptile in the DB and open it's page
