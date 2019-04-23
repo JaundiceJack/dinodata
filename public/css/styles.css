@@ -28,8 +28,13 @@ html, body, main {
   margin: 0 auto;
 }
 
-
-
+/* Sizing of input-group-prepend was off, this fixed it */
+.input-group {
+  align-self: flex-start;
+}
+.input-group-text {
+  background: linear-gradient(0deg, #e9ecef, #e9ecef, #DDD, #e9ecef) !important;
+}
 /**********************************/
 /* Desktop Layouts (Grids/Flexes) */
 /**********************************/
@@ -152,14 +157,24 @@ html, body, main {
 
 
 /** **/
-.formGrid2 {
+.checkFlex {
+  display: flex;
+}
+
+.grid-1col {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 15px 20px;
+}
+.grid-2col {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 15px 20px;
 }
-.checkFlex {
-  display: flex;
-
+.grid-3col {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 15px 20px;
 }
 
 /** General Content Grid (1 h3 and 1 div) **/

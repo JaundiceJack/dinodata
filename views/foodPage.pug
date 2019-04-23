@@ -10,41 +10,69 @@ block content
 		div.feedingScheduleArea.contentGrid
 			h3.fancyText.h3Size.textEffectC.borderA.gradientC Scheduling
 			div.borderD.solidColorC.p-3
-				p Next Feeding:
-				p Previously Fed:
-				p Water Last Filled:
+				p.p-2 Schedule their next feeding here.
+				hr
+				div.grid-2col
+					div.input-group
+						div.input-group-prepend
+							label.input-group-text Next Feeding:
+						input.form-control.disabled(type="date")
+					div.grid-1col
+						div.input-group
+							div.input-group-prepend
+								label.input-group-text Previously Fed:
+							input.form-control(type="date")
+						div.input-group
+							div.input-group-prepend
+								label.input-group-text Water Last Filled:
+							input.form-control(type="date")
 
 		// Feeding Entry
 		div.feedingEntryArea.contentGrid
 			h3.fancyText.h3Size.textEffectC.borderA.gradientC Feeding
 			div.borderD.solidColorC.p-3
+				p.p-2 Enter the food item's info here to record your reptiles' diet.
+				hr
 				form(method="POST" action="/monitoring/food/fed/"+selected._id)
-					div.formGrid2
-						div.form-group.form-row
-							label.col-sm-2.text-right Date:
-							input.col-sm-10.form-control(type="date")
-						div.form-group.form-row
-							label.col-sm-3.text-right Weight:
-							input.col-sm-9.form-control(type="text")
-						div.form-group.form-row
-							label.col-sm-3.text-right Category:
-							select.col-sm-9.form-control
+					div.grid-2col
+						// Date Entry
+						div.input-group
+							div.input-group-prepend
+								label.input-group-text Date:
+							input.form-control(type="date")
+						// Weight Entry
+						div.input-group
+							div.input-group-prepend
+								label.input-group-text Weight:
+							input.form-control(type="text")
+						// Category Entry
+						div.input-group
+							div.input-group-prepend
+								label.input-group-text Category:
+							select.form-control
 								option Fruit
 								option Vegetable
 								option Insect
 								option Animal
 								option Egg
 								option Reptile Chow
-						fieldset.form-group.form-row
-								label.col-sm-3.text-right Alive?
-								div.col-sm-9
-									div
-										input(type="radio")
-										label.ml-1 Yes
-									div
-										input(type="radio" checked)
-										label.ml-1 No
-					div.form-group.text-center
+						// Food Kind Entry
+						div.input-group
+							div.input-group-prepend
+								label.input-group-text Species/Kind:
+							input.form-control(type="text")
+						// Living Entry
+						fieldset.input-group
+							div.input-group-prepend
+								label.input-group-text Alive?
+							div.form-control
+								
+								input(type="radio")
+								label.ml-1.mr-4 Yes
+								
+								input(type="radio" checked)
+								label.ml-1 No
+					div.form-group.text-center.pt-3
 						button.btn.btn-primary(type="submit") Reptile Fed  
 					
 
@@ -52,12 +80,14 @@ block content
 		div.waterEntryArea.contentGrid
 			h3.fancyText.h3Size.textEffectC.borderA.gradientC Water
 			div.borderD.solidColorC.p-3
+				p.p-2 Record when their water was replaced.
+				hr
 				form(method="POST" action="/monitoring/food/watered/"+selected._id)
-					div.form-group.row
-						label.col-sm-2.col-form-label Date:
-						div.col-sm-10
-							input.form-control(type="date")
-					div.form-group.text-center
+					div.input-group
+						div.input-group-prepend
+							label.input-group-text Date:
+						input.form-control(type="date")
+					div.form-group.text-center.pt-3
 						button.btn.btn-primary(type="submit") Water Filled
 
 		// Feeding Charts

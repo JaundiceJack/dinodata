@@ -15,6 +15,15 @@ const reptileSchema = mongoose.Schema({
 	type: {
 		type: String,
 		required: true
+	},
+	feeding_day: {
+		type: Date
+	},
+	last_fed: {
+		type: Date
+	},
+	last_watered: {
+		type: Date
 	}
 })
 

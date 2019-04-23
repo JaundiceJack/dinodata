@@ -1,15 +1,17 @@
 // Set all date inputs on the page to the current date
 function setDateInputsToToday() {
 	// Grab any date inputs
-	let dateControl = document.querySelector('input[type="date"]');
+	let dateControl = document.querySelectorAll('input[type="date"]');
 	// If any were found, set them to today
-	if (dateControl != null) {
-		const now = new Date();
-		const year = now.getFullYear();
-		const month = now.getMonth()+1 < 9 ? "0"+(now.getMonth()+1) : now.getMonth()+1;
-		const day = now.getDate() < 9 ? "0"+(now.getDate()) : now.getDate();
-		const dateString = year+"-"+month+"-"+day;
-		dateControl.value = dateString;
+	if (dateControl) {
+		dateControl.forEach( (dateInput) => {
+			const now = new Date();
+			const year = now.getFullYear();
+			const month = now.getMonth()+1 < 9 ? "0"+(now.getMonth()+1) : now.getMonth()+1;
+			const day = now.getDate() < 9 ? "0"+(now.getDate()) : now.getDate();
+			const dateString = year+"-"+month+"-"+day;
+			dateInput.value = dateString;
+		});
 	}
 	// Otherwise ignore
 	else {
