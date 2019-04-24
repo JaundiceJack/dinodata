@@ -29,16 +29,17 @@ function grabPage(req, res, page, route, reptilesFound) {
 		if (req.hasOwnProperty('params') &&
 				req['params'].hasOwnProperty('reptile_name') &&
 				reptile.name === req.params.reptile_name) {
+			let errors = req.session.errors;
+			req.session.errors = null;
 			res.render(page, {
 				selected: reptile,
 				reptiles: reptilesFound,
 				routePath: route,
-				errors: req.session.errors
+				errors: errors
 			});
-			req.session.errors = null;
 		}
 	});
-
+	
 };
 
 // Find the reptile in the DB and open it's page

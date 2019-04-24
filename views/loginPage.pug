@@ -5,14 +5,16 @@ block content
 	div.contentGrid.p-3
 		h3.fancyText.h3Size.textEffectC.borderA.gradientC Login:
 		div.borderD.solidColorC.p-3
-			p.standardText Enter your username and password to login.
+			p.p-2 Enter your username and password to login.
 			hr
-			br
-			form.startFlex(method="POST" action="/profile/login")
-				div.entryArea.borderC.entryColorC.mb-3
-					label.entryIcon.width-200.righted(for="username") Username:
-					input.entryInput(type="text" name="username" autofocus)
-				div.entryArea.borderC.entryColorC.mb-3
-					label.entryIcon.width-200.righted(for="password") Password:
-					input.entryInput(type="text" name="password")
-				input.buttonTypeA.fancyText.hoverItem.clickItem.p-3.mb-2(type="submit" value="Log In")
+			form(method="POST" action="/profile/login")
+				div.grid-1col.mb-3
+					div.input-group
+						div.input-group-prepend
+							span.input-group-text Username:
+						input.form-control(type="text", name="username", autofocus)
+					div.input-group
+						div.input-group-prepend
+							span.input-group-text Password:
+						input.form-control(type="text", name="password")
+				input.btn.btn-primary(type="submit" value="Log In")

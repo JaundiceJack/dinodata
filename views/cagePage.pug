@@ -10,23 +10,32 @@ block content
 		div.cageDataEntryArea.contentGrid
 			h3.fancyText.h3Size.textEffectC.borderA.gradientC Enter Enclosure Conditions:
 			div.borderD.solidColorC.p-3
-				p.standardText Select the reptile you want to track above, then enter the current enclosure conditions below.
-				p.standardText Once submitted, the data will be charted.
+				p Select the reptile you want to track above, then enter the current enclosure conditions below.
+				p Once submitted, the data will be charted.
 				hr
-				form(action="/monitoring/cage/"+selected._id, method="post").startFlex
-					div.entryArea.borderC.solidColorB.mb-2
-						label.entryIcon Date
-						input.entryInput(type='date' name="date" min="2019-01-01") 
-					div.entryArea.borderC.entryColorA.mb-2
-						i.entryIcon.far.fa-snowflake
-						input.entryInput(type="text" name="coolSide" placeholder="Cool Side F°" required autofocus)
-					div.entryArea.borderC.entryColorB.mb-2
-						i.entryIcon.fab.fa-gripfire
-						input.entryInput(type="text" name="warmSide" placeholder="Warm Side F°" required)
-					div.entryArea.borderC.entryColorC.mb-2
-						i.entryIcon.fas.fa-cloud
-						input.entryInput(type="text" name="humidity" placeholder="Humidity %" required)
-					button(type="submit").submitButton.buttonTypeA.gradientB.hoverItem.clickItem.p-2
+				form(action="/monitoring/cage/"+selected._id, method="post")
+					div.grid-3col
+						div.input-group.mb-3
+							div.input-group-prepend
+								span.input-group-text  Date:
+							input.form-control(type="date", name="date", min="2019-01-01")
+					div.grid-3col.mb-3
+						div.input-group
+							div.input-group-prepend
+								span.input-group-text
+									i.far.fa-snowflake
+							input.form-control(type="text", name="coolSide", placeholder="Cool Side F°", required, autofocus)
+						div.input-group
+							div.input-group-prepend
+								span.input-group-text
+									i.fab.fa-gripfire
+							input.form-control(type="text", name="warmSide", placeholder="Warm Side F°", required)
+						div.input-group
+							div.input-group-prepend
+								span.input-group-text
+									i.fas.fa-cloud
+							input.form-control(type="text", name="humidity", placeholder="Humidity %", required)
+					button(type="submit").btn.btn-primary
 						label Chart It
 						i.fas.fa-share.turn90.ml-1
 

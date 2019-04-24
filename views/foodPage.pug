@@ -12,20 +12,21 @@ block content
 			div.borderD.solidColorC.p-3
 				p.p-2 Schedule their next feeding here.
 				hr
-				div.grid-2col
+				div.grid-3col
 					div.input-group
 						div.input-group-prepend
-							label.input-group-text Next Feeding:
-						input.form-control.disabled(type="date")
-					div.grid-1col
-						div.input-group
-							div.input-group-prepend
-								label.input-group-text Previously Fed:
-							input.form-control(type="date")
-						div.input-group
-							div.input-group-prepend
-								label.input-group-text Water Last Filled:
-							input.form-control(type="date")
+							span.input-group-text Next Feeding:
+						input.form-control(type="date", disabled)
+						div.input-group-append
+							button.btn.btn-outline-secondary Edit
+					div.input-group
+						div.input-group-prepend
+							span.input-group-text Previously Fed:
+						p.form-control N/A
+					div.input-group
+						div.input-group-prepend
+							span.input-group-text Water Last Filled:
+						p.form-control N/A
 
 		// Feeding Entry
 		div.feedingEntryArea.contentGrid
@@ -38,33 +39,33 @@ block content
 						// Date Entry
 						div.input-group
 							div.input-group-prepend
-								label.input-group-text Date:
+								span.input-group-text Date:
 							input.form-control(type="date")
 						// Weight Entry
 						div.input-group
 							div.input-group-prepend
-								label.input-group-text Weight:
+								span.input-group-text Weight:
 							input.form-control(type="text")
 						// Category Entry
 						div.input-group
 							div.input-group-prepend
-								label.input-group-text Category:
-							select.form-control
-								option Fruit
-								option Vegetable
-								option Insect
-								option Animal
-								option Egg
-								option Reptile Chow
+								span.input-group-text Category:
+							select.form-control.custom-select
+								option(value="fruit") Fruit
+								option(value="vegetable") Vegetable
+								option(value="insect") Insect
+								option(value="animal") Animal
+								option(value="egg") Egg
+								option(value="chow") Reptile Chow
 						// Food Kind Entry
 						div.input-group
 							div.input-group-prepend
-								label.input-group-text Species/Kind:
+								span.input-group-text Species/Kind:
 							input.form-control(type="text")
 						// Living Entry
 						fieldset.input-group
 							div.input-group-prepend
-								label.input-group-text Alive?
+								span.input-group-text Alive?
 							div.form-control
 								
 								input(type="radio")

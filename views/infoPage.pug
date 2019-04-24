@@ -14,29 +14,37 @@ block content
       div.borderD.solidColorC.medEvenPad
         p.standardText To keep track of #{nameOfSelected}'s growth, take measurements each month and enter them here.
         hr
-        form.startFlex.medBotMarg(method="post" action="info/measurements")
-          div.entryArea.borderC.entryColorC.mb-2
-            label.fancyText.entryIcon.width-75.righted Age:
-            input.entryInput.hidden(type="text" placeholder="Enter their weight here,")
-            p.entryInput.basicText.solidColorC #{ageOfSelected}
-            button.entryButton.clickItem.hoverItem(onclick="") Edit
+        form.mb-4(method="post" action="info/measurements")
+          div.grid-1col.mb-3
+            div.input-group
+              div.input-group-prepend
+                span.input-group-text Age:
+              input.form-control(type="text", name="age", disabled)
+              div.input-group-append
+                button.btn.btn-outline-secondary Edit
 
-          div.entryArea.borderC.entryColorC.mb-2
-            label.fancyText.entryIcon.width-75.righted Weight:
-            input.entryInput(type="text" placeholder="Enter their weight here,")
-            button.entryButton.clickItem.hoverItem(onclick="") kg
+            div.input-group
+              div.input-group-prepend
+                span.input-group-text Weight:
+              input.form-control(type="text", name="weight")
+              div.input-group-append
+                button.btn.btn-outline-secondary in kg
 
-          div.entryArea.borderC.entryColorC.mb-2
-            label.fancyText.entryIcon.width-75.righted Length:
-            input.entryInput(type="text" placeholder="length here,")
-            button.entryButton.clickItem.hoverItem(onclick="") cm
+            div.input-group
+              div.input-group-prepend
+                span.input-group-text Length:
+              input.form-control(type="text", name="length")
+              div.input-group-append
+                button.btn.btn-outline-secondary in cm
 
-          div.entryArea.borderC.entryColorC.mb-3
-            label.fancyText.entryIcon.width-75.righted Girth:
-            input.entryInput(type="text" placeholder="and their girth here.")
-            button.entryButton.clickItem.hoverItem(onclick="") cm
+            div.input-group
+              div.input-group-prepend
+                span.input-group-text Girth:
+              input.form-control(type="text", name="girth")
+              div.input-group-append
+                button.btn.btn-outline-secondary in cm
 
-          button.buttonTypeA.gradientB.hoverItem.clickItem.p-2.mb-2(type="submit")
+          button.btn.btn-primary(type="submit")
               label.fancyText Chart It
               i.fas.fa-share.turn90.ml-1
         div.borderA
@@ -49,63 +57,78 @@ block content
           p.standardText Save veterinary and health information
           hr
           div.mb-2.p-2
-            label.fancyText Veterinary Info
+            span.badge.badge-pill.badge-secondary.p-2 Veterinary Info
             form#vetForm.p-2
-              p#vetEditInstructions.hidden Editing Vet Info...
-              div.entryArea.borderC.entryColorB.mb-2
-                label.basicText.entryIcon.width-150.righted Preferred Vet:
-                input.entryInput.hidden(type="text")
-                p.entryInput.basicText.solidColorC The Dragon Doctor
-                button.entryButton.clickItem.hoverItem(onclick="editVet()") Edit
-              div.entryArea.borderC.entryColorB.mb-2
-                label.basicText.entryIcon.width-150.righted Next Vist:
-                input.entryInput.hidden(type="text")
-                p.entryInput.basicText.solidColorC N/A
-              div.entryArea.borderC.entryColorB.mb-2  
-                label.basicText.entryIcon.width-150.righted Previous Visit:
-                input.entryInput.hidden(type="text")
-                p.entryInput.basicText.solidColorC N/A
-              div.entryArea.borderC.entryColorB.mb-2  
-                label.basicText.entryIcon.width-150.righted Phone #:
-                input.entryInput.hidden(type="text")
-                p.entryInput.basicText.solidColorC 406-333-4444
-              div.entryArea.borderC.entryColorB.mb-2  
-                label.basicText.entryIcon.width-150.righted Email:
-                input.entryInput.hidden(type="text")
-                p.entryInput.basicText.solidColorC ryuuisha@dd.party
-              div.entryArea.borderC.entryColorB.mb-2
-                label.basicText.entryIcon.width-150.righted Address:
-                input.entryInput.hidden(type="text")
-                p.entryInput.basicText.solidColorC 333 Broadway Ave. Missoula MT, 59801
+              div.grid-1col
+                div.input-group
+                  div.input-group-prepend
+                    span.input-group-text Preferred Vet:
+                  input.form-control(type="text", placeholder="The Dragon Doctor", disabled)
+                  div.input-group-append
+                    button.btn.btn-outline-secondary(onclick="") Edit
+                
+                div.input-group
+                  div.input-group-prepend
+                    span.input-group-text Next Visit:
+                  input.form-control(type="date", placeholder="N/A", disabled)
+
+                div.input-group
+                  div.input-group-prepend
+                    span.input-group-text Previous Visit:
+                  input.form-control(type="date", placeholder="N/A", disabled)
+                
+                div.input-group
+                  div.input-group-prepend
+                    span.input-group-text Phone #:
+                  input.form-control(type="text", placeholder="406-333-444", disabled)
+               
+                div.input-group
+                  div.input-group-prepend
+                    span.input-group-text Email:
+                  input.form-control(type="text", placeholder="ryuuisha@dd.party", disabled)
+
+                div.input-group
+                  div.input-group-prepend
+                    span.input-group-text Address:
+                  input.form-control(type="text", placeholder="333 Broadway Ave. Missoula MT, 59801", disabled)
+              
           div.p-2
-            label.fancyText Pathology
+            span.badge.badge-pill.badge-secondary.p-2 Pathology
             form.p-2
-              div.entryArea.borderC.entryColorB.mb-2
-                label.basicText.entryIcon.width-200.righted Current Illness:
-                input.entryInput.hidden(type="text")
-                p.entryInput.basicText.solidColorC N/A
-                button.entryButton.clickItem.hoverItem(onclick="") Edit
-              div.entryArea.borderC.entryColorB
-                label.basicText.entryIcon.width-200.righted Previous Illnesses:
-                input.entryInput.hidden(type="text")
-                p.entryInput.basicText.solidColorC N/A
+              div.grid-1col
+                div.input-group
+                  div.input-group-prepend
+                    span.input-group-text Current Illness:
+                  input.form-control(type="text", placeholder="N/A", disabled)
+                  div.input-group-append
+                    button.btn.btn-outline-secondary(onclick="") Edit
+
+                div.input-group
+                    div.input-group-prepend
+                      span.input-group-text Previous Illnesses:
+                    input.form-control(type="text", placeholder="N/A", disabled)
+                    div.input-group-append
+                      button.btn.btn-outline-secondary(onclick="") Edit
 
     // Morph
     div.morphArea.contentGrid
       h3.fancyText.h3Size.textEffectC.borderA.gradientC Morph
       div.borderD.solidColorC.medEvenPad
         p.standardText Here you can store the pattern and colors on your reptile(s).
-        hr  
-        div.entryArea.borderC.entryColorA
-          p.entryIcon.width-min.basicText #{nameOfSelected}'s morph:
-          select.entryInput
+        hr
+        div.input-group.mb-3
+          div.input-group-prepend
+            span.input-group-text #{selected.name}'s morph:
+          select.custom-select
             option(value="Blue Eyed Leucistic") Blue Eyed Leucistic
+            option(value="Mojave") Mojave
+        
         div.startFlex.medBotMarg
-          p.standardText(style="align-self: flex-end") #{nameOfSelected}'s morph colors:
+          p.standardText(style="align-self: flex-end") #{selected.name}'s morph colors:
           div#selectedColors.startFlex
             
         
-        button#colorToggle.buttonTypeA.gradientB.hoverItem.clickItem.p-2.mb-2(onclick="toggle('colorToggle', 'colorOptions')") Show Colors
+        button#colorToggle.btn.btn-primary(onclick="toggle('colorToggle', 'colorOptions')") Show Colors
           i.fas.fa-angle-right.turn90(style="margin-left: 5px")
         div#colorOptions.hidden
           p.standardText Choose your reptile's morph colors below:
@@ -116,20 +139,24 @@ block content
     div.moodArea.contentGrid
       h3.fancyText.h3Size.textEffectC.borderA.gradientC Mood
       div.borderD.solidColorC.medEvenPad
-        p.standardText Some reptiles can be a bit moody. Track their handling and how they tend to react here.
+        p Some reptiles can be a bit moody. Track their handling and how they tend to react here.
         hr
         form.p-2
-          div.entryArea.borderC.entryColorB.mb-2
-            label.basicText.entryIcon.width-200.righted Last handled:
-            input.entryInput.hidden(type="text")
-            p.entryInput.basicText.solidColorC N/A
-            button.entryButton.clickItem.hoverItem(onclick="") Edit
-          div.entryArea.borderC.entryColorB
-            label.basicText.entryIcon.width-200.righted #{nameOfSelected}'s mood':
-            select.entryInput.basicText.solidColorC(type="text")
-              option(value="Non-Stressed/Happy") Non-Stressed/Happy
-              option(value="A bit stressed") A bit stressed
-              option(value="Very stressed (will bite)") Very stressed (will bite)
+          div.grid-1col
+            div.input-group
+              div.input-group-prepend
+                span.input-group-text Last handled:
+              input.form-control(type="date", placeholder="N/A", disabled)
+              div.input-group-append
+                button.btn.btn-outline-secondary(onclick="") Edit
+
+            div.input-group
+              div.input-group-prepend
+                span.input-group-text #{selected.name}'s mood:
+              select.custom-select
+                option(value="Non-Stressed/Happy") Non-Stressed/Happy
+                option(value="A bit stressed") A bit stressed
+                option(value="Very stressed (will bite)") Very stressed (will bite)
                 
     // Bring in the scripts for this page
     script(src="/javascript/infoScripts.js")
