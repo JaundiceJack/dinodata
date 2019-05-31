@@ -8,12 +8,15 @@ block content
     div.borderD.solidColorC.p-3
       p.standardText Add a new reptile to monitor.
       hr
-      form.startFlex(method="POST" action="/monitoring/create_reptile")
-        div.entryArea.borderC.entryColorC.mb-3
-          label.entryIcon.width-200.righted Name:
-          input.entryInput(type="text" name="reptiname")
-        div.entryArea.borderC.entryColorC.mb-4
-          label.entryIcon.width-200.righted Reptile type:
-          select.entryInput(name="reptitype")
-            include reptiOptions.pug
+      form(method="POST" action="/monitoring/create_reptile")
+        div.grid-1col.mb-3
+          div.input-group
+            div.input-group-prepend
+              span.input-group-text Name:
+            input.form-control(type="text" name="reptiname" autofocus)
+          div.input-group
+            div.input-group-prepend
+              span.input-group-text Reptile Type:
+            select.form-control.custom-select(name="reptitype")
+              include reptiOptions.pug
         input.buttonTypeA.fancyText.hoverItem.clickItem.p-2.mb-2(type="submit" value="Add Reptile")
