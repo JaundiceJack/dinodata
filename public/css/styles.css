@@ -70,19 +70,30 @@ html, body, main {
 /** Header Layout **/
 .headerGrid {
   display: grid;
-  grid-template-columns: auto 1fr auto auto;
+  grid-template-columns: auto 1fr 400px;
   grid-template-rows: auto;
   grid-template-areas:
-    "logo . login signup";
+    "logo . login";
   padding: 10px;
 }
 .siteLogo {grid-area: logo;}
-.loginButton {grid-area: login;}
-.logoutButton {grid-area: signup;}
-.signUpButton {
-  grid-area: signup;
-  margin-left: 10px;
+.logoutButton {grid-area: login; width: 100px; height: 40px; justify-self: right;}
+
+/* */
+.loginLayout {
+  grid-area: login;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  grid-gap: 10px 20px;
+  grid-template-areas: 
+  "usernameInput loginButton"
+  "passwordInput signupButton";
 }
+.usernameInput { grid-area: usernameInput; }
+.passwordInput { grid-area: passwordInput; }
+.loginButton { grid-area: loginButton; }
+.signupButton { grid-area: signupButton; }
 
 /** Home Page Layout **/
 .homePageGrid {
