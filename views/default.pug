@@ -15,35 +15,36 @@ html(lang="en-US")
 	body
 		main.siteGrid
 			// Header
-			header.header.headerGrid.headerGradient.borderE.topEdgeBorder
-				// Logo
-				h1.siteLogo Reptile Lifestyle
-				//Only show login/signup when no user logged in
-				if user
-					a.btn.btn-danger.logoutButton(href="/profile/logout") Log Out
-				else
-					// I'm on the home page rework branch
-					// I'd like to change the login so that the inputs appear in the header.
-					// I'm thinking a 2x2 grid with the username and password inputs in the first column
-					// and the login and signup buttons in the second
-					// For the Logo, I'd like to complicate it a bit and have it
-					// condense to the nav-button size and double as a home button
-					// Right now my layout css is more extensive than I'd like, I have few templates
-					form.loginLayout(method="POST" action="/profile/login")
-						div.input-group.usernameInput
-							div.input-group-prepend
-								span.input-group-text Username:
-							input.form-control(type='text' name='username')
-						div.input-group.passwordInput
-							div.input-group-prepend
-								span.input-group-text Password:
-							input.form-control(type='text' name='password')
-						input.btn.btn-primary.loginButton(type='submit' value="Log In")
-						input.btn.btn-secondary.signupButton(type='button' value="Sign Up")
-					// Login In Button
-						a.headerButton.loginButton.width-75.fancyText.borderB.gradientB.hoverItem.clickItem(href="/profile/login") Log In
-					// Sign Up Button
-						a.headerButton.signUpButton.width-75.fancyText.borderB.gradientB.hoverItem.clickItem(href="/profile/create_user") Sign Up
+			header.header.headerGrid
+				// Logo/Home
+				div.logo.gradientA
+					a(href="/home") Reptile<br>Lifestyle
+				div.login.gradientA
+					// Note: upon scrolling down, condense the login and logos to button-sized links
+					// NOTE: it may be helpful to put the header in it's own file as an include. Getting back into this is a bit frustrating
+					//Only show login/signup when no user logged in
+					if user
+						a.btn.btn-danger.logoutButton(href="/profile/logout") Log Out
+					else
+						// I'm on the home page rework branch
+						// I'd like to change the login so that the inputs appear in the header.
+						// I'm thinking a 2x2 grid with the username and password inputs in the first column
+						// and the login and signup buttons in the second
+						// For the Logo, I'd like to complicate it a bit and have it
+						// condense to the nav-button size and double as a home button
+						// Right now my layout css is more extensive than I'd like, I have few templates
+						form.loginLayout(method="POST" action="/profile/login")
+							div.input-group.usernameInput
+								div.input-group-prepend
+									span.input-group-text.width-100 Username:
+								input.form-control(type='text' name='username')
+							div.input-group.passwordInput
+								div.input-group-prepend.text-right
+									span.input-group-text.width-100 Password:
+								input.form-control(type='text' name='password')
+							input.btn.btn-primary.loginButton(type='submit' value="Log In")
+							input.btn.btn-secondary.signupButton(type='button' value="Sign Up")
+					
 			// Left Navigation
 			nav.navi
 				ul.navList.noBullets

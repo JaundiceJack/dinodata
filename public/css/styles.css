@@ -74,14 +74,13 @@ html, body, main {
   grid-template-rows: auto;
   grid-template-areas:
     "logo . login";
-  padding: 10px;
 }
-.siteLogo {grid-area: logo;}
+.logo {grid-area: logo;}
+.login {grid-area: login; padding: 5px;}
 .logoutButton {grid-area: login; width: 100px; height: 40px; justify-self: right;}
 
 /* */
 .loginLayout {
-  grid-area: login;
   display: grid;
   grid-template-columns: auto auto;
   grid-template-rows: auto auto;
@@ -314,16 +313,31 @@ html, body, main {
   border-color: #D6E9C6;
 }
 /* Website Logo */
-.siteLogo {
-  background: linear-gradient(0deg, var(--darkD), var(--darkD), var(--darkB), var(--darkD));
+.logo {
+  text-align: center;
+  border-radius: 0 0 5px 5px;
+  border-width: 0 1px 1px 2px;
+  border-style: ridge;
+  border-color: var(--darkA);
+  padding: 5px 20px;
+}
+.logo a {
+  font-size: 24px;
   font-family: 'Righteous';
   color: var(--primaryA);
   text-decoration: underline var(--primaryB);
   text-shadow: -1px 2px 1px var(--primaryB);
-  border-radius: 5px 20px;
-  border: 1px ridge var(--darkA);
-  padding: 10px 20px 5px 20px;
-  pointer-events: none;
+}
+.logo a:visited {
+  color: var(--primaryA);
+}
+
+.login {
+  border-style: solid;
+  border-width: 0px 1px 1px 2px;
+  border-radius: 0 0 5px 5px;
+  border-color: var(--darkA);
+  box-shadow: 1px 1px 2px 1px var(--darkC);
 }
 
 /* Home Page Banner */
