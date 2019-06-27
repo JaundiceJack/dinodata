@@ -26,13 +26,6 @@ html(lang="en-US")
 					if user
 						a.btn.btn-danger.logoutButton(href="/profile/logout") Log Out
 					else
-						// I'm on the home page rework branch
-						// I'd like to change the login so that the inputs appear in the header.
-						// I'm thinking a 2x2 grid with the username and password inputs in the first column
-						// and the login and signup buttons in the second
-						// For the Logo, I'd like to complicate it a bit and have it
-						// condense to the nav-button size and double as a home button
-						// Right now my layout css is more extensive than I'd like, I have few templates
 						form.loginLayout(method="POST" action="/profile/login")
 							div.input-group.usernameInput
 								div.input-group-prepend

@@ -25,19 +25,26 @@ html, body, main {
   width: 1300px; /* Desktop Resolution */
   min-height: 100vh;
   background: var(--darkD);
-  margin: 0 auto;
+  margin: 0 auto; /* Center the page */
 }
 
+/**********************************/
+/* Bootstrap Edits                */
+/**********************************/
 /* Sizing of input-group-prepend was off, this fixed it */
-.input-group {
-  align-self: flex-start;
-}
-.input-group-text {
-  background: linear-gradient(0deg, #e9ecef, #e9ecef, #DDD, #e9ecef) !important;
-}
+.input-group { align-self: flex-start; }
+.input-group-text { background: linear-gradient(0deg, #e9ecef, #e9ecef, #DDD, #e9ecef) !important; }
+
 /**********************************/
 /* Desktop Layouts (Grids/Flexes) */
 /**********************************/
+
+/* Note: You have a different grid for each page of information,
+ It would be better to have 2-3 templates that page items can fall into rather than plotting out each individually.
+ This would improve readability by having a set format for most information.
+ Don't start typing, draw out what layouts you'd like to use first.
+ List the info and charts all pages will have and break them down into groupable parts. */
+
 /** Website's General Layout **/
 .siteGrid {
   display: grid;
