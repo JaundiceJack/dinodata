@@ -50,21 +50,14 @@ html, body, main {
   display: grid;
   grid-gap: 15px 15px;
   /* TODO: make the footer row auto once it has stuff in it */
-  grid-template-rows: auto 1fr 50px;
-  grid-template-columns: 75px 1fr;
+  grid-template-rows: 100px 1fr 50px;
+  grid-template-columns: 1fr;
   grid-template-areas:
-    "header header"
-    "nav    page  "
-    "footer footer";
+    "header"
+    "page"
+    "footer";
 }
-.header {
-  grid-area: header;
-  margin: 0 5px;
-}
-.navi {
-  grid-area: nav;
-  margin-left: 10px;
-}
+
 .page {
   grid-area: page;
   margin-right: 10px;
@@ -76,13 +69,15 @@ html, body, main {
 
 /** Header Layout **/
 .headerGrid {
+  grid-area: header;
   display: grid;
   grid-template-columns: auto 1fr 400px;
   grid-template-rows: auto;
   grid-template-areas:
-    "logo . login";
+    "logo nav login";
 }
 .logo {grid-area: logo;}
+.navi {grid-area: nav;}
 .login {grid-area: login; padding: 5px;}
 .logoutButton {grid-area: login; width: 100px; height: 40px; justify-self: right;}
 
@@ -173,7 +168,7 @@ html, body, main {
 .feedingChartArea {    grid-area: foodChart; }
 
 
-/** **/
+/** ew, what is this **/
 .checkFlex {
   display: flex;
 }
@@ -319,13 +314,23 @@ html, body, main {
   background-color: #DFF0D8;
   border-color: #D6E9C6;
 }
-/* Website Logo */
-.logo {
-  text-align: center;
+
+
+/************************/
+/** Header Item Styles **/
+/************************/
+.header {
+  grid-area: header;
+  margin: 0 5px;
   border-radius: 0 0 5px 5px;
   border-width: 0 1px 1px 2px;
   border-style: ridge;
   border-color: var(--darkA);
+  background: linear-gradient(90deg, var(--darkB), var(--lightA));
+}
+/* Website Logo */
+.logo {
+  text-align: center;
   padding: 5px 20px;
 }
 .logo a {
@@ -338,13 +343,42 @@ html, body, main {
 .logo a:visited {
   color: var(--primaryA);
 }
-
-.login {
-  border-style: solid;
-  border-width: 0px 1px 1px 2px;
+/* Navigation */
+.navList {
+  list-style-type: none;
+  display: flex;
+  height: 100%;
+}
+.navList .navButton {
+  height: 100%;
+  width: 100px;
+  margin: 0 1px 0 0;
+  text-align: center;
   border-radius: 0 0 5px 5px;
-  border-color: var(--darkA);
-  box-shadow: 1px 1px 2px 1px var(--darkC);
+  background: var(--lightB);
+  
+}
+.navButtonText {
+  /* Hide the button text while not hovered */
+  width: 100%;
+  height: 100%;
+  text-decoration: none !important;
+  padding-top: 13px;
+  color: #222 !important;
+  font-weight: bold;
+  text-shadow: 1px 1px 5px #DDD;
+}
+.navButtonIcon {
+}
+.navButton:hover {
+  /* Grow the navButton to show text */
+  font-size: 110%;
+  transition: 0.2s;
+  background: radial-gradient(var(--lightB), var(--darkB));
+}
+/* Login */
+.login {
+
 }
 
 /* Home Page Banner */
@@ -358,54 +392,7 @@ html, body, main {
 }
 
 /* Nav Buttons */
-.navList {
-  /* Keep the nav in view on scrolling down */
-  position: sticky;
-  top: 10px;
-}
-.navButtonText {
-  /* Hide the button text while not hovered */
-  display: none;
-  width: 100%;
-  height: 100%;
-  text-decoration: none !important;
-  padding-top: 13px;
-  color: #222 !important;
-  font-weight: bold;
-  text-shadow: 1px 1px 5px #DDD;
-}
-.navButtonIcon {
-  padding-top: 13px;
-}
-.activePageButton {
-  text-align: center;
-  font-size: 110%;
-  width: 75px;
-  padding: 12px 0;
-  margin: 0 0 10px 0;
-}
-.activePageButton .navButtonIcon {display: none;}
-.activePageButton .navButtonText {display: block;}
-.navButton {
-  text-align: center;
-  height: 50px;
-  width: 50px;
-}
-.navButton:hover {
-  /* Grow the navButton to show text */
-  font-size: 110%;
-  transition: 0.2s;
-  width: 75px;
-  background: radial-gradient(var(--lightB), var(--darkB));
-}
-.navButton:hover .navButtonText {
-  /* Show the button text while hovered */
-  display: block;
-}
-.navButton:hover .navButtonIcon {
-  /* Hide the button icon while hovered */
-  display: none;
-}
+
 
 /* Buttons */
 .submitButton {

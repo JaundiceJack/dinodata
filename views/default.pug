@@ -17,9 +17,37 @@ html(lang="en-US")
 			// Header
 			header.header.headerGrid
 				// Logo/Home
-				div.logo.gradientA
+				div.logo
 					a(href="/home") Reptile<br>Lifestyle
-				div.login.gradientA
+				// Navigation
+				nav.navi
+					ul.navList
+						li#homePageButton.navButton
+							i.navButtonIcon.fas.fa-sign-in-alt
+							a.navButtonText.fancyText(href="/home") Home
+						if user
+							if selected				
+								li#infoPageButton.navButton
+									i.navButtonIcon.fas.fa-dragon
+									a.navButtonText.fancyText(href="/monitoring/info/"+selected.name) Info
+								li#cagePageButton.navButton
+									i.navButtonIcon.fas.fa-box
+									a.navButtonText.fancyText(href="/monitoring/cage/"+selected.name) Cage
+								li#foodPageButton.navButton
+									i.navButtonIcon.fas.fa-utensils
+									a.navButtonText.fancyText(href="/monitoring/food/"+selected.name) Food
+							else
+								li#infoPageButton.navButton
+									i.navButtonIcon.fas.fa-dragon
+									a.navButtonText.fancyText(href="/monitoring/info") Info
+								li#cagePageButton.navButton
+									i.navButtonIcon.fas.fa-box
+									a.navButtonText.fancyText(href="/monitoring/cage") Cage
+								li#foodPageButton.navButton
+									i.navButtonIcon.fas.fa-utensils
+									a.navButtonText.fancyText(href="/monitoring/food") Food
+
+				div.login
 					// Note: upon scrolling down, condense the login and logos to button-sized links
 					// NOTE: it may be helpful to put the header in it's own file as an include. Getting back into this is a bit frustrating
 					//Only show login/signup when no user logged in
@@ -38,33 +66,6 @@ html(lang="en-US")
 							input.btn.btn-primary.loginButton(type='submit' value="Log In")
 							input.btn.btn-secondary.signupButton(type='button' value="Sign Up")
 					
-			// Left Navigation
-			nav.navi
-				ul.navList.noBullets
-					li#homePageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
-						i.navButtonIcon.fas.fa-sign-in-alt
-						a.navButtonText.fancyText(href="/home") Home
-					if user
-						if selected				
-							li#infoPageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
-								i.navButtonIcon.fas.fa-dragon
-								a.navButtonText.fancyText(href="/monitoring/info/"+selected.name) Info
-							li#cagePageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
-								i.navButtonIcon.fas.fa-box
-								a.navButtonText.fancyText(href="/monitoring/cage/"+selected.name) Cage
-							li#foodPageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
-								i.navButtonIcon.fas.fa-utensils
-								a.navButtonText.fancyText(href="/monitoring/food/"+selected.name) Food
-						else
-							li#infoPageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
-								i.navButtonIcon.fas.fa-dragon
-								a.navButtonText.fancyText(href="/monitoring/info") Info
-							li#cagePageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
-								i.navButtonIcon.fas.fa-box
-								a.navButtonText.fancyText(href="/monitoring/cage") Cage
-							li#foodPageButton.navButton.smBotMarg.borderB.gradientB.innerShadow
-								i.navButtonIcon.fas.fa-utensils
-								a.navButtonText.fancyText(href="/monitoring/food") Food
 
 			// Page Content
 			section.page.borderE.solidColorB
