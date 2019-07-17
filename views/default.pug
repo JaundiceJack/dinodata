@@ -14,42 +14,44 @@ html(lang="en-US")
 		
 	body
 		main.siteGrid
-			// Header
-			header.header.headerGrid
-				// Logo/Home
-				div.logo
-					a(href="/home") Reptile<br>Lifestyle
-				// Navigation
-				nav.navi
-					ul.navList
-						li#homePageButton.navButton
+			// Navigation
+			nav.navbar.navbar-default.justify-content-start
+				div.navbar-header
+					a.navbar-brand(href="/home") Reptile<br>Lifestyle
+				ul.nav.navbar-right.flex-grow-1
+					li.nav-item
+						a.nav-link(href="/home")
 							i.navButtonIcon.fas.fa-sign-in-alt
-							a.navButtonText.fancyText(href="/home") Home
-						if user
-							if selected				
-								li#infoPageButton.navButton
+							p.navButtonText Home
+					if user
+						if selected				
+							li.nav-item
+								a.nav-link(href="/monitoring/info/"+selected.name)
 									i.navButtonIcon.fas.fa-dragon
-									a.navButtonText.fancyText(href="/monitoring/info/"+selected.name) Info
-								li#cagePageButton.navButton
+									p.navButtonText Info
+							li.nav-item
+								a.nav-link(href="/monitoring/cage/"+selected.name)
 									i.navButtonIcon.fas.fa-box
-									a.navButtonText.fancyText(href="/monitoring/cage/"+selected.name) Cage
-								li#foodPageButton.navButton
+									p.navButtonText Cage
+							li.nav-item
+								a.nav-link(href="/monitoring/food/"+selected.name)
 									i.navButtonIcon.fas.fa-utensils
-									a.navButtonText.fancyText(href="/monitoring/food/"+selected.name) Food
-							else
-								li#infoPageButton.navButton
+									p.navButtonText Food
+						else
+							li.nav-item
+								a.nav-link(href="/monitoring/info")
 									i.navButtonIcon.fas.fa-dragon
-									a.navButtonText.fancyText(href="/monitoring/info") Info
-								li#cagePageButton.navButton
+									p.navButtonText Info
+							li.nav-item
+								a.nav-link(href="/monitoring/cage")
 									i.navButtonIcon.fas.fa-box
-									a.navButtonText.fancyText(href="/monitoring/cage") Cage
-								li#foodPageButton.navButton
+									p.navButtonText Cage
+							li.nav-item
+								a.nav-link(href="/monitoring/food")
 									i.navButtonIcon.fas.fa-utensils
-									a.navButtonText.fancyText(href="/monitoring/food") Food
+									p.navButtonText Food
 
 				div.login
-					// Note: upon scrolling down, condense the login and logos to button-sized links
-					// NOTE: it may be helpful to put the header in it's own file as an include. Getting back into this is a bit frustrating
 					//Only show login/signup when no user logged in
 					if user
 						a.btn.btn-danger.logoutButton(href="/profile/logout") Log Out
@@ -65,10 +67,10 @@ html(lang="en-US")
 								input.form-control(type='text' name='password')
 							input.btn.btn-primary.loginButton(type='submit' value="Log In")
 							input.btn.btn-secondary.signupButton(type='button' value="Sign Up")
-					
+				
 
 			// Page Content
-			section.page.borderE.solidColorB
+			section.page
 				// Display event messages
 				!= messages('message', locals)
 				if errors
@@ -80,7 +82,7 @@ html(lang="en-US")
 					p PAGE NOT FOUND 
 
 			// Footer
-			footer.footer.footerGradient.borderE.bottomEdgeBorder
+			footer.footerGradient.borderE.bottomEdgeBorder
 				a.aboutLink
 				a.gitLink
 				a.personalLink

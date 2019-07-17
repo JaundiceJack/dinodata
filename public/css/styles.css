@@ -34,6 +34,20 @@ html, body, main {
 /* Sizing of input-group-prepend was off, this fixed it */
 .input-group { align-self: flex-start; }
 .input-group-text { background: linear-gradient(0deg, #e9ecef, #e9ecef, #DDD, #e9ecef) !important; }
+/* Overwrite default bootstrap alert styles */
+.alert-error {
+  color: #A94442;
+  background-color: #F2DEDE;
+  border-color: #EBCCD1;
+}
+.alert-success_msg {
+  color: #3C763D;
+  background-color: #DFF0D8;
+  border-color: #D6E9C6;
+}
+/* Bootstrap messin with mah labels */
+label { margin: 0 !important; }
+
 
 /**********************************/
 /* Desktop Layouts (Grids/Flexes) */
@@ -53,33 +67,19 @@ html, body, main {
   grid-template-rows: 100px 1fr 50px;
   grid-template-columns: 1fr;
   grid-template-areas:
-    "header"
+    "navigation"
     "page"
     "footer";
 }
-
+nav {grid-area: navigation;}
 .page {
   grid-area: page;
   margin-right: 10px;
 }
-.footer {
+footer {
   grid-area: footer;
   margin: 0 5px;
 }
-
-/** Header Layout **/
-.headerGrid {
-  grid-area: header;
-  display: grid;
-  grid-template-columns: auto 1fr 400px;
-  grid-template-rows: auto;
-  grid-template-areas:
-    "logo nav login";
-}
-.logo {grid-area: logo;}
-.navi {grid-area: nav;}
-.login {grid-area: login; padding: 5px;}
-.logoutButton {grid-area: login; width: 100px; height: 40px; justify-self: right;}
 
 /* */
 .loginLayout {
@@ -299,96 +299,53 @@ html, body, main {
 }
 
 
-
-/************************/
-/* Item Specific Styles */
-/************************/
-/* Overwrite default bootstrap alert styles */
-.alert-error {
-  color: #A94442;
-  background-color: #F2DEDE;
-  border-color: #EBCCD1;
-}
-.alert-success_msg {
-  color: #3C763D;
-  background-color: #DFF0D8;
-  border-color: #D6E9C6;
-}
-
-
-/************************/
-/** Header Item Styles **/
-/************************/
-.header {
-  grid-area: header;
-  margin: 0 5px;
-  border-radius: 0 0 5px 5px;
-  border-width: 0 1px 1px 2px;
-  border-style: ridge;
+/* Encasing navbar */
+.navbar {
+  position: sticky !important;
+  top: 0;
+  z-index: 1;
+  padding: 0 !important;
   border-color: var(--darkA);
-  background: linear-gradient(90deg, var(--darkB), var(--lightA));
+  border-style: ridge;
+  border-width: 0 2px 2px 3px;
+  border-radius: 0 0 2px 2px;
+  background: linear-gradient(0deg, #666, #444);
 }
+
 /* Website Logo */
-.logo {
-  text-align: center;
-  padding: 5px 20px;
+.navbar-header {
+  height: 100%;
+  padding: 10px;
 }
-.logo a {
-  font-size: 24px;
-  font-family: 'Righteous';
-  color: var(--primaryA);
-  text-decoration: underline var(--primaryB);
-  text-shadow: -1px 2px 1px var(--primaryB);
-}
-.logo a:visited {
-  color: var(--primaryA);
-}
+.navbar-brand {}
+
 /* Navigation */
-.navList {
-  list-style-type: none;
-  display: flex;
+.nav {
   height: 100%;
 }
-.navList .navButton {
-  height: 100%;
+.nav-item {
   width: 100px;
-  margin: 0 1px 0 0;
+  border-radius: 0 0 10px 10px;
+}
+.nav-item:hover {
+  background: linear-gradient(0deg, #555, #333);
+}
+.nav-link {
   text-align: center;
-  border-radius: 0 0 5px 5px;
-  background: var(--lightB);
-  
+  height: 100%;
 }
 .navButtonText {
-  /* Hide the button text while not hovered */
-  width: 100%;
-  height: 100%;
-  text-decoration: none !important;
-  padding-top: 13px;
-  color: #222 !important;
-  font-weight: bold;
-  text-shadow: 1px 1px 5px #DDD;
+  color: #222;
+  font-family: 'Righteous', Arial, Verdana;
 }
 .navButtonIcon {
-}
-.navButton:hover {
-  /* Grow the navButton to show text */
-  font-size: 110%;
-  transition: 0.2s;
-  background: radial-gradient(var(--lightB), var(--darkB));
-}
-/* Login */
-.login {
-
+  color: #222;
 }
 
 /* Home Page Banner */
 .heroShot {
-  object-fit: cover;
-  object-position: 0 -50px;
   width: 100%;
   height: 100%;
-  border: 2px ridge var(--darkB);
-  border-radius: 2px;
 }
 
 /* Nav Buttons */
@@ -400,10 +357,7 @@ html, body, main {
   white-space: nowrap;
   vertical-align: middle;
 }
-/* Bootstrap messin with mah labels */
-label {
-  margin: 0 !important;
-}
+
 .headerButton {
   padding-top: 22px;
   text-decoration: none !important;
