@@ -16,57 +16,58 @@ html(lang="en-US")
 		main.siteGrid
 			// Navigation
 			nav.navbar.navbar-default.justify-content-start
-				div.navbar-header
-					a.navbar-brand(href="/home") Reptile<br>Lifestyle
-				ul.nav.navbar-right.flex-grow-1
-					li.nav-item
-						a.nav-link(href="/home")
-							i.navButtonIcon.fas.fa-sign-in-alt
-							p.navButtonText Home
-					if user
-						if selected				
-							li.nav-item
-								a.nav-link(href="/monitoring/info/"+selected.name)
-									i.navButtonIcon.fas.fa-dragon
-									p.navButtonText Info
-							li.nav-item
-								a.nav-link(href="/monitoring/cage/"+selected.name)
-									i.navButtonIcon.fas.fa-box
-									p.navButtonText Cage
-							li.nav-item
-								a.nav-link(href="/monitoring/food/"+selected.name)
-									i.navButtonIcon.fas.fa-utensils
-									p.navButtonText Food
-						else
-							li.nav-item
-								a.nav-link(href="/monitoring/info")
-									i.navButtonIcon.fas.fa-dragon
-									p.navButtonText Info
-							li.nav-item
-								a.nav-link(href="/monitoring/cage")
-									i.navButtonIcon.fas.fa-box
-									p.navButtonText Cage
-							li.nav-item
-								a.nav-link(href="/monitoring/food")
-									i.navButtonIcon.fas.fa-utensils
-									p.navButtonText Food
+				div.container-fluid.h-100
+					div.navbar-header.m-1
+						a.navbar-brand.m-0.p-2(href="/home") Reptile<br>Lifestyle
+					ul.nav.navbar-right.flex-grow-1
+						li.nav-item
+							a.nav-link(href="/home")
+								i.navButtonIcon.fas.fa-sign-in-alt
+								p.navButtonText Home
+						if user
+							if selected				
+								li.nav-item
+									a.nav-link(href="/monitoring/info/"+selected.name)
+										i.navButtonIcon.fas.fa-dragon
+										p.navButtonText Info
+								li.nav-item
+									a.nav-link(href="/monitoring/cage/"+selected.name)
+										i.navButtonIcon.fas.fa-box
+										p.navButtonText Cage
+								li.nav-item
+									a.nav-link(href="/monitoring/food/"+selected.name)
+										i.navButtonIcon.fas.fa-utensils
+										p.navButtonText Food
+							else
+								li.nav-item
+									a.nav-link(href="/monitoring/info")
+										i.navButtonIcon.fas.fa-dragon
+										p.navButtonText Info
+								li.nav-item
+									a.nav-link(href="/monitoring/cage")
+										i.navButtonIcon.fas.fa-box
+										p.navButtonText Cage
+								li.nav-item
+									a.nav-link(href="/monitoring/food")
+										i.navButtonIcon.fas.fa-utensils
+										p.navButtonText Food
 
-				div.login
-					//Only show login/signup when no user logged in
-					if user
-						a.btn.btn-danger.logoutButton(href="/profile/logout") Log Out
-					else
-						form.loginLayout(method="POST" action="/profile/login")
-							div.input-group.usernameInput
-								div.input-group-prepend
-									span.input-group-text.width-100 Username:
-								input.form-control(type='text' name='username')
-							div.input-group.passwordInput
-								div.input-group-prepend.text-right
-									span.input-group-text.width-100 Password:
-								input.form-control(type='text' name='password')
-							input.btn.btn-primary.loginButton(type='submit' value="Log In")
-							input.btn.btn-secondary.signupButton(type='button' value="Sign Up")
+					div.login
+						//Only show login/signup when no user logged in
+						if user
+							a.btn.btn-danger.logoutButton(href="/profile/logout") Log Out
+						else
+							form.loginLayout(method="POST" action="/profile/login")
+								div.input-group.usernameInput
+									div.input-group-prepend
+										span.input-group-text.width-100 Username:
+									input.form-control(type='text' name='username')
+								div.input-group.passwordInput
+									div.input-group-prepend.text-right
+										span.input-group-text.width-100 Password:
+									input.form-control(type='text' name='password')
+								input.btn.btn-primary.loginButton(type='submit' value="Log In")
+								input.btn.btn-secondary.signupButton(type='button' value="Sign Up")
 				
 
 			// Page Content

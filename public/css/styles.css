@@ -308,16 +308,26 @@ footer {
   border-color: var(--darkA);
   border-style: ridge;
   border-width: 0 2px 2px 3px;
-  border-radius: 0 0 2px 2px;
+  border-radius: 0 0 5px 5px;
   background: linear-gradient(0deg, #666, #444);
 }
 
 /* Website Logo */
 .navbar-header {
-  height: 100%;
-  padding: 10px;
+  background: linear-gradient(90deg, #ffefae, #fffcec);
+  border-radius: 40% 50% 50% 40%;
+  text-align: center;
+  height: 75px;
+  box-shadow: -2px -5px 10px #222 inset;
 }
-.navbar-brand {}
+.navbar-brand {
+  text-decoration: none;
+  font-family: 'Righteous', Arial, Verdana;
+  font-size: 25px !important;
+  color: var(--primaryA);
+  line-height: 24px !important;
+  text-shadow: 1px 1px 5px var(--primaryB);
+}
 
 /* Navigation */
 .nav {
@@ -326,9 +336,11 @@ footer {
 .nav-item {
   width: 100px;
   border-radius: 0 0 10px 10px;
+  background: linear-gradient(0deg, #555, #333);
+  margin: 0 2px;
 }
 .nav-item:hover {
-  background: linear-gradient(0deg, #555, #333);
+  background: radial-gradient(#555, #333);
 }
 .nav-link {
   text-align: center;
