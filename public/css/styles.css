@@ -305,46 +305,60 @@ footer {
   top: 0;
   z-index: 1;
   padding: 0 !important;
-  border-color: var(--darkA);
-  border-style: ridge;
-  border-width: 0 2px 2px 3px;
-  border-radius: 0 0 5px 5px;
-  background: linear-gradient(0deg, #666, #444);
+  border-color: var(--lightD);
+  border-style: inset;
+  border-width: 0 2px 2px 2px;
+  border-radius: 0 0 3px 3px;
+  background: linear-gradient(270deg, var(--lightB), var(--darkB));
 }
 
 /* Website Logo */
 .navbar-header {
-  background: linear-gradient(90deg, #ffefae, #fffcec);
+  background: linear-gradient(90deg, #ffdffe, #fffcec);
   border-radius: 40% 50% 50% 40%;
   text-align: center;
   height: 75px;
   box-shadow: -2px -5px 10px #222 inset;
+
 }
 .navbar-brand {
   text-decoration: none;
   font-family: 'Righteous', Arial, Verdana;
   font-size: 25px !important;
-  color: var(--primaryA);
+  color: #26cd2b;
   line-height: 24px !important;
-  text-shadow: 1px 1px 5px var(--primaryB);
+  text-shadow: 1px 1px 3px #333;
+}
+.navbar-brand:hover {
+  color: #26cd2b;
 }
 
 /* Navigation */
 .nav {
   height: 100%;
+  margin-left: 10px;
 }
 .nav-item {
   width: 100px;
-  border-radius: 0 0 10px 10px;
-  background: linear-gradient(0deg, #555, #333);
-  margin: 0 2px;
+  
+  background: radial-gradient(#DDC, #ABC);
+  margin: 2px 3px;
+  border-width: 3px 2px 2px 3px;
+  border-style: inset;
+  border-color: var(--lightD);
+  border-radius: 5px;
+  box-shadow: inset 1px 1px 8px 1px var(--darkD);
+  position: relative;
 }
 .nav-item:hover {
-  background: radial-gradient(#555, #333);
+  background: radial-gradient(#5cb85c, #DDD);
 }
 .nav-link {
+  width: 100%;
   text-align: center;
-  height: 100%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
 }
 .navButtonText {
   color: #222;
