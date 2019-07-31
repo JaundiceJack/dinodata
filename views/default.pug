@@ -15,39 +15,40 @@ html(lang="en-US")
 	body
 		main.siteGrid
 			// Navigation
-			nav.navbar.navbar-default.justify-content-start
+			nav.navbar.navbar-default.justify-content-start.hf-style
 				div.container-fluid.h-100
-					div.navbar-header.m-1
+					div.navbar-header.mx-2
 						a.navbar-brand.m-0.p-2(href="/home") Reptile<br>Lifestyle
+					div.divider.v-divider.mx-2
 					ul.nav.navbar-right.flex-grow-1
-						li.nav-item
+						li.nav-item.hoverItem
 							a.nav-link(href="/home")
 								i.navButtonIcon.fas.fa-sign-in-alt
 								p.navButtonText Home
 						if user
 							if selected				
-								li.nav-item
+								li.nav-item.hoverItem
 									a.nav-link(href="/monitoring/info/"+selected.name)
 										i.navButtonIcon.fas.fa-dragon
 										p.navButtonText Info
-								li.nav-item
+								li.nav-item.hoverItem
 									a.nav-link(href="/monitoring/cage/"+selected.name)
 										i.navButtonIcon.fas.fa-box
 										p.navButtonText Cage
-								li.nav-item
+								li.nav-item.hoverItem
 									a.nav-link(href="/monitoring/food/"+selected.name)
 										i.navButtonIcon.fas.fa-utensils
 										p.navButtonText Food
 							else
-								li.nav-item
+								li.nav-item.hoverItem
 									a.nav-link(href="/monitoring/info")
 										i.navButtonIcon.fas.fa-dragon
 										p.navButtonText Info
-								li.nav-item
+								li.nav-item.hoverItem
 									a.nav-link(href="/monitoring/cage")
 										i.navButtonIcon.fas.fa-box
 										p.navButtonText Cage
-								li.nav-item
+								li.nav-item.hoverItem
 									a.nav-link(href="/monitoring/food")
 										i.navButtonIcon.fas.fa-utensils
 										p.navButtonText Food
@@ -83,7 +84,7 @@ html(lang="en-US")
 					p PAGE NOT FOUND 
 
 			// Footer
-			footer.footerGradient.borderE.bottomEdgeBorder
+			footer.hf-style.bottomEdgeBorder
 				a.aboutLink
 				a.gitLink
 				a.personalLink

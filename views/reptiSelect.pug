@@ -1,19 +1,20 @@
 // User's Reptile Choice Area
-div.reptileChoiceArea.borderA.gradientA
+div.p-2.m-2.borderA.gradientA
 	h2.fancyText.h2Size.textEffectA Select a Reptile to Monitor:
 	div#reptile_id(name="reptile_id", data-id=selected._id)
-	ul.reptiSelectFlex.noBullets
-		// Make an icon for each reptile
-		if reptiles && selected
-			each reptile in reptiles
-				if reptile.name === selected.name
-					li.hoverItem.clickItem.tuchit.reptiOption.selectedReptile(id=reptile._id)
-						include reptiPictureLinks.pug
-				else
-					li.hoverItem.clickItem.tuchit.reptiOption(id=reptile._id)
-						include reptiPictureLinks.pug
+	ul.d-flex.noBullets
+		div.d-flex.flex-wrap.flex-grow-1
+			// Make an icon for each reptile
+			if reptiles && selected
+				each reptile in reptiles
+					if reptile.name === selected.name
+						li.hoverItem.clickItem.tuchit.m-2.selectedReptile(id=reptile._id)
+							include reptiPictureLinks.pug
+					else
+						li.hoverItem.clickItem.tuchit.m-2(id=reptile._id)
+							include reptiPictureLinks.pug
 		// Create icons to add and remove reptiles
-		li.hoverItem.clickItem.tuchit
+		li.hoverItem.clickItem.tuchit.m-2
 			a(href="/monitoring/create_reptile")
 				img.selectImage.p-2(src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-1/512/add-1-icon.png" alt="Add Icon")
 				p.selectName Add

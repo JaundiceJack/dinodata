@@ -246,23 +246,6 @@ footer {
   flex-flow: row wrap;
   justify-content: space-evenly;
 }
-.startFlex {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: flex-start;
-}
-
-
-/** Reptile Selection Layout **/
-.reptiSelectFlex {
-  display: flex;
-  flex-flow: row wrap;
-}
-.reptiSelectFlex > * {padding: 10px 20px 5px 5px;}
-.reptileChoiceArea {
-  padding: 10px;
-  margin: 15px 15px 10px 15px;
-}
 
 /*********************************/
 /* Tablet Layouts (Grids/Flexes) */
@@ -298,28 +281,47 @@ footer {
   }
 }
 
+/* Vertical/Horizontal Divider */
+.divider {
+  border-radius: 2px;
+  background: #444;
+  padding: 2px;
+}
+.v-divider {
+  width: 2px;
+  height: 90%;
+}
+.h-divider {
+  height: 2px;
+  width: 100%;
+}
 
+.hf-style {
+  /* header-footer style */
+  border-color: #ABC;
+  border-style: solid;
+  background: linear-gradient(270deg, var(--lightB), var(--darkB));
+}
 /* Encasing navbar */
 .navbar {
   position: sticky !important;
   top: 0;
   z-index: 1;
-  padding: 0 !important;
-  border-color: var(--lightD);
-  border-style: inset;
+  padding: 0 !important;  
   border-width: 0 2px 2px 2px;
   border-radius: 0 0 3px 3px;
-  background: linear-gradient(270deg, var(--lightB), var(--darkB));
 }
 
 /* Website Logo */
 .navbar-header {
-  background: linear-gradient(90deg, #ffdffe, #fffcec);
-  border-radius: 40% 50% 50% 40%;
-  text-align: center;
-  height: 75px;
+  background: linear-gradient(90deg, #dddffe, #fffcec);
+  border-radius: 42% 50% 50% 42%;
+  
+  height: 85px;
+  width: 125px;
   box-shadow: -2px -5px 10px #222 inset;
-
+  
+  position: relative;
 }
 .navbar-brand {
   text-decoration: none;
@@ -328,6 +330,10 @@ footer {
   color: #26cd2b;
   line-height: 24px !important;
   text-shadow: 1px 1px 3px #333;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-60%);
 }
 .navbar-brand:hover {
   color: #26cd2b;
@@ -346,19 +352,19 @@ footer {
   border-width: 3px 2px 2px 3px;
   border-style: inset;
   border-color: var(--lightD);
-  border-radius: 5px;
+  border-radius: 25%;
   box-shadow: inset 1px 1px 8px 1px var(--darkD);
   position: relative;
 }
 .nav-item:hover {
-  background: radial-gradient(#5cb85c, #DDD);
+  background: radial-gradient(#ABD, #DDC);
 }
 .nav-link {
   width: 100%;
   text-align: center;
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-40%);
 }
 .navButtonText {
   color: #222;
