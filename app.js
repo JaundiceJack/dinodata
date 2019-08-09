@@ -86,7 +86,7 @@ app.use('/monitoring', monitoring);
 // Route to the home page
 let home = require('./routes/home');
 app.use('/home', home);
-
+app.use('/', home);
 
 // Start the server
 const port = 8080;

@@ -6,4 +6,8 @@ router.get('/', (req, res) => {
 	res.render('index', {});
 });
 
+router.get('/colors', (req, res) => {
+	res.render('palette', {});
+});
+
 module.exports = router;
