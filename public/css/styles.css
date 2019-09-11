@@ -2,13 +2,13 @@
 :root {
   --primaryA: rgb(50, 200, 12);
   --primaryB: rgb(248, 168, 3);
-  --primaryC: rgb(237, 100, 45);
-  --lightA: rgb(232, 235, 236);
-  --lightB: rgb(208, 215, 236);
-  --lightC: rgb(197, 207, 236);
-  --darkA: rgb(248, 168, 3);
-  --darkB: rgb(81,  84,  96);
-  --darkC: rgb(0,   50,   30);
+  --primaryC: rgb(50, 75, 225);
+  --lightA:   rgb(232, 235, 236);
+  --lightB:   rgb(208, 215, 236);
+  --lightC:   rgb(197, 207, 236);
+  --darkA:    #112233;
+  --darkB:    rgb(81,  84,  96);
+  --darkC:    #020509;
 
   --textA: rgb(79,119,153);
   --textB: rgb(100, 30, 55);
@@ -41,7 +41,7 @@
 html, body, main {
   width: 1300px; /* Desktop Resolution */
   min-height: 100vh;
-  background: var(--darkC);
+  background: #020509;
   margin: 0 auto; /* Center the page */
 }
 
@@ -317,7 +317,7 @@ footer {
   /* header-footer style */
   border-color: #ABC;
   border-style: solid;
-  background: linear-gradient(180deg, rgb(50, 200, 12), var(--primaryB));
+  background: linear-gradient(180deg, #abc, #def);
 }
 /* Encasing navbar */
 .navbar {
@@ -364,17 +364,17 @@ footer {
 .nav-item {
   width: 100px;
   
-  background: radial-gradient(var(--primaryB), #ABC);
+  background: radial-gradient(var(--lightA), var(--lightC));
   margin: 2px 3px;
-  border-width: 3px 2px 2px 3px;
+  border-width: 2px 1px 1px 2px;
   border-style: inset;
-  border-color: var(--lightC);
-  border-radius: 5%;
-  box-shadow: inset 1px 1px 8px 1px var(--darkD);
+  border-color: var(--primaryA);
+  border-radius: 10%;
+  box-shadow: inset 1px 1px 18px 1px var(--darkC);
   position: relative;
 }
 .nav-item:hover {
-  background: radial-gradient(#ABD, #DDC);
+  background: radial-gradient(var(--lightA), var(--primaryB));
 }
 .nav-link {
   width: 100%;
