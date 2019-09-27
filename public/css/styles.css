@@ -759,7 +759,7 @@ footer {
 /***************************/
 /* Single Property Classes */
 /***************************/
-.hidden { display: none; }
+.hidden { display: none !important; }
 .noBullets { list-style-type: none; }
 .turn90 { transform: rotate(90deg); }
 .turn270 { transform: rotate(270deg); }

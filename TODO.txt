@@ -1,4 +1,4 @@
-1. Nail down the look of the homepage/header
+
 2. You've made a route to the user profile page. Create a user profile page to display.
 3. Add media queries to the CSS for tablet and phone resolutions.
 4. Add age display to the growth section.
@@ -8,12 +8,6 @@
 8: My flash messages don't seem to disappear, fixit.
 9: Label margins are acting wierd, ...fixit
 10: I converted the url to be name based, but I should probably use a query parameter instead of a flat url param
-
-11: I found a similar program (for pay) called ReptiWare. It does a bit of what I'm making (but looks cooler).
-	I did not see that it had graphs of information, but it did show tables of info,
-	I could make the charts and tables swappable with a button
-	They also didn't seem to use any sensor integration, so I'd have that over it as well.
-	Wow, They charge $7 per month or $70 per year. Its not a flat charge. I could charge for usage as well, but cheaper.
 
 12: Ideally when enclosure data is entered, I'd like to check that the date is not already in the reptile's files
 	If the date is found I'd like to update the cool/warm/humid with the newly entered data

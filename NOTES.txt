@@ -1,0 +1,25 @@
+11: I found a similar program (for pay) called ReptiWare. It does a bit of what I'm making (but looks cooler).
+	I did not see that it had graphs of information, but it did show tables of info,
+	I could make the charts and tables swappable with a button
+	They also didn't seem to use any sensor integration, so I'd have that over it as well.
+	Wow, They charge $7 per month or $70 per year. Its not a flat charge. I could charge for usage as well, but cheaper.
+
+For the cageGraphs branch, I'd like to flesh out the skeleton I left off at.
+Currently one can enter the date, heat, cool, and humid, and a point will appear on the graph.
+The point can be from any date though, and the data is not organized chronologically.
+I would like to make the graphs swappable between days and weeks.
+I would like to have 24 data points for each day. One per hour.
+graphs default to week-view and take the average temperature for the days.
+clicking on a specific day takes the user to the graphed points for that day.
+So I'll need to make a mock-up of what the graphs should look like/the data they should handle.
+Then I'll need to look at the database model and modify it to take day-based data.
+And any additional data required. It may be a good idea to separate the temperature and humidity entries.
+A dropdown for the hour of the day in addition to the date.
+
+The reading model is connected to the reptiles by the reptile_id, so I can modify it without worrying about fucking up the reptile model. Keep things separated where possible
+
+I'll need to figure out how to add buttons to the graph itself, as well as linking their functionality.
+Easiest way would be to have them appear upon page-load, hidden until usable.
+
+I should relearn
+

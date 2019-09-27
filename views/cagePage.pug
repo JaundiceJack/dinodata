@@ -44,11 +44,14 @@ block content
 		// Enclosure Data Charts Area
 		// Temperature
 		div.tempChartArea.contentGrid
-			// I've been trying to pass in the data to pug by interpolation, but I think thats the wrong way to do it
-				I think instead, If i used AJAX to issue a get request from the javascript, I could handle getting it 
-				in a separate route in monitoring.
 			h3.fancyText.h4Size.textEffectC.borderA.gradientC Temperatures:
 			div.borderA
+				button.btn.bg-light.m-1 Weekly
+				button.btn.bg-light.m-1 Daily
+				button.btn.bg-light.m-1.d-none
+					i.fas.fa-angle-left
+				button.btn.bg-light.m-1
+					i.fas.fa-angle-right
 				canvas#temperatureChart.temperatureChart.w-100.h-100(data-id=selected._id)
 		// Humidity
 		div.humidChartArea.contentGrid
