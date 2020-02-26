@@ -1,10 +1,7 @@
-// Set up and export a database model to store enclosure readings
-
-// Thoughts: I can establish temperature 1 as hottest and 2 as coldest, but some users may want to observe more than 2 points
-// as well as humidities. So I'll add 10 of each. 20 is rediculous.
-
-
 const mongoose = require('mongoose');
+
+// So, limiting the possible reading creations to one per hour
+// A warmest point, a coldest point, and a humidity at base
 
 const readingSchema = mongoose.Schema({
 	reptile_id: {
@@ -12,21 +9,23 @@ const readingSchema = mongoose.Schema({
 		required: true
 	},
 	date: {
-		type: Date,
+		type: String,
 		required: true
 	},
-	temp_1: {
-		type: Number
-	},
-	temp_2: {
-		type: Number
-	},
-	humid_1: {
+	time: {
 		type: Number,
+		required: true,
 		min: 0,
-		max: 100
+		max: 23
+
 	},
-	humid_2: {
+	warmest: {
+		type: Number
+	},
+	coldest: {
+		type: Number
+	},
+	humidity: {
 		type: Number,
 		min: 0,
 		max: 100
