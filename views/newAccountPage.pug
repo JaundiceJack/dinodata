@@ -2,33 +2,44 @@ extends default
 
 block content
 
-  //This page will include the form to create a user account.
-  div.newAccountArea.contentGrid.p-3
-    h3.fancyText.h3Size.textEffectC.borderA.gradientC Create a new account:
-    div.borderD.solidColorC.p-3
-      p.standardText Once you've created an account, you'll be able to track the conditions of multiple reptiles.
-      hr
-      form.d-flex(method="POST" action="/profile/create_user")
-        div.entryArea.borderC.entryColorC.mb-3
-          label.entryIcon.width-200.righted Username:
-          input.entryInput(type="text" name="username")
-        div.entryArea.borderC.entryColorC.mb-3
-          label.entryIcon.width-200.righted Password:
-          input.entryInput(type="text" name="password")
-        div.entryArea.borderC.entryColorC.mb-3
-          label.entryIcon.width-200.righted Confirm Password:
-          input.entryInput(type="text" name="passwordConfirm")
-        div.entryArea.borderC.entryColorC.mb-3
-          label.entryIcon.width-200.righted Email:
-          input.entryInput(type="text" name="email")
-        div.entryArea.borderC.entryColorC.mb-3
-          label.entryIcon.width-200.righted Name of first reptile to monitor:
-          input.entryInput(type="text" name="reptiname")
-        div.entryArea.borderC.entryColorC.mb-3
-          label.entryIcon.width-200.righted Reptile type:
-          select.entryInput(name="reptitype")
-            include reptiOptions.pug
-        div.entryArea.borderC.entryColorC.mb-4
-          label.entryIcon.width-200.righted Use metric?:
-          input.entryInput(type="checkbox" name="metric" checked)
-        input.buttonTypeA.fancyText.hoverItem.clickItem.p-3.mb-2(type="submit" value="Create Account")
+  //This page containts the form to create a user account.
+  div.container      
+    form(method="POST" action="/profile/create_user")
+      div.entry
+        div.entryIcon
+          i.fas.fa-user.fa-2x
+        div.entryHeader.p-1
+          h2.itemHeader Create New Account
+        div.entryBlock.d-flex.flex-column
+          p.p-2 Once you've created an account, you'll be able to track the conditions of multiple reptiles.
+          hr
+          div.input-group.p-3
+            div.input-group-prepend
+              span.input-group-text Username:
+            input.form-control(type="text" name="username")
+          div.input-group.p-3
+            div.input-group-prepend
+              span.input-group-text Password:
+            input.form-control(type="text" name="password")
+          div.input-group.p-3
+            div.input-group-prepend
+              span.input-group-text Confirm Password:
+            input.form-control(type="text" name="passwordConfirm")
+          div.input-group.p-3
+            div.input-group-prepend
+              span.input-group-text Email:
+            input.form-control(type="text" name="email")
+          div.input-group.p-3
+            div.input-group-prepend
+              span.input-group-text Reptile Name:
+            input.form-control(type="text" name="reptiname")
+          div.input-group.p-3
+            div.input-group-prepend
+              span.input-group-text Reptile Type:
+            select.form-control(name="reptitype")
+              include reptiOptions.pug
+          div.input-group.p-3
+            div.input-group-prepend
+              span.input-group-text Use metric?:
+            input.form-control(type="checkbox" name="metric")
+          input.btn.btn-primary.hoverItem.p-3(type="submit" value="Create Account")

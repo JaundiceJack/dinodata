@@ -62,16 +62,20 @@ function capitalize(name) {
 	return str.join(" ");
 };
 
-
+// TODO: it would be smarter to combine these
 // Cage Graph Data Requests
 router.get('/cage/temp/:reptile_id', ensureAuthenticated, (req, res) => {
-	Reading.find({reptile_id: req.params.reptile_id}).sort('date').exec( (err, readings) => {
+	Reading.find({reptile_id: req.params.reptile_id})
+	.sort('date')
+	.exec( (err, readings) => {
 		if (err) console.log(err);
 		res.json(readings);
 	});
 });
 router.get('/cage/humi/:reptile_id', ensureAuthenticated, (req, res) => {
-	Reading.find({reptile_id: req.params.reptile_id}).sort('date').exec( (err, readings) => {
+	Reading.find({reptile_id: req.params.reptile_id})
+	.sort('date')
+	.exec( (err, readings) => {
 		if (err) console.log(err);
 		res.json(readings);
 	});
@@ -82,18 +86,18 @@ router.post('/cage/:reptile_id', ensureAuthenticated, async (req, res) => {
 	// Grab entered enclosure readings and the reptile ID
 	const data = {date: req.body.date,
 				  time: req.body.time,
-				  warm: req.body.warmSide,
-				  cold: req.body.coolSide,
+				  warm: req.body.warm,
+				  cool: req.body.cool,
 				  humidity: req.body.humidity,
 				  reptile_id: req.params.reptile_id};
 
 	// Validate Entries
 	req.checkBody('date', "Please enter a valid date. Or else.").isISO8601();
 	req.checkBody('time', "Please select a time.").notEmpty();
-	req.checkBody('coolSide', "Please enter the cool side's temperature.").notEmpty();
-	req.checkBody('coolSide', "Please use numbers for the cool temperature.").isFloat();
-	req.checkBody('warmSide', "Please enter the warm side's temperature.").notEmpty();
-	req.checkBody('warmSide', "Please use numbers for the warm temperature.").isFloat();
+	req.checkBody('cool', "Please enter the cool side's temperature.").notEmpty();
+	req.checkBody('cool', "Please use numbers for the cool temperature.").isFloat();
+	req.checkBody('warm', "Please enter the warm side's temperature.").notEmpty();
+	req.checkBody('warm', "Please use numbers for the warm temperature.").isFloat();
 	req.checkBody('humidity', "Please enter the humidity.").notEmpty();
 	req.checkBody('humidity', "Please use numbers for the humidity percentage.").isFloat();
 
@@ -108,7 +112,7 @@ router.post('/cage/:reptile_id', ensureAuthenticated, async (req, res) => {
 });
 
 
-function createReading(req, res, reptile, data, errors) {
+async function createReading(req, res, reptile, data, errors) {
 	// If a reptile was not found, inform the user and go back
 	if (!reptile) {
 		req.flash("The reptile you're attempting to update was not found.");
@@ -121,27 +125,65 @@ function createReading(req, res, reptile, data, errors) {
 	}
 	// If all good, Generate a new reading for the reptile
 	else {
-		let newReading = new Reading({reptile_id: reptile._id,
-									  date: data.date,
-									  time: data.time,
-									  warmest: data.warm,
-									  coldest: data.cold,
-									  humidity: data.humidity});
-		// Save the reading, inform of failure or success
-		newReading.save( (err) => {
-			if (err) {
-				console.log(err);
-				req.flash('Errors encountered while saving entries...');
-				res.redirect('/monitoring/cage/'+reptile._id);
-				return;
- 			}
-			else {
-				req.flash('success', "Reading for "+capitalize(reptile.name)+" added.");
-				res.redirect('/monitoring/cage/'+reptile._id);
-			}
-		})
+		// Look for duplicate readings for the date and time
+		var entry = await Reading.findOne({
+			reptile_id: data.reptile_id,
+			date: data.date,
+			time: data.time
+		}).exec()
+
+		// If the entry already exists, update the entry with the new readings
+		if (entry) {
+			updateEntry(req, res, reptile, entry, data);			
+		}
+		// Otherwise, create a new reading and save it
+		else {
+			saveEntry(req, res, reptile, data);
+		}
 	}
 };
+
+// Take a reading (entry) and update it with the given data
+function updateEntry(req, res, reptile, entry, data) {
+	entry.warmest = data.warmest;
+	entry.coldest = data.coldest;
+	entry.humidity = data.humidity;
+	entry.save( (err) => {
+		if (err) {
+			console.log(err);
+			req.flash('Errors encountered while overwriting duplicate entry...');
+			res.redirect('/monitoring/cage/'+reptile._id);
+			return;
+			}
+		else {
+			req.flash('success', "Reading for "+capitalize(reptile.name)+" added.");
+			res.redirect('/monitoring/cage/'+reptile._id);
+		}
+	});
+}
+// Create a new reading from the data
+function saveEntry (req, res, reptile, data) {
+	// Otherwise, just continue to save it
+	let newReading = new Reading({reptile_id: reptile._id,
+								  date: data.date,
+								  time: data.time,
+								  warmest: data.warm,
+								  coldest: data.cool,
+								  humidity: data.humidity});
+	// Save the reading, inform of failure or success
+	newReading.save( (err) => {
+		if (err) {
+			console.log(err);
+			req.flash('Errors encountered while saving entries...');
+			res.redirect('/monitoring/cage/'+reptile._id);
+			return;
+			}
+		else {
+			req.flash('success', "Reading for "+capitalize(reptile.name)+" added.");
+			res.redirect('/monitoring/cage/'+reptile._id);
+		}
+	});
+}
 
 // Reptile Creation Page Route
 router.get('/create_reptile', (req, res) => {

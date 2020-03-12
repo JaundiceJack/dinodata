@@ -88,7 +88,10 @@ label { margin: 0 !important; }
     "page"
     "footer";
 }
-nav {grid-area: navigation;}
+nav {
+  grid-area: navigation;
+
+}
 .page {
   grid-area: page;
   margin-right: 10px;
@@ -96,6 +99,7 @@ nav {grid-area: navigation;}
 footer {
   grid-area: footer;
   margin: 0 5px;
+
 }
 
 /* */
@@ -134,55 +138,7 @@ footer {
   margin-right: 10px;
 }
 
-/** Info Page Layout **/
-.infoPageGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(2, auto);
-  grid-template-areas:
-    "measurements health"
-    "morph        mood";
-  grid-gap: 30px 30px;
-  padding: 10px 10px 30px 10px;
-  align-items: start;
-}
-.measurementArea { grid-area: measurements;}
-.healthArea {      grid-area: health;}
-.moodArea {        grid-area: mood;}
-.morphArea {       grid-area: morph;}
 
-/** Cage Page Layout **/
-.cagePageGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(2, auto);
-  grid-template-areas:
-    "cageDataEntry    cageDataEntry"
-    "temperatureChart humidityChart";
-  grid-gap: 30px 30px;
-  padding: 10px 10px 30px 10px;
-}
-.cageDataEntryArea {grid-area: cageDataEntry;}
-.tempChartArea {grid-area: temperatureChart;}
-.humidChartArea {grid-area: humidityChart;}
-
-/** Food Page Layout **/
-.foodPageGrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: repeat(3, auto);
-  grid-template-areas:
-    "scheduling scheduling scheduling"
-    "foodEntry  foodEntry  waterEntry"
-    "foodChart  foodChart  foodChart";
-  grid-gap: 30px 30px;
-  padding: 10px 10px 30px 10px;
-  align-items: start;
-}
-.feedingScheduleArea { grid-area: scheduling; }
-.feedingEntryArea {    grid-area: foodEntry; }
-.waterEntryArea {      grid-area: waterEntry; }
-.feedingChartArea {    grid-area: foodChart; }
 
 
 /** ew, what is this **/
@@ -416,40 +372,7 @@ footer {
 }
 
 /* Page Text Entries */
-.entryArea {
-  display: flex;
-  flex-flow: row nowrap;
-  width: 100%;
-  height: 38px;
-  margin-right: 15px;
-}
-.entryIcon {
-  margin: 5px 10px;
-  white-space: nowrap;
-}
-.entryInput {
-  height: 100%;
-  width: 100%;
-  padding: 5px;
-  border-radius: 0 5px 5px 0;
-  border-width: 0 0 0 2px;
-  border-style: solid;
-  border-color: #555;
-}
-.entryButton {
-  border-width: 1px 1px 1px 3px;
-  border-radius: 0 4px 4px 0;
-  border-color: var(--darkA);
-  box-shadow: inset 0px 0px 5px 1px #444;
-  cursor: pointer;
-  font-family: "Righteous";
-  width: auto;
-  padding: 0 10px;
-  background: radial-gradient(var(--primaryC), var(--lightD));
-}
-.entryColorA { background: #ABF; }
-.entryColorB { background: #FBA; }
-.entryColorC { background: #BFA; }
+
 
 
 
@@ -768,3 +691,115 @@ footer {
 .righted { text-align: right; }
 .innerShadow { box-shadow: inset 0 0 8px 1px var(--darkD); }
 .tuchit { cursor: pointer; }
+
+
+
+
+/*
+  Refreshing memory with new stuff down here
+*/
+
+
+.itemHeader {
+  font-family: Righteous;
+  font-size: 22px;
+}
+.itemText {
+  font-family: Arial;
+  font-size: 14px;
+}
+
+.intro {
+  background: var(--lightA);
+  border-radius: 5px;
+  border: 2px solid #999;
+  border-width: 1px 2px 2px 1px;
+  margin-left: 40px;
+}
+.introHeader {
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: #222;
+  background: linear-gradient(180deg, #DDD, #DDD, #CDE);
+}
+
+.introExplain {}
+
+.entry {
+  display: grid;
+  grid-template-rows: 50px auto;
+  grid-template-columns: 50px auto;
+  grid-template-areas: "icon desc"
+                        ". content";
+}
+.entryIcon {
+  grid-area: icon;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid #222;
+  background: linear-gradient(180deg, #DDD, #DDD, #CDE);
+  padding-top: 6px;
+  text-align: center;
+}
+.entryHeader {
+  grid-area: desc;
+  margin-top: 5px;
+  margin-left: -10px;
+  height: 40px;
+  padding: 0 5px 5px 10px;
+  border-radius: 0 5px 0 0;
+  border: 2px solid #222;
+  border-left: none;
+  background: linear-gradient(180deg, #DDD, #DDD, #CDE);
+}
+.entryBlock {
+  grid-area: content;
+  z-index: 0;
+  margin-top: -6px;
+  margin-left: -10px;
+  background: var(--lightA);
+  border-radius: 0 0 5px 5px;
+  border: 2px solid #222;
+  border-width: 0 2px 2px 2px;
+}
+
+.graph {
+  background: var(--lightA);
+  border-radius: 5px;
+  border: 2px solid #999;
+  border-width: 1px 2px 2px 1px;
+}
+.graphHeader {
+  background: linear-gradient(180deg, #DDD, #DDD, #CDE);
+  border-width: 0 0 1px 0;
+  border-style: solid;
+  border-color: #222;
+}
+.graphBlock {
+
+}
+.graphInterface {
+
+}
+
+
+.cagePageGrid {
+  display: grid;
+  grid-template-rows: auto auto;
+  grid-template-columns: 50% 50%;
+  grid-template-areas: "entries entries"
+                       "tempChart humiChart";
+  grid-gap: 10px;
+
+}
+.entryArea {
+  grid-area: entries;
+}
+.tempChartArea {
+  grid-area: tempChart;
+  margin-left: 40px;
+}
+.humidChartArea {
+  grid-area: humiChart;
+}

@@ -5,24 +5,39 @@ block content
 	// Include the reptile selections
 	include reptiSelect.pug
 	
-	div#cagePage.cagePageGrid
-		// Enclosure Data Entry Area
-		div.cageDataEntryArea.contentGrid
-			h3.fancyText.h3Size.textEffectC.borderA.gradientC Enter Enclosure Conditions:
-			div.borderD.solidColorC.p-3
-				p Select the reptile you want to track above, then enter the current enclosure conditions below.
-				p Once submitted, the data will be charted.
-				hr
-				form(action="/monitoring/cage/"+selected._id, method="post")
-					div.grid-3col
-						div.input-group.mb-3
+	// I'd like to give the class names more sense
+	// for the page, I have an intro section that explains what to do
+	// and I have an entry section where data is entered,
+	// then a graph section where data is presented
+	// I've got most of the entry section styled the way I want, 
+	// So I should expand the style to the into above
+	// intro, entry, graph
+	// 
+
+	div#cagePage.container.cagePageGrid
+		div.d-flex.flex-column.entryArea
+			// Intro Box			
+			div.intro
+				div.introHeader.p-1
+					h2.itemHeader Enclosure Conditions:
+				div.introExplain.p-2
+					p.itemText Select a reptile above, enter the cage conditions below.
+			// Data Entry Boxes
+			form(action="/monitoring/cage/"+selected._id, method="post")
+				// Date & Time
+				div.entry
+					div.entryIcon
+						i.fas.fa-clock.fa-2x
+					div.entryHeader.p-1
+						h2.itemHeader Date & Time
+					div.entryBlock.d-flex.flex-wrap
+						div.input-group.w-50.p-3
 							div.input-group-prepend
-								span.input-group-text  Date:
-							input.form-control(type="date", name="date", min="2019-01-01")
-					div.grid-3col
-						div.input-group.mb-3
+								span.input-group-text Date:
+							input.form-control(type="date", name="date", min="2020-01-01")
+						div.input-group.w-50.p-3
 							div.input-group-prepend
-								span.input-group-text  Time:
+								span.input-group-text Time:
 							select.form-control(name="time")
 								option(value=0) 12:00 AM
 								option(value=1) 1:00  AM
@@ -47,43 +62,58 @@ block content
 								option(value=20) 8:00  PM
 								option(value=21) 9:00  PM
 								option(value=22) 10:00  PM
-								option(value=23) 11:00  PM					
-					div.grid-3col.mb-3
-						div.input-group
+								option(value=23) 11:00  PM
+				// Temperature & Humidity
+				div.entry.mb-2
+					div.entryIcon
+						i.fas.fa-thermometer-three-quarters.fa-2x
+					div.entryHeader.p-1
+						h2.itemHeader Temperatures & Humidity:
+					div.entryBlock.d-flex.flex-wrap.align-items-center
+						div.input-group.w-50.p-3
 							div.input-group-prepend
 								span.input-group-text
 									i.far.fa-snowflake
-							input.form-control(type="text", name="coolSide", placeholder="Cool Side F°", required, autofocus)
-						div.input-group
+							input.form-control(type="text", name="cool", placeholder="Cool Side F°", required, autofocus)
+						div.input-group.w-50.p-3
 							div.input-group-prepend
 								span.input-group-text
 									i.fab.fa-gripfire
-							input.form-control(type="text", name="warmSide", placeholder="Warm Side F°", required)
-						div.input-group
+							input.form-control(type="text", name="warm", placeholder="Warm Side F°", required)
+						div.input-group.w-50.p-3
 							div.input-group-prepend
 								span.input-group-text
 									i.fas.fa-cloud
 							input.form-control(type="text", name="humidity", placeholder="Humidity %", required)
-					button(type="submit").btn.btn-primary
-						label Chart It
-						i.fas.fa-share.turn90.ml-1
-
-					br
-
+						button(type="submit").btn.btn-primary.condiSubmit.ml-auto.m-3
+							label Chart It
+							i.fas.fa-share.turn90.ml-1
 		// Enclosure Data Charts Area
 		// Temperature
-		div.tempChartArea.contentGrid
-			h3.fancyText.h4Size.textEffectC.borderA.gradientC Temperatures:
-			div.borderA
-				button.btn.bg-light.m-1 Weekly
-				button.btn.bg-light.m-1 Daily
-				button.btn.bg-light.m-1.d-none
-					i.fas.fa-angle-left
-				button.btn.bg-light.m-1
-					i.fas.fa-angle-right
-				canvas#temperatureChart.temperatureChart.w-100.h-100(data-id=selected._id)
+		div.tempChartArea
+			div.graph
+				div.graphHeader.p-2
+					h2.itemHeader Temperatures:
+				div.graphBlock.p-2
+					div.graphInterface
+						button.btn.bg-light.m-1
+							i.fas.fa-angle-left
+						button.btn.bg-light.m-1 Weekly
+						button.btn.bg-light.m-1 Daily					
+						button.btn.bg-light.m-1
+							i.fas.fa-angle-right
+					canvas#temperatureChart.temperatureChart.w-100.h-100(data-id=selected._id)
 		// Humidity
-		div.humidChartArea.contentGrid
-			h3.fancyText.h4Size.textEffectC.borderA.gradientC Humidity:
-			div.borderA
-				canvas#humidityChart.humidityChart.w-100.h-100(data-id=selected._id)
+		div.humidChartArea
+			div.graph
+				div.graphHeader.p-2
+					h3.itemHeader Humidity:
+				div.graphBlock.p-2
+					div.graphInterface
+						button.btn.bg-light.m-1
+							i.fas.fa-angle-left
+						button.btn.bg-light.m-1 Weekly
+						button.btn.bg-light.m-1 Daily					
+						button.btn.bg-light.m-1
+							i.fas.fa-angle-right
+					canvas#humidityChart.humidityChart.w-100.h-100(data-id=selected._id)

@@ -1,8 +1,5 @@
 const mongoose = require('mongoose');
 
-// So, limiting the possible reading creations to one per hour
-// A warmest point, a coldest point, and a humidity at base
-
 const readingSchema = mongoose.Schema({
 	reptile_id: {
 		type: String,	//link to the reptile the reading is for
@@ -31,5 +28,9 @@ const readingSchema = mongoose.Schema({
 		max: 100
 	}
 });
+
+// Define the pairing of id, date, and time as unique entries
+readingSchema.index({reptile_id: 1, date: 1, time: 1}, {unique: true});
+
 
 const Reading = module.exports = mongoose.model('Reading', readingSchema);
