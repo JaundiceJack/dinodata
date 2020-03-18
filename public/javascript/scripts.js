@@ -14,7 +14,7 @@ function setDateInputsToToday() {
 	let dateControl = document.querySelectorAll('input[type="date"]');
 	// If any were found, set them to today
 	if (dateControl) {
-		dateControl.forEach( (dateInput) => {			
+		dateControl.forEach( (dateInput) => {
 			dateInput.value = getCurrentDateString();
 		});
 	}
@@ -130,11 +130,12 @@ function plotHumiChart(chart, labelObject) {
 		data: labelObject.humis,
 		//backgroundColor: ['#EEEEEE'],
 		borderColor: ['#7FDBFF'],
-		borderWidth: 2		
+		borderWidth: 2
 	}
 	// Assign the date labels and readings to the chart
 	chart.data.labels = labelObject.dates;
 	chart.data.datasets.push(humiSet);
+	//chart.options.scales.yAxes.ticks.beginAtZero = true;
 	chart.update();
 }
 
@@ -164,7 +165,7 @@ window.onload = () => {
 	// Set date selectors to default to today.
 	setDateInputsToToday();
 
-	
+
 
 	// Load charts
 	loadChart('temp/', 'temperatureChart', tempDataPoints, plotTempChart);

@@ -85,7 +85,6 @@ router.get('/cage/humi/:reptile_id', ensureAuthenticated, (req, res) => {
 router.post('/cage/:reptile_id', ensureAuthenticated, async (req, res) => {
 	// Grab entered enclosure readings and the reptile ID
 	const data = {date: req.body.date,
-				  time: req.body.time,
 				  warm: req.body.warm,
 				  cool: req.body.cool,
 				  humidity: req.body.humidity,
@@ -93,7 +92,6 @@ router.post('/cage/:reptile_id', ensureAuthenticated, async (req, res) => {
 
 	// Validate Entries
 	req.checkBody('date', "Please enter a valid date. Or else.").isISO8601();
-	req.checkBody('time', "Please select a time.").notEmpty();
 	req.checkBody('cool', "Please enter the cool side's temperature.").notEmpty();
 	req.checkBody('cool', "Please use numbers for the cool temperature.").isFloat();
 	req.checkBody('warm', "Please enter the warm side's temperature.").notEmpty();
@@ -128,13 +126,12 @@ async function createReading(req, res, reptile, data, errors) {
 		// Look for duplicate readings for the date and time
 		var entry = await Reading.findOne({
 			reptile_id: data.reptile_id,
-			date: data.date,
-			time: data.time
+			date: data.date
 		}).exec()
 
 		// If the entry already exists, update the entry with the new readings
 		if (entry) {
-			updateEntry(req, res, reptile, entry, data);			
+			updateEntry(req, res, reptile, entry, data);
 		}
 		// Otherwise, create a new reading and save it
 		else {
@@ -143,7 +140,7 @@ async function createReading(req, res, reptile, data, errors) {
 	}
 };
 
-// Take a reading (entry) and update it with the given data
+// Take an existing reading (entry) and update it with the given data
 function updateEntry(req, res, reptile, entry, data) {
 	entry.warmest = data.warmest;
 	entry.coldest = data.coldest;
@@ -166,7 +163,6 @@ function saveEntry (req, res, reptile, data) {
 	// Otherwise, just continue to save it
 	let newReading = new Reading({reptile_id: reptile._id,
 								  date: data.date,
-								  time: data.time,
 								  warmest: data.warm,
 								  coldest: data.cool,
 								  humidity: data.humidity});

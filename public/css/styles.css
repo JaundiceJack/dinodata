@@ -777,7 +777,7 @@ footer {
   border-color: #222;
 }
 .graphBlock {
-
+  height: 400px;
 }
 .graphInterface {
 
@@ -802,4 +802,9 @@ footer {
 }
 .humidChartArea {
   grid-area: humiChart;
+}
+
+.acctPre {
+  width: 150px;
+  justify-content: end;
 }

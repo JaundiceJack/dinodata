@@ -9,13 +9,6 @@ const readingSchema = mongoose.Schema({
 		type: String,
 		required: true
 	},
-	time: {
-		type: Number,
-		required: true,
-		min: 0,
-		max: 23
-
-	},
 	warmest: {
 		type: Number
 	},
@@ -29,8 +22,8 @@ const readingSchema = mongoose.Schema({
 	}
 });
 
-// Define the pairing of id, date, and time as unique entries
-readingSchema.index({reptile_id: 1, date: 1, time: 1}, {unique: true});
+// Define the pairing of id, date as unique entries
+readingSchema.index({reptile_id: 1, date: 1}, {unique: true});
 
 
 const Reading = module.exports = mongoose.model('Reading', readingSchema);
