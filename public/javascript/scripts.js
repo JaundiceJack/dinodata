@@ -24,48 +24,63 @@ function setDateInputsToToday() {
 	}
 };
 
-// Take an ID and create a chart on the element
-function createChart(canvasID) {
-	let canvas = document.getElementById(canvasID);
-	if (canvas) {
-		canvas = canvas.getContext('2d');
-		let chart = new Chart(canvas, {
-			type: 'line',
-			data: {
-				labels: [],
-				datasets: []
-			},
-			options: {
-				scales: {
-					yAxes: [{
-						ticks: {
-							beginAtZero: false
-						}
-					}]
-				}
-			}
-		})
-		return chart;
+window.onload = () => {
+	// Set date selectors to default to today.
+	setDateInputsToToday();
+
+	// Grab the reptile ID to request data for
+	try {
+		// Encase the graph request in a try to limit its execution to just the cage page
+		let reptile_id = document.getElementById('temperatureChart').getAttribute('data-id');
+		if (reptile_id) {
+			// Get enclosure data from the server and plot it on the graphs
+			getData(reptile_id);
+		}
 	}
-	else {
-		return null;
+	catch(e) {
+		if (e instanceof TypeError) {
+			return;
+		}
 	}
+	
+}
+
+function getData(reptile_id) {
+	// Send a get request for the reptile's chart data
+	let request = new XMLHttpRequest();
+	request.open('GET', 'graph/'+reptile_id, true);
+	request.responseType = "json";
+	request.onreadystatechange = () => {
+		if (request.readyState == 4 && request.status == 200) {
+			// Obtain the raw data from the response and pass it to the parser, then to the plotter
+			let chartData = request.response;
+			let tempPoints = parseTemp(chartData);
+			let humidPoints = parseHumid(chartData);	
+			plotTempData(tempPoints);
+			plotHumidData(humidPoints);
+		}
+	}
+	request.send("");
+}
+
+// take a date from the DB response and format it to look 'american'
+function dateLabel(date) {
+	let thisDate = new Date(date.replace(/-/g, '\/').replace(/T.+/, ''));
+	let dateLabel = (thisDate.getMonth()+1).toString() + "-"
+		+ thisDate.getDate().toString() + "-"
+		+ thisDate.getFullYear().toString().substring(2);
+	return dateLabel;
 }
 
 // Return the dates and temperature data in an object
-function tempDataPoints(chartData) {
+function parseTemp(cageData) {
 	let dateLabels = [];
 	let coolData = [];
 	let warmData = [];
 	// Loop through the data and put it into arrays
-	chartData.forEach( (datum) => {
-		// Format the date to 'month-day-year'
-		let thisDate = new Date(datum.date.replace(/-/g, '\/').replace(/T.+/, ''));
-		let dateLabel = (thisDate.getMonth()+1).toString() + "-"
-		+ thisDate.getDate().toString() + "-"
-		+ thisDate.getFullYear().toString().substring(2);
+	cageData.forEach( (datum) => {
 		// Push the date, cool temp, and warm temp into their arrays
-		dateLabels.push(dateLabel);
+		dateLabels.push(dateLabel(datum.date));
 		coolData.push(datum.coldest);
 		warmData.push(datum.warmest);
 	});
@@ -78,17 +93,12 @@ function tempDataPoints(chartData) {
 }
 
 // Return the dates and humidity data in an object
-function humiDataPoints(chartData) {
+function parseHumid(cageData) {
 	let dateLabels = [];
 	let humiData = [];
-	chartData.forEach( (datum) => {
-		let thisDate = new Date(datum.date.replace(/-/g, '\/').replace(/T.+/, ''));
-		// Format the date to 'month-day-year'
-		let dateLabel = (thisDate.getMonth()+1).toString() + "-"
-		+ thisDate.getDate().toString() + "-"
-		+ thisDate.getFullYear().toString().substring(2);
+	cageData.forEach( (datum) => {
 		// Push the date and humidity into their arrays
-		dateLabels.push(dateLabel);
+		dateLabels.push(dateLabel(datum.date));
 		humiData.push(datum.humidity);
 	})
 
@@ -98,76 +108,87 @@ function humiDataPoints(chartData) {
 	};
 }
 
-// Plot temperatures and update the chart
-function plotTempChart(chart, labelObject) {
-	// Create datasets for the cold and warm readings
+function plotTempData(tempData) {
+	let canvas = document.getElementById('temperatureChart');
+	if (canvas) {
+		canvas = canvas.getContext('2d');
+		let chart = new Chart(canvas, {
+			type: 'line',
+			data: {
+				labels: tempData.dates,
+				datasets: [cooldataset(tempData), warmdataset(tempData)]
+			},
+			options: {
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero: false
+						}
+					}]
+				}
+			}
+		})
+
+		chart.update();
+	}
+}
+
+function plotHumidData(humidData) {
+	let canvas = document.getElementById('humidityChart');
+	if (canvas) {
+		canvas = canvas.getContext('2d');
+		let chart = new Chart(canvas, {
+			type: 'line',
+			data: {
+				labels: humidData.dates,
+				datasets: [humiddataset(humidData)]
+			},
+			options: {
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero: true,
+							max: 100
+						}
+					}]
+				}
+			}
+		})
+
+		chart.update();
+	}
+
+}
+
+function cooldataset(data) {
+// Create datasets for the cold and warm readings
 	const coolSet = {
 		label: "Cool Temperatures",
-		data: labelObject.cools,
+		data: data.cools,
 		//backgroundColor: ['#001F3F'],
 		borderColor: ['#001F3F'],
 		borderWidth: 2
 	};
+	return coolSet;
+}
+function warmdataset(data) {
 	const warmSet = {
 		label: "Warm Temperatures",
-		data: labelObject.warms,
+		data: data.warms,
 		//backgroundColor: ['#FF0000'],
 		borderColor: ['#FF0000'],
 		borderWidth: 2
 	}
-	// Assign the date labels and readings to the chart
-	chart.data.labels = labelObject.dates;
-	chart.data.datasets.push(coolSet);
-	chart.data.datasets.push(warmSet);
-	chart.update();
+	return warmSet;
 }
-
-// Plot the humidity and update the chart
-function plotHumiChart(chart, labelObject) {
+function humiddataset(data) {
 	// Create datasets for the humidity readings
 	const humiSet = {
 		label: "Humidity",
-		data: labelObject.humis,
+		data: data.humis,
 		//backgroundColor: ['#EEEEEE'],
 		borderColor: ['#7FDBFF'],
 		borderWidth: 2
 	}
-	// Assign the date labels and readings to the chart
-	chart.data.labels = labelObject.dates;
-	chart.data.datasets.push(humiSet);
-	//chart.options.scales.yAxes.ticks.beginAtZero = true;
-	chart.update();
-}
-
-// Request data from the url and plot it on the given canvas
-function loadChart(url, canvasID, parser, plotter) {
-	// Grab the chart to plot
-	let chart = createChart(canvasID);
-	if (chart !== null) {
-		// Grab the reptile ID to request data for
-		let reptile_id = document.getElementById(canvasID).getAttribute('data-id');
-		// Send a get request for the reptile's chart data
-		let request = new XMLHttpRequest();
-		request.open('GET', url+reptile_id, true);
-		request.responseType = "json";
-		request.onreadystatechange = () => {
-			if (request.readyState == 4 && request.status == 200) {
-				// Obtain the raw data from the response and pass it to the parser, then to the plotter
-				let chartData = request.response
-				plotter(chart, parser(chartData));
-			}
-		}
-		request.send("");
-	}
-}
-
-window.onload = () => {
-	// Set date selectors to default to today.
-	setDateInputsToToday();
-
-
-
-	// Load charts
-	loadChart('temp/', 'temperatureChart', tempDataPoints, plotTempChart);
-	loadChart('humi/', 'humidityChart', humiDataPoints, plotHumiChart);
+	return humiSet;
 }

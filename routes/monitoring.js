@@ -31,11 +31,11 @@ router.get('/cage/:reptile_id', ensureAuthenticated, async (req, res) => {
 // Handle get requests to the cage page with no ID supplied
 router.get('/cage', ensureAuthenticated, async (req, res) => {
 	// Grab the user's reptiles from the DB
-	let reptiles = await Reptile.find({owner_id: req.user._id}).exec();
+	let reptile = await Reptile.findOne({owner_id: req.user._id}).exec();
 	// If none are found, ask them to create one
-	if(!reptiles) { createRedir(req, res); }
+	if(!reptile) { createRedir(req, res); }
 	// Otherwise, render the page with the first reptile in the list
-	else { cageRender(req, res, reptiles, 0); }
+	else { res.redirect('/monitoring/cage/'+reptile._id) }
 })
 
 
@@ -62,17 +62,8 @@ function capitalize(name) {
 	return str.join(" ");
 };
 
-// TODO: it would be smarter to combine these
 // Cage Graph Data Requests
-router.get('/cage/temp/:reptile_id', ensureAuthenticated, (req, res) => {
-	Reading.find({reptile_id: req.params.reptile_id})
-	.sort('date')
-	.exec( (err, readings) => {
-		if (err) console.log(err);
-		res.json(readings);
-	});
-});
-router.get('/cage/humi/:reptile_id', ensureAuthenticated, (req, res) => {
+router.get('/cage/graph/:reptile_id', ensureAuthenticated, (req, res) => {
 	Reading.find({reptile_id: req.params.reptile_id})
 	.sort('date')
 	.exec( (err, readings) => {
@@ -97,7 +88,7 @@ router.post('/cage/:reptile_id', ensureAuthenticated, async (req, res) => {
 	req.checkBody('warm', "Please enter the warm side's temperature.").notEmpty();
 	req.checkBody('warm', "Please use numbers for the warm temperature.").isFloat();
 	req.checkBody('humidity', "Please enter the humidity.").notEmpty();
-	req.checkBody('humidity', "Please use numbers for the humidity percentage.").isFloat();
+	req.checkBody('humidity', "Please use numbers 0 to 100 for the humidity percentage.").isFloat({min: 0, max: 100});
 
 	// Get entry errors
 	let errors = req.validationErrors();
@@ -142,8 +133,8 @@ async function createReading(req, res, reptile, data, errors) {
 
 // Take an existing reading (entry) and update it with the given data
 function updateEntry(req, res, reptile, entry, data) {
-	entry.warmest = data.warmest;
-	entry.coldest = data.coldest;
+	entry.warmest = data.warm;
+	entry.coldest = data.cool;
 	entry.humidity = data.humidity;
 	entry.save( (err) => {
 		if (err) {

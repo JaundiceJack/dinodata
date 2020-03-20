@@ -97,7 +97,7 @@ router.get('/login', (req, res) => {
 });
 
 // Login Post Request
-router.post('/login', (req, res, next) => {
+router.post('/login', async (req, res, next) => {
 	passport.authenticate('local', {
 		successRedirect: '/monitoring/cage',
 		failureRedirect: '/profile/login',
