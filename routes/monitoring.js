@@ -172,8 +172,22 @@ function saveEntry (req, res, reptile, data) {
 	});
 }
 
+// STUB: Reptile Removal Page Route
+router.get('/remove_reptile/:reptile_id', ensureAuthenticated, async (req, res) => {
+	// Ask user for confirmation
+
+	// Remove all readings associated with the reptile
+	let readings = await Reading.find({reptile_id: reptile_id}).exec();
+	readings.remove();
+	// Remove the reptile itself
+	let reptile = await Reptile.findOne({_id: reptile_id, owner_id: req.user._id}).exec();
+	reptile.remove();
+	// Flash success or failure messages
+
+})
+
 // Reptile Creation Page Route
-router.get('/create_reptile', (req, res) => {
+router.get('/create_reptile', ensureAuthenticated, (req, res) => {
 	res.render('newReptilePage', {
 		errors: req.session.errors
 	})
@@ -211,7 +225,7 @@ router.post('/create_reptile', (req, res) => {
 			}
 			else {
 				req.flash('success', capitalize(newReptile.name)+" successfully added.");
-				res.redirect('/monitoring/info/'+newReptile.name);
+				res.redirect('/monitoring/cage/'+newReptile._id);
 			}
 		});
 	};

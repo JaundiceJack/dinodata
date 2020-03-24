@@ -67,14 +67,14 @@ block content
 				div.graphHeader.p-2
 					h2.itemHeader Temperatures:
 				div.graphBlock.p-2
-					//div.graphInterface
-						button.btn.bg-light.m-1
+					div.graphInterface.d-flex.justify-content-center
+						button#templeft.btn.bg-light.m-1
 							i.fas.fa-angle-left
-						button.btn.bg-light.m-1 Weekly
-						button.btn.bg-light.m-1 Daily					
-						button.btn.bg-light.m-1
+						button#tempweek.btn.bg-light.m-1 Weekly
+						button#tempmonth.btn.bg-light.m-1 Monthly					
+						button#tempright.btn.bg-light.m-1
 							i.fas.fa-angle-right
-					canvas#temperatureChart.temperatureChart.w-100.h-100(data-id=selected._id)
+					canvas#temperatureChart.temperatureChart.w-100(data-id=selected._id)
 		// Humidity
 		div.humidChartArea
 			div.graph
