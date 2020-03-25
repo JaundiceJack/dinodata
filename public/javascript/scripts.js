@@ -106,116 +106,56 @@ function getData(reptile_id) {
 	return chartData;
 }
 
-
-// So, my idea seed is to create a giant mostly empty object containing year keys
-// each year value will be an object 1 for each month
-// each month will contain an array of 4 arrays, each with
-
-// when the page loads its supposed to show the latest week
-// I'd like to get it to the point that I can give the data
-// and the week number, and it will show that week,
-//So, instead of dividing up the data into a complicated year/week thing.
-// I can get the week number of each datum and assign it to an array in that position
-// I'd rather not worry about years, I'd rather take the first date, and the last date,
-// I can make it just skip empty weeks too for now,
-
-function getMonthDates(year, month){
-	let firstDay = new Date(year, month, 1);
-	let lastDay = new Date()
-}
-
-
-//If i get the first date in the data and start the array there, and fill in the dates till the last day in data,
-//how would that work?
-// so mar 1 - nov 1
-// the thing would start with the first date, the readings,
-// if the next date in the list is not contiguous, it would make the next one and repeat
-// otherwise it would use the data in the next date
-// {2020: {jan: {week1: {sun: , mon: , }}}
-[
-	[
-		[
-			[null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null],
-		],
-		[
-			[null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null],
-			[null, null, null, null, null, null, null],
-		]
-	],
-		[null, null, null, null, null, null, null],
-		[null, null, null, null, null, null, null],
-		[null, null, null, null, null, null, null],
-		[null, null, null, null, null, null, null],
-	],
-	[
-		[null, null, null, null, null, null, null],
-		[null, null, null, null, null, null, null],
-		[null, null, null, null, null, null, null],
-		[null, null, null, null, null, null, null],
-	]
-]
-function poop(data) {
-	let intoMonths = {};
-	for (let i = 0; i < data.length; i++) {
-		let date = new Date(data[i].date.replace(/-/g, '\/').replace(/T.+/, ''));
-		intoMonths[date.getFullYear()][date.getMonth()].push(data[i]);
+// Split the data into separate arrays to be fed to the graphs
+function contiguDates(data) {
+	// Start empty arrays for each reading item
+	let contiguArr = []; // dates
+	let cools = [];
+	let warms = [];
+	let humids = [];
+	// Start a previous date that will hinge on the current date
+	let prevDate;
+	// Add the first dataset's date/reading to their respective arrays
+	if (data) {
+		prevDate = new Date(data[0].date.replace(/-/g, '\/').replace(/T.+/, '')
+		contiguArr.push(prevDate);
+		cools.push(data[0].coolest);
+		warms.push(data[0].warmest);
+		humids.push(data[0].humidity);
 	}
-	return intoMonths;
-}
-
-function getWeek(monthlydata, ) {
-	dates
-	.getDay()
-}
-
-function parseDataIntoWeeks(data) {
-	let firstDate = new Date(data[0].date.replace(/-/g, '\/').replace(/T.+/, ''));
-	let amalg = {};
-	let previousDay = -100;
-	for (let i = 0; i < data.length; i++){
-		let date = new Date(data[i].date.replace(/-/g, '\/').replace(/T.+/, ''));
-
-		let weekCounter = 0;
-		let currentDay = date.getDay();
-		// So, when sunday ,current is 6, and prev is 5, then monday, current is 0 and pre is 6
-		if(currentDay < previousDay) {
-				weekCounter++;
+	// Add more if there is data to add
+	if (data.length > 1) {
+		for (let i = 1; i < data.length; i++) {
+			// set today as the current date in the iteration
+			let today = new Date(data[i].date.replace(/-/g, '\/').replace(/T.+/, ''));
+			// set tomorrow as the date following the previous in the array
+			let tomorrow = new Date(prevDate.getDate() + 1);
+			// If the next date in the data is not contiguous, make one and insert it with empty warm/cool/humid values
+			if (today !== tomorrow) {
+				contiguArr.push(tomorrow);
+				cools.push(null);
+				warms.push(null);
+				humids.push(null);
+				prevDate = tomorrow;
+				i--; // since it was not the next day, repeat this iteration until it is
+			}
+			// If the next date in the data did follow the previous, insert it and the reading data
+			else {
+				contiguArr.push(today);
+				cools.push(data[i].coolest);
+				warms.push(data[i].warmest);
+				humids.push(data[i].humidity);
+				prevDate = tomorrow;
+			}
 		}
-		amalg[date.getFullYear()][date.getUTCMonth()][weekCounter][date.getDay()] = data[i];
-
-		previousDay = currentDay;
-
-
-		// Wait, so if there's data missing, some could get grouped in the wrong weeks
-		// since each day in the week is not looped, or month, it would not be sequential,
-		// instead, if I create a date for each day in the month, I can assign  in sequence
-
 	}
-
-
-	let week = [null, null, null, null, null, null, null];
-	let amalg = {year1: {}, year2: {}}
-
-	let year = {
-		jan: [],
-		feb: [],
-		mar: [],
-		apr: [],
-		may: [],
-		jun: [],
-		jul: [],
-		aug: [],
-		sep: [],
-		oct: [],
-		nov: [],
-		dec: []
-		}
-
+	
+	return {
+		dates: contiguArr,
+		cools: cools,
+		warms: warms,
+		humids: humids
+	};
 
 }
 
@@ -230,12 +170,6 @@ function dateLabel(date) {
 	return dateLabel;
 }
 
-
-// 2 views, weekly and monthly
-// 7 slots and monthDayNum slots
-// Clicking the buttons should give different snips of cage Data to the functions
-// I suppose store the cage data in a return from the acquisition
-// and make the buttons call functions that use the data as a param
 
 
 // Return the dates and temperature data in an object
