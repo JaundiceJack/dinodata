@@ -29,8 +29,6 @@ window.onload = () => {
 	setDateInputsToToday();
 
 	let data = null;
-	// So, should I break the data up into an array of 7length arrays?
-
 	let timeScale = 'week';
 
 	// Grab the reptile ID to request data for
@@ -42,32 +40,6 @@ window.onload = () => {
 			// Get enclosure data from the server and plot it on the graphs
 			data = getData(reptile_id);
 		}
-
-		let weekData = parseDataIntoWeeks(data);
-
-
-
-
-
-
-
-
-		let tempPanLeft = document.getElementById('templeft');
-		tempPanLeft.onclick = () => {
-			if (timeScale === 'week') {
-				let page = data.slice()
-			}
-			else if (timeScale === 'month') {
-
-			}
-		};
-		let tempPanRight = document.getElementById('tempright');
-		tempPanRight.onclick = () => {};
-		let modTempWeek = document.getElementById('tempweek');
-		modTempWeek.onclick = () => {};
-		let modTempMonth = document.getElementById('tempmonth');
-		modTempWeek.onclick = () => {};
-
 	}
 	catch(e) {
 		if (e instanceof TypeError) {
@@ -95,10 +67,11 @@ function getData(reptile_id) {
 		if (request.readyState == 4 && request.status == 200) {
 			// Obtain the raw data from the response and pass it to the parser, then to the plotter
 			chartData = request.response;
-			let tempPoints = parseTemp(chartData);
-			let humidPoints = parseHumid(chartData);
-			plotTempData(tempPoints);
-			plotHumidData(humidPoints);
+			//let tempPoints = parseTemp(chartData);
+			//let humidPoints = parseHumid(chartData);
+			//plotTempData(tempPoints);
+			//plotHumidData(humidPoints);
+			plot(chartData);
 		}
 	}
 	request.send("");
@@ -106,58 +79,173 @@ function getData(reptile_id) {
 	return chartData;
 }
 
+function plot(data) {
+	let all = contiguDates(data);
+	plotTemps(all.dates, all.cools, all.warms);
+	plotHumids(all.dates, all.humids);
+}
+
+function plotTemps(dates, cools, warms) {
+	let canvas = document.getElementById('temperatureChart');
+	if (canvas) {
+		canvas = canvas.getContext('2d');
+		let chart = new Chart(canvas, {
+			type: 'line',
+			data: {
+				labels: dates,
+				datasets: [coolset(cools), warmset(warms)]
+			},
+			options: {
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero: false
+						}
+					}]
+				}
+			}
+		})
+
+		chart.update();
+	}
+}
+
+function plotHumids(dates, humids) {
+	let canvas = document.getElementById('humidityChart');
+	if (canvas) {
+		canvas = canvas.getContext('2d');
+		let chart = new Chart(canvas, {
+			type: 'line',
+			data: {
+				labels: dates,
+				datasets: [humidset(humids)]
+			},
+			options: {
+				scales: {
+					yAxes: [{
+						ticks: {
+							beginAtZero: false
+						}
+					}]
+				}
+			}
+		})
+
+		chart.update();
+	}
+}
+
+function coolset(cools) {
+	const coolSet = {
+		label: "Cool Temperatures",
+		data: cools,
+		//backgroundColor: ['#001F3F'],
+		borderColor: ['#001F3F'],
+		borderWidth: 2
+	};
+	return coolSet;
+}
+// Create a dataset for the warm readings
+function warmset(warms) {
+	const warmSet = {
+		label: "Warm Temperatures",
+		data: warms,
+		//backgroundColor: ['#FF0000'],
+		borderColor: ['#FF0000'],
+		borderWidth: 2
+	}
+	return warmSet;
+}
+// Create datasets for the humidity readings
+function humidset(humids) {
+	const humiSet = {
+		label: "Humidity",
+		data: humids,
+		//backgroundColor: ['#EEEEEE'],
+		borderColor: ['#7FDBFF'],
+		borderWidth: 2
+	}
+	return humiSet;
+}
+
 // Split the data into separate arrays to be fed to the graphs
+// lol this is slow as fuck.
 function contiguDates(data) {
 	// Start empty arrays for each reading item
-	let contiguArr = []; // dates
-	let cools = [];
-	let warms = [];
-	let humids = [];
-	// Start a previous date that will hinge on the current date
-	let prevDate;
+	let sets = {
+		dates: [],
+		cools: [],
+		warms: [],
+		humids: []
+	}
+	const dayLabel = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sun"];
+	let firstDate;
+	let lastDate;
 	// Add the first dataset's date/reading to their respective arrays
 	if (data) {
-		prevDate = new Date(data[0].date.replace(/-/g, '\/').replace(/T.+/, '')
-		contiguArr.push(prevDate);
-		cools.push(data[0].coolest);
-		warms.push(data[0].warmest);
-		humids.push(data[0].humidity);
+		firstDate = new Date(data[0].date.replace(/-/g, '\/').replace(/T.+/, ''));
+		console.log("first date is ", firstDate);
+		// Add the first data set to the collection
+		sets.dates.push(firstDate.toTimeString());
+		sets.cools.push(data[0].coldest);
+		sets.warms.push(data[0].warmest);
+		sets.humids.push(data[0].humidity);
 	}
-	// Add more if there is data to add
 	if (data.length > 1) {
-		for (let i = 1; i < data.length; i++) {
-			// set today as the current date in the iteration
-			let today = new Date(data[i].date.replace(/-/g, '\/').replace(/T.+/, ''));
-			// set tomorrow as the date following the previous in the array
-			let tomorrow = new Date(prevDate.getDate() + 1);
+		lastDate = new Date(data[data.length-1].date.replace(/-/g, '\/').replace(/T.+/, ''));
+		console.log("last date: ", lastDate);
+		let currentIndex = 1;
+		let dayIncr = 1;
+		// Instantiate nextDay as a date earlier than useful
+		let nextDay = new Date(0);
+		console.log("nextDay1: ", nextDay)
+		// Loop through the days until they
+		while (lastDate.getTime() - nextDay.getTime() > 0) {
+			let newDate = new Date(data[currentIndex].date.replace(/-/g, '\/').replace(/T.+/, ''));
+
+			// find the next date in the line by incrementing from the first day
+			nextDay = new Date(firstDate);
+			nextDay.setDate(nextDay.getDate() + dayIncr);
+			console.log("nextDay2: ", nextDay)
+
+			const date1 = {
+				year: newDate.getFullYear(),
+				month: newDate.getMonth(),
+				day: newDate.getDate()
+			}
+			const date2 = {
+				year: nextDay.getFullYear(),
+				month: nextDay.getMonth(),
+				day: nextDay.getDate()
+			}
+
 			// If the next date in the data is not contiguous, make one and insert it with empty warm/cool/humid values
-			if (today !== tomorrow) {
-				contiguArr.push(tomorrow);
-				cools.push(null);
-				warms.push(null);
-				humids.push(null);
-				prevDate = tomorrow;
-				i--; // since it was not the next day, repeat this iteration until it is
+			if (date1.year !== date2.year && date1.month !== date2.month && date1.day !== date2.day) {
+				sets.dates.push(nextDay.toTimeString());
+				sets.cools.push(null);
+				sets.warms.push(null);
+				sets.humids.push(null);
+				dayIncr += 1;
 			}
 			// If the next date in the data did follow the previous, insert it and the reading data
 			else {
-				contiguArr.push(today);
-				cools.push(data[i].coolest);
-				warms.push(data[i].warmest);
-				humids.push(data[i].humidity);
-				prevDate = tomorrow;
+				sets.dates.push(nextDay.toTimeString());
+				sets.cools.push(data[currentIndex].coldest);
+				sets.warms.push(data[currentIndex].warmest);
+				sets.humids.push(data[currentIndex].humidity);
+				dayIncr += 1;
+				// increment the index only if data was pulled
+				if (currentIndex < data.length - 1) {
+					currentIndex += 1 ;
+				}
+				else break;
 			}
 		}
 	}
-	
-	return {
-		dates: contiguArr,
-		cools: cools,
-		warms: warms,
-		humids: humids
-	};
-
+	return sets;
 }
+
+
 
 
 
@@ -217,41 +305,8 @@ function parseHumid(cageData) {
 }
 
 
-// Create a dataset for the cold readings
-function coolWeek(startDate) {
-	const coolSet = {
-		label: "Cool Temperatures",
-		data: data.cools,
-		//backgroundColor: ['#001F3F'],
-		borderColor: ['#001F3F'],
-		borderWidth: 2
-	};
-	return coolSet;
-}
 
-function plotTempWeek(coolWeek, warmWeek) {
-	let canvas = document.getElementById('temperatureChart');
-	if (canvas) {
-		canvas = canvas.getContext('2d');
-		let chart = new Chart(canvas, {
-			type: 'line',
-			data: {
-				labels: tempData.dates,
-				datasets: [coolWeek, warmWeek]
-			},
-			options: {
-				scales: {
-					yAxes: [{
-						ticks: {
-							beginAtZero: false
-						}
-					}]
-				}
-			}
-		})
-		chart.update();
-	}
-}
+
 
 function plotTempData(tempData) {
 	let canvas = document.getElementById('temperatureChart');
