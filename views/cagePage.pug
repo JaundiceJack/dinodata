@@ -74,18 +74,18 @@ block content
 						button#tempmonth.btn.bg-light.m-1 Monthly					
 						button#tempright.btn.bg-light.m-1
 							i.fas.fa-angle-right
-					canvas#temperatureChart.temperatureChart.w-100(data-id=selected._id)
+					canvas#temperatureChart.chart.w-100(data-id=selected._id)
 		// Humidity
 		div.humidChartArea
 			div.graph
 				div.graphHeader.p-2
 					h3.itemHeader Humidity:
 				div.graphBlock.p-2
-					//div.graphInterface
+					div.graphInterface.d-flex.justify-content-center
 						button.btn.bg-light.m-1
 							i.fas.fa-angle-left
 						button.btn.bg-light.m-1 Weekly
-						button.btn.bg-light.m-1 Daily					
+						button.btn.bg-light.m-1 Monthly					
 						button.btn.bg-light.m-1
 							i.fas.fa-angle-right
-					canvas#humidityChart.humidityChart.w-100.h-100(data-id=selected._id)
+					canvas#humidityChart.chart.w-100(data-id=selected._id)

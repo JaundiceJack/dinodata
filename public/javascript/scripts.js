@@ -30,6 +30,8 @@ window.onload = () => {
 
 	let data = null;
 	let timeScale = 'week';
+	let currentWeek = 0;
+	let currentMonth = 0;
 
 	// Grab the reptile ID to request data for
 	try {
@@ -40,6 +42,10 @@ window.onload = () => {
 			// Get enclosure data from the server and plot it on the graphs
 			data = getData(reptile_id);
 		}
+
+		let prevButton = document.getElementById("tempLeft");
+		let nextButton = document.getElementById("tempRight");
+		prevButton.onclick = panWeek(data, toWeek);
 	}
 	catch(e) {
 		if (e instanceof TypeError) {
@@ -48,10 +54,57 @@ window.onload = () => {
 	}
 }
 
-function panLeft(data, slice) {
-	let thing = data.slice(...slice);
-	parseTemp(thing);
-	parseHumid(thing);
+function getWeekSlice(data, weekNum) {
+	let all = fullSet(data);
+	let part = (data, weekNum) => {
+		let incr = 0;
+		let firstWeek = [];
+		let restWeeks = [];
+
+		let weekStartIndex = 0;
+		let weekEndIndex;
+		for (let i = 0; i < data.length; i++) {
+			if (data[i].date.getDay() === 0) {
+				weekEndIndex = i;
+				break;
+			}
+		}
+		// not really sure what Im doing yet
+		if (weekNum === 0) {
+			return data.subArr(0, weekEndIndex);
+		}
+		else if (weekNum === 1) {
+			return data.subArr(weekEndIndex, weekEndIndex+7);
+		}
+		else if (weekNum === 2) {
+			return data.subArr(weekEndIndex+7, weekEndIndex+14);
+		}
+
+
+
+
+
+
+		for (let i = 0; i < data.length; i++) {
+
+			firstWeek.push(data[i])
+		}
+
+
+
+
+		for (let i = 0; i < data.length; i++) {
+			let curDay = data[i].date.getDay();
+			if (curDay === 0) {
+
+			}
+		}
+	}
+
+
+	let week = all[weekNum]
+	plotTemps(all.dates, all.cools, all.warms)
+	
 
 }
 
@@ -60,29 +113,90 @@ function panLeft(data, slice) {
 function getData(reptile_id) {
 	// Send a get request for the reptile's chart data
 	let request = new XMLHttpRequest();
-	let chartData = null;
+	let data = null;
 	request.open('GET', 'graph/'+reptile_id, true);
 	request.responseType = "json";
 	request.onreadystatechange = () => {
 		if (request.readyState == 4 && request.status == 200) {
 			// Obtain the raw data from the response and pass it to the parser, then to the plotter
-			chartData = request.response;
-			//let tempPoints = parseTemp(chartData);
-			//let humidPoints = parseHumid(chartData);
-			//plotTempData(tempPoints);
-			//plotHumidData(humidPoints);
-			plot(chartData);
+			let chartData = request.response;
+			// Get the dates in a usable format
+			chartData = convertDates(chartData);
+			// Split the data up into arrays within a set
+			data = fullSet(chartData);
+			// Give the data to the plotter to put on the graph
+			plot(data);
 		}
 	}
 	request.send("");
-
-	return chartData;
+	// Return the obtained data to scroll through with buttons
+	return data;
 }
 
+function convertDates(data) {
+	let copy = data;
+	for(let i = 0; i < copy.length; i++) {
+		copy[i].date = new Date(copy[i].date.replace(/-/g, '\/').replace(/T.+/, ''));
+	}
+	return copy;
+}
+
+// Plot the given data for the temperature and humidity graphs
 function plot(data) {
-	let all = contiguDates(data);
-	plotTemps(all.dates, all.cools, all.warms);
-	plotHumids(all.dates, all.humids);
+	plotTemps(data.dates, data.cools, data.warms);
+	plotHumids(data.dates, data.humids);
+}
+
+// Return an empty set of contiguous dates and reading slots
+function emptySet(firstDate, lastDate) {
+	const daysBetween = (lastDate.getTime() - firstDate.getTime())/(1000 * 3600 * 24);
+	let sets = {
+		dates: [],
+		cools: [],
+		warms: [],
+		humids: []
+	}
+	// Add blanks to the sets for each day
+	for (let i = 0; i < daysBetween; i++) {
+		nextDay = new Date(firstDate);
+		nextDay.setDate(nextDay.getDate() + i);
+		sets.dates.push(nextDay);
+		sets.cools.push(null);
+		sets.warms.push(null);
+		sets.humids.push(null);
+	}
+	return sets;
+}
+
+// Split the data into separate arrays to be fed to the graphs
+function fullSet(data) {
+	if (data) {
+		const firstDate = data[0].date;
+		const lastDate = data[data.length-1].date;
+		let sets = emptySet(firstDate, lastDate);
+		let index = 0;
+		for (let i = 0; i < sets.dates.length; i++) {
+			if (sets.dates[i].getFullYear() === data[index].date.getFullYear() &&
+				sets.dates[i].getMonth() === data[index].date.getMonth() &&
+				sets.dates[i].getDate() === data[index].date.getDate()) {
+				// Assign the readings at the current date index
+				sets.cools[i] = data[index].coldest;
+				sets.warms[i] = data[index].warmest;
+				sets.humids[i] = data[index].humidity;
+				index++;
+			}
+		}
+		return sets;
+	}
+	// return an empty set if there was no data
+	else {
+		return {
+			dates: [],
+			cools: [],
+			warms: [],
+			humids: []
+		}
+	}
 }
 
 function plotTemps(dates, cools, warms) {
@@ -92,7 +206,7 @@ function plotTemps(dates, cools, warms) {
 		let chart = new Chart(canvas, {
 			type: 'line',
 			data: {
-				labels: dates,
+				labels: dateset(dates),
 				datasets: [coolset(cools), warmset(warms)]
 			},
 			options: {
@@ -117,14 +231,15 @@ function plotHumids(dates, humids) {
 		let chart = new Chart(canvas, {
 			type: 'line',
 			data: {
-				labels: dates,
+				labels: dateset(dates),
 				datasets: [humidset(humids)]
 			},
 			options: {
 				scales: {
 					yAxes: [{
 						ticks: {
-							beginAtZero: false
+							beginAtZero: true,
+							max: 100
 						}
 					}]
 				}
@@ -133,6 +248,19 @@ function plotHumids(dates, humids) {
 
 		chart.update();
 	}
+}
+
+// Format the date set to MM-DD-YY
+function dateset(dates) {
+	let labels = [];
+	for (let i = 0; i < dates.length; i++) {
+		let dateLabel = 
+			(dates[i].getMonth()+1).toString() + "-"
+			+ dates[i].getDate().toString() + "-"
+			+ dates[i].getFullYear().toString().substring(2);
+		labels.push(dateLabel);
+	}
+	return labels;
 }
 
 function coolset(cools) {
@@ -168,94 +296,19 @@ function humidset(humids) {
 	return humiSet;
 }
 
-// Split the data into separate arrays to be fed to the graphs
-// lol this is slow as fuck.
-function contiguDates(data) {
-	// Start empty arrays for each reading item
-	let sets = {
-		dates: [],
-		cools: [],
-		warms: [],
-		humids: []
-	}
-	const dayLabel = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sun"];
-	let firstDate;
-	let lastDate;
-	// Add the first dataset's date/reading to their respective arrays
-	if (data) {
-		firstDate = new Date(data[0].date.replace(/-/g, '\/').replace(/T.+/, ''));
-		console.log("first date is ", firstDate);
-		// Add the first data set to the collection
-		sets.dates.push(firstDate.toTimeString());
-		sets.cools.push(data[0].coldest);
-		sets.warms.push(data[0].warmest);
-		sets.humids.push(data[0].humidity);
-	}
-	if (data.length > 1) {
-		lastDate = new Date(data[data.length-1].date.replace(/-/g, '\/').replace(/T.+/, ''));
-		console.log("last date: ", lastDate);
-		let currentIndex = 1;
-		let dayIncr = 1;
-		// Instantiate nextDay as a date earlier than useful
-		let nextDay = new Date(0);
-		console.log("nextDay1: ", nextDay)
-		// Loop through the days until they
-		while (lastDate.getTime() - nextDay.getTime() > 0) {
-			let newDate = new Date(data[currentIndex].date.replace(/-/g, '\/').replace(/T.+/, ''));
 
-			// find the next date in the line by incrementing from the first day
-			nextDay = new Date(firstDate);
-			nextDay.setDate(nextDay.getDate() + dayIncr);
-			console.log("nextDay2: ", nextDay)
 
-			const date1 = {
-				year: newDate.getFullYear(),
-				month: newDate.getMonth(),
-				day: newDate.getDate()
-			}
-			const date2 = {
-				year: nextDay.getFullYear(),
-				month: nextDay.getMonth(),
-				day: nextDay.getDate()
-			}
 
-			// If the next date in the data is not contiguous, make one and insert it with empty warm/cool/humid values
-			if (date1.year !== date2.year && date1.month !== date2.month && date1.day !== date2.day) {
-				sets.dates.push(nextDay.toTimeString());
-				sets.cools.push(null);
-				sets.warms.push(null);
-				sets.humids.push(null);
-				dayIncr += 1;
-			}
-			// If the next date in the data did follow the previous, insert it and the reading data
-			else {
-				sets.dates.push(nextDay.toTimeString());
-				sets.cools.push(data[currentIndex].coldest);
-				sets.warms.push(data[currentIndex].warmest);
-				sets.humids.push(data[currentIndex].humidity);
-				dayIncr += 1;
-				// increment the index only if data was pulled
-				if (currentIndex < data.length - 1) {
-					currentIndex += 1 ;
-				}
-				else break;
-			}
-		}
-	}
-	return sets;
-}
+
+
 
 
 
 
 
 // take a date from the DB response and format it to look 'american'
-function dateLabel(date) {
-	let thisDate = new Date(date.replace(/-/g, '\/').replace(/T.+/, ''));
-	let dateLabel = (thisDate.getMonth()+1).toString() + "-"
-		+ thisDate.getDate().toString() + "-"
-		+ thisDate.getFullYear().toString().substring(2);
-	return dateLabel;
+function dateLabel(data) {
+
 }
 
 
