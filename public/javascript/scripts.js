@@ -56,6 +56,7 @@ window.onload = () => {
 
 		let prevButton = document.getElementById("tempLeft");
 		let nextButton = document.getElementById("tempRight");
+		
 
 		// so, potentially big problem,
 		// the data is fetched and plotted, but I don't think it persists
@@ -70,7 +71,7 @@ window.onload = () => {
 			return;
 		}
 		else {
-			console.log("sessionStorage only stores one at a time");
+			console.log(e);
 		}
 	}
 }
