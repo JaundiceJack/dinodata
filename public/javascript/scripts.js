@@ -27,7 +27,7 @@ function setDateInputsToToday() {
 window.onload = () => {
 	// Set date selectors to default to today.
 	setDateInputsToToday();
-
+	console.log(JSON.stringify(["3/26/20", "3/27/20"]));
 
 
 	// Grab the reptile ID to request data for
@@ -38,33 +38,10 @@ window.onload = () => {
 		if (reptile_id) {
 			// Get enclosure data from the server and plot it on the graphs
 			let data = getData(reptile_id);
-			if (typeof(Storage) !== "undefined") {
-				console.log("storage found");
-				sessionStorage.setItem('dates', data.dates.toString());
-				sessionStorage.setItem('cools', data.cools.toString());
-				sessionStorage.setItem('warms', data.warms.toString());
-				sessionStorage.setItem('humids', data.humids.toString());
-				sessionStorage.setItem('startDay', '0');
-				sessionStorage.setItem('timeScale', 'week');
-				console.log("upon storage: ", sessionStorage.getItem('dates'));
-			}
-			else {
-				console.log("no storage found");
-			}
-
 		}
 
 		let prevButton = document.getElementById("tempLeft");
 		let nextButton = document.getElementById("tempRight");
-		
-
-		// so, potentially big problem,
-		// the data is fetched and plotted, but I don't think it persists
-		// so when I call left or right, it uses the value it finds, null
-		// to get arround this, I'll need to store it on the client somehow
-		// Ah, there's a whole tool i'm missing, used to be cookies, now seems to be a client-side db
-
-
 	}
 	catch(e) {
 		if (e instanceof TypeError) {
@@ -79,14 +56,13 @@ window.onload = () => {
 function retreiveLocalData() {
 	console.log("retrieving local data...");
 	let data = {
-		dates: JSON.parse("[" + sessionStorage.getItem('dates') + "]"),
-		cools: JSON.parse("[" + sessionStorage.getItem('cools') + "]"),
-		warms: JSON.parse("[" + sessionStorage.getItem('warms') + "]"),
-		humids: JSON.parse("[" + sessionStorage.getItem('humids') + "]"),
+		dates: sessionStorage.getItem('dates'),
+		cools: sessionStorage.getItem('cools'),
+		warms: sessionStorage.getItem('warms'),
+		humids: sessionStorage.getItem('humids'),
 		startDay: parseInt(sessionStorage.getItem('startDay')),
 		timeScale: sessionStorage.getItem('timeScale')
 	}
-	console.log(data);
 	return data;
 }
 
@@ -130,13 +106,16 @@ function weekSet(data, start) {
 	};
 
 	for (let i = start; i < data.dates.length; i++) {
-			subset.dates.push(data.dates[i]);
-			subset.cools.push(data.cools[i]);
-			subset.warms.push(data.warms[i]);
-			subset.humids.push(data.humids[i]);
-			if (data.dates[i].getDay() === 0) break;
+		subset.dates.push(data.dates[i]);
+		subset.cools.push(data.cools[i]);
+		subset.warms.push(data.warms[i]);
+		subset.humids.push(data.humids[i]);
+		if (data.dates[i].getDay() === 0) {
+			break;
+		}
 	}
-	console.log(subset);
+
+	console.log("subset is: ", subset);
 	return subset;
 }
 
@@ -195,7 +174,7 @@ function getWeekSlice(data, weekNum) {
 }
 
 
-
+// Change this to store the session data instead of returning it
 function getData(reptile_id) {
 	// Send a get request for the reptile's chart data
 	let request = new XMLHttpRequest();
@@ -212,6 +191,19 @@ function getData(reptile_id) {
 			data = fullSet(chartData);
 			// Give the data to the plotter to put on the graph
 			plot(data);
+
+			// Store the data in the session to scroll through graph data
+			if (typeof(Storage) !== "undefined") {
+				sessionStorage.setItem('dates', data.dates);
+				sessionStorage.setItem('cools', data.cools);
+				sessionStorage.setItem('warms', data.warms);
+				sessionStorage.setItem('humids', data.humids);
+				sessionStorage.setItem('startDay', '0');
+				sessionStorage.setItem('timeScale', 'week');
+			}
+			else {
+				console.log("no storage found");
+			}
 		}
 	}
 	request.send("");
