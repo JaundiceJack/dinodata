@@ -28,10 +28,7 @@ window.onload = () => {
 	// Set date selectors to default to today.
 	setDateInputsToToday();
 
-	let data = null;
-	let timeScale = 'week';
-	let currentWeek = 0;
-	let currentMonth = 0;
+
 
 	// Grab the reptile ID to request data for
 	try {
@@ -40,18 +37,106 @@ window.onload = () => {
 
 		if (reptile_id) {
 			// Get enclosure data from the server and plot it on the graphs
-			data = getData(reptile_id);
+			let data = getData(reptile_id);
+			if (typeof(Storage) !== "undefined") {
+				console.log("storage found");
+				sessionStorage.setItem('dates', data.dates.toString());
+				sessionStorage.setItem('cools', data.cools.toString());
+				sessionStorage.setItem('warms', data.warms.toString());
+				sessionStorage.setItem('humids', data.humids.toString());
+				sessionStorage.setItem('startDay', '0');
+				sessionStorage.setItem('timeScale', 'week');
+				console.log("upon storage: ", sessionStorage.getItem('dates'));
+			}
+			else {
+				console.log("no storage found");
+			}
+
 		}
 
 		let prevButton = document.getElementById("tempLeft");
 		let nextButton = document.getElementById("tempRight");
-		prevButton.onclick = panWeek(data, toWeek);
+
+		// so, potentially big problem,
+		// the data is fetched and plotted, but I don't think it persists
+		// so when I call left or right, it uses the value it finds, null
+		// to get arround this, I'll need to store it on the client somehow
+		// Ah, there's a whole tool i'm missing, used to be cookies, now seems to be a client-side db
+
+
 	}
 	catch(e) {
 		if (e instanceof TypeError) {
 			return;
 		}
+		else {
+			console.log("sessionStorage only stores one at a time");
+		}
 	}
+}
+
+function retreiveLocalData() {
+	console.log("retrieving local data...");
+	let data = {
+		dates: JSON.parse("[" + sessionStorage.getItem('dates') + "]"),
+		cools: JSON.parse("[" + sessionStorage.getItem('cools') + "]"),
+		warms: JSON.parse("[" + sessionStorage.getItem('warms') + "]"),
+		humids: JSON.parse("[" + sessionStorage.getItem('humids') + "]"),
+		startDay: parseInt(sessionStorage.getItem('startDay')),
+		timeScale: sessionStorage.getItem('timeScale')
+	}
+	console.log(data);
+	return data;
+}
+
+function incrementTime() {
+	let data = retreiveLocalData();
+	if (data.timeScale === 'week') {
+		if (data.startDay < data.dates.length-1) {
+			data.startDay += 7;
+			sessionStorage.setItem('startDay', data.startDay.toString());
+		}
+		let weekset = weekSet(data, data.startDay);
+		if (weekset) plot(weekset);
+	}
+	if (data.timeScale === 'month') {
+		return;
+	}
+}
+function decrementTime() {
+	let data = retreiveLocalData();
+	if (data.timeScale === 'week') {
+		if (data.startDay > 0) {
+			data.startDay -= 7;
+			sessionStorage.setItem('startDay', data.startDay.toString());
+		}
+		let weekset = weekSet(data, data.startDay);
+		if (weekset) plot(weekset);
+	}
+	if (data.timeScale === 'month') {
+		return;
+	}
+}
+
+function weekSet(data, start) {
+	if (start > data.dates.length-1) return;
+
+	let subset = {
+		dates: [],
+		cools: [],
+		warms: [],
+		humids: []
+	};
+
+	for (let i = start; i < data.dates.length; i++) {
+			subset.dates.push(data.dates[i]);
+			subset.cools.push(data.cools[i]);
+			subset.warms.push(data.warms[i]);
+			subset.humids.push(data.humids[i]);
+			if (data.dates[i].getDay() === 0) break;
+	}
+	console.log(subset);
+	return subset;
 }
 
 function getWeekSlice(data, weekNum) {
@@ -104,7 +189,7 @@ function getWeekSlice(data, weekNum) {
 
 	let week = all[weekNum]
 	plotTemps(all.dates, all.cools, all.warms)
-	
+
 
 }
 
@@ -254,7 +339,7 @@ function plotHumids(dates, humids) {
 function dateset(dates) {
 	let labels = [];
 	for (let i = 0; i < dates.length; i++) {
-		let dateLabel = 
+		let dateLabel =
 			(dates[i].getMonth()+1).toString() + "-"
 			+ dates[i].getDate().toString() + "-"
 			+ dates[i].getFullYear().toString().substring(2);

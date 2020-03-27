@@ -68,11 +68,11 @@ block content
 					h2.itemHeader Temperatures:
 				div.graphBlock.p-2
 					div.graphInterface.d-flex.justify-content-center
-						button#templeft.btn.bg-light.m-1
+						button#templeft.btn.bg-light.m-1(onclick="decrementTime()")
 							i.fas.fa-angle-left
 						button#tempweek.btn.bg-light.m-1 Weekly
 						button#tempmonth.btn.bg-light.m-1 Monthly					
-						button#tempright.btn.bg-light.m-1
+						button#tempright.btn.bg-light.m-1(onclick="incrementTime()")
 							i.fas.fa-angle-right
 					canvas#temperatureChart.chart.w-100(data-id=selected._id)
 		// Humidity
