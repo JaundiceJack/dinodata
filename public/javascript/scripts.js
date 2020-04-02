@@ -55,122 +55,90 @@ window.onload = () => {
 
 function retreiveLocalData() {
 	console.log("retrieving local data...");
-	let data = {
-		dates: sessionStorage.getItem('dates'),
-		cools: sessionStorage.getItem('cools'),
-		warms: sessionStorage.getItem('warms'),
-		humids: sessionStorage.getItem('humids'),
-		startDay: parseInt(sessionStorage.getItem('startDay')),
-		timeScale: sessionStorage.getItem('timeScale')
+	let data;
+	if (typeof(Storage) !== "undefined") {
+		data = {
+			dates: JSON.parse(sessionStorage.getItem('dates')),
+			cools: JSON.parse(sessionStorage.getItem('cools')),
+			warms: JSON.parse(sessionStorage.getItem('warms')),
+			humids: JSON.parse(sessionStorage.getItem('humids')),
+			startDay: parseInt(sessionStorage.getItem('startDay')),
+			timeScale: sessionStorage.getItem('timeScale')
+		}
+		console.log("obtained dates: ", data.dates);
 	}
+	else {
+		//TODO: if sessionStorage is disabled, re-request the dataset
+		data = null;
+	}
+	
 	return data;
 }
 
+// Upon clicking the next button, cycle to the next 7 days to display
 function incrementTime() {
 	let data = retreiveLocalData();
-	if (data.timeScale === 'week') {
+	if (data && data.timeScale === 'week') {
+		// Only increment if the starting day index is less than the total days
 		if (data.startDay < data.dates.length-1) {
 			data.startDay += 7;
 			sessionStorage.setItem('startDay', data.startDay.toString());
 		}
+		// Plot the week obtained from weekSet()
 		let weekset = weekSet(data, data.startDay);
 		if (weekset) plot(weekset);
 	}
-	if (data.timeScale === 'month') {
+	if (data && data.timeScale === 'month') {
 		return;
 	}
 }
+// Upon clicking the next button, cycle to the previous 7 days to display
 function decrementTime() {
 	let data = retreiveLocalData();
-	if (data.timeScale === 'week') {
+	if (data && data.timeScale === 'week') {
+		// Only decrement if the starting day index over 0
 		if (data.startDay > 0) {
 			data.startDay -= 7;
 			sessionStorage.setItem('startDay', data.startDay.toString());
 		}
+		// Plot the week obtained from weekSet()
 		let weekset = weekSet(data, data.startDay);
 		if (weekset) plot(weekset);
 	}
-	if (data.timeScale === 'month') {
+	if (data && data.timeScale === 'month') {
 		return;
 	}
 }
 
+// Obtain a subset of the data spanning a week from the start date index
 function weekSet(data, start) {
+	// if the start is incremented past the data length, return nothing
 	if (start > data.dates.length-1) return;
-
+	// start a subset of the data to fill
 	let subset = {
 		dates: [],
 		cools: [],
 		warms: [],
 		humids: []
 	};
-
+	// loop over the data from the starting index and add each datum to the subset
 	for (let i = start; i < data.dates.length; i++) {
 		subset.dates.push(data.dates[i]);
 		subset.cools.push(data.cools[i]);
 		subset.warms.push(data.warms[i]);
 		subset.humids.push(data.humids[i]);
-		if (data.dates[i].getDay() === 0) {
+		// end the loop once the day turns to sunday or there's no more data
+		if (new Date(data.dates[i]).getDay() === 6) {
 			break;
 		}
 	}
 
+	//TODO: some weeks will have less than the full set of data (at the start and end)
+	// Check here and add in the missing dates to make a full week
+
+
 	console.log("subset is: ", subset);
 	return subset;
-}
-
-function getWeekSlice(data, weekNum) {
-	let all = fullSet(data);
-	let part = (data, weekNum) => {
-		let incr = 0;
-		let firstWeek = [];
-		let restWeeks = [];
-
-		let weekStartIndex = 0;
-		let weekEndIndex;
-		for (let i = 0; i < data.length; i++) {
-			if (data[i].date.getDay() === 0) {
-				weekEndIndex = i;
-				break;
-			}
-		}
-		// not really sure what Im doing yet
-		if (weekNum === 0) {
-			return data.subArr(0, weekEndIndex);
-		}
-		else if (weekNum === 1) {
-			return data.subArr(weekEndIndex, weekEndIndex+7);
-		}
-		else if (weekNum === 2) {
-			return data.subArr(weekEndIndex+7, weekEndIndex+14);
-		}
-
-
-
-
-
-
-		for (let i = 0; i < data.length; i++) {
-
-			firstWeek.push(data[i])
-		}
-
-
-
-
-		for (let i = 0; i < data.length; i++) {
-			let curDay = data[i].date.getDay();
-			if (curDay === 0) {
-
-			}
-		}
-	}
-
-
-	let week = all[weekNum]
-	plotTemps(all.dates, all.cools, all.warms)
-
-
 }
 
 
@@ -190,14 +158,14 @@ function getData(reptile_id) {
 			// Split the data up into arrays within a set
 			data = fullSet(chartData);
 			// Give the data to the plotter to put on the graph
-			plot(data);
+			plot(weekSet(data, 0));
 
 			// Store the data in the session to scroll through graph data
 			if (typeof(Storage) !== "undefined") {
-				sessionStorage.setItem('dates', data.dates);
-				sessionStorage.setItem('cools', data.cools);
-				sessionStorage.setItem('warms', data.warms);
-				sessionStorage.setItem('humids', data.humids);
+				sessionStorage.setItem('dates', JSON.stringify(data.dates));
+				sessionStorage.setItem('cools', JSON.stringify(data.cools));
+				sessionStorage.setItem('warms', JSON.stringify(data.warms));
+				sessionStorage.setItem('humids', JSON.stringify(data.humids));
 				sessionStorage.setItem('startDay', '0');
 				sessionStorage.setItem('timeScale', 'week');
 			}
@@ -332,10 +300,11 @@ function plotHumids(dates, humids) {
 function dateset(dates) {
 	let labels = [];
 	for (let i = 0; i < dates.length; i++) {
+		let current = new Date(dates[i]);
 		let dateLabel =
-			(dates[i].getMonth()+1).toString() + "-"
-			+ dates[i].getDate().toString() + "-"
-			+ dates[i].getFullYear().toString().substring(2);
+			(current.getMonth()+1).toString() + "-"
+			+ current.getDate().toString() + "-"
+			+ current.getFullYear().toString().substring(2);
 		labels.push(dateLabel);
 	}
 	return labels;
