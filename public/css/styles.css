@@ -784,30 +784,10 @@ footer {
 
 }
 .chart {
-  height: 300px;
 }
 
 
 
-.cagePageGrid {
-  display: grid;
-  grid-template-rows: auto auto;
-  grid-template-columns: 50% 50%;
-  grid-template-areas: "entries entries"
-                       "tempChart humiChart";
-  grid-gap: 10px;
-
-}
-.entryArea {
-  grid-area: entries;
-}
-.tempChartArea {
-  grid-area: tempChart;
-  margin-left: 40px;
-}
-.humidChartArea {
-  grid-area: humiChart;
-}
 
 .acctPre {
   width: 150px;

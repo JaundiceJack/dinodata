@@ -54,7 +54,7 @@ function retreiveLocalData() {
 		//TODO: if sessionStorage is disabled, re-request the dataset
 		data = null;
 	}
-	
+
 	return data;
 }
 // Request the data from the server
@@ -225,6 +225,35 @@ function weekSet(data, start) {
 
 
 	return subset;
+}
+function fillWeek(set) {
+	if (set.dates.length === 7) return set;
+	else {
+		// get the first date in the set.
+		// check it's day.
+		// you want the first day to be 0 and the last to be 6
+		// basically find the ones you have, and add the ones you dont
+		// cant really generate dates from just day numbers
+		//
+		// ideally ...
+		/// if I have the first date and i base i off of adding or subtracting the day numbers,
+		// i could generate days based on the first
+		//
+		let allDays = [0, 1, 2, 3, 4, 5, 6];
+		let setDays = [];
+		for (let i = 0; i < set.dates.length; i++) {
+			setDays.push(set.dates[i].getDay());
+		}
+		allDays.filter(setDays)
+		let firstDate = set.dates[0];
+
+		// add dates to set behind the first by subtracting
+		for (let i = 0; i < firstDate.getDay(); i++) {
+			let prevDay = new Date(firstDate);
+			prevDay.setDate(prevDay.getDate() - set)
+		}
+		// then add the ones after by adding
+	}
 }
 // Convert the dates that are returned from the server to graph-usable ones
 function convertDates(data) {

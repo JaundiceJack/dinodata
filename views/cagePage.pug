@@ -14,7 +14,7 @@ block content
 	// intro, entry, graph
 	// 
 
-	div#cagePage.container.cagePageGrid
+	div#cagePage.container
 		div.d-flex.flex-column.entryArea
 			// Intro Box			
 			div.intro
@@ -60,32 +60,32 @@ block content
 						button(type="submit").btn.btn-primary.condiSubmit.ml-auto.m-3
 							label Chart It
 							i.fas.fa-share.turn90.ml-1
-		// Enclosure Data Charts Area
-		// Temperature
-		div.tempChartArea
-			div.graph
-				div.graphHeader.p-2
-					h2.itemHeader Temperatures:
-				div.graphBlock.p-2
-					div.graphInterface.d-flex.justify-content-center
+			// Enclosure Data Charts Area		
+			div.entry
+				div.entryIcon
+					i.fas.fa-chart-line
+				div.entryHeader.p-1
+					h2.itemHeader Charts
+				div.entryBlock.d-flex.flex-column
+					div.graphInterface.ml-auto.mr-auto.mt-2
 						button#templeft.btn.bg-light.m-1(onclick="decrementTime()")
 							i.fas.fa-angle-left
 						button#tempweek.btn.bg-light.m-1 Weekly
 						button#tempmonth.btn.bg-light.m-1 Monthly					
 						button#tempright.btn.bg-light.m-1(onclick="incrementTime()")
 							i.fas.fa-angle-right
-					canvas#temperatureChart.chart.w-100(data-id=selected._id)
-		// Humidity
-		div.humidChartArea
-			div.graph
-				div.graphHeader.p-2
-					h3.itemHeader Humidity:
-				div.graphBlock.p-2
-					div.graphInterface.d-flex.justify-content-center
-						button.btn.bg-light.m-1
-							i.fas.fa-angle-left
-						button.btn.bg-light.m-1 Weekly
-						button.btn.bg-light.m-1 Monthly					
-						button.btn.bg-light.m-1
-							i.fas.fa-angle-right
-					canvas#humidityChart.chart.w-100(data-id=selected._id)
+					div.d-flex.flex-md-column.flex-lg-row.ml-3.mr-3
+						// Temperature Chart		
+						div.w-50.p-3
+							div.graph
+								div.graphHeader.p-2
+									h2.itemHeader Temperatures:
+								div.graphBlock.p-2
+									canvas#temperatureChart.chart.w-100(data-id=selected._id)
+						// Humidity Chart
+						div.w-50.p-3
+							div.graph
+								div.graphHeader.p-2
+									h3.itemHeader Humidity:
+								div.graphBlock.p-2
+									canvas#humidityChart.chart.w-100(data-id=selected._id)
