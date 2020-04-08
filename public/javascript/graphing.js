@@ -186,73 +186,61 @@ function weekSet(data, start) {
 		subset.warms.push(data.warms[i]);
 		subset.humids.push(data.humids[i]);
 		// end the loop once the day turns to sunday or there's no more data
-		if (new Date(data.dates[i]).getDay() === 6) {
+		let current = new Date(data.dates[i]);
+		if (current.getDay() === 6) {
 			break;
 		}
 	}
-
-	// If starting from the begining of the data and the first day was not sunday
-	if (start === 0 && subset.length < 7) {
-		console.log("Filling first days...");
-		// Fill in the missing days to return a full week
-		let firstDate = subset.dates[0];
-		let firstDay = firstDate.getDay();
-		for (let i = 0; i <= firstDay; i++) {
-			let prevDay = new Date(firstDate);
-			prevDay.setDate(prevDay.getDate() - i);
-			subset.dates.shift(prevDay);
-			subset.cools.shift(null);
-			subset.warms.shift(null);
-			subset.humids.shift(null);
-		}
-	}
-	// if the subset is at the end of the data and less than a week, fill it out
-	else if (subset.length < 7) {
-		console.log("Filling last days...");
-		// get the last day and add days to it until sunday
-		let lastDate = subset.dates[subset.dates.length - 1];
-		let lastDay = lastDate.getDay();
-		let daysToAdd = 7 - lastDay;
-		for (let i = 0; i < daysToAdd; i++) {
-			let nextDay = new Date(lastDate);
-			nextDay.setDate(nextDay.getDate + i);
-			subset.dates.push(nextDay);
-			subset.cools.push(null);
-			subset.warms.push(null);
-			subset.humids.push(null);
-		}
-	}
-
-
-	return subset;
+	// fill in the rest of the week if neccessary
+	let fullWeek = fillWeek(subset);
+	return fullWeek;
 }
+// Take a week set and ensure it has 7 days
 function fillWeek(set) {
+	// if it has 7 days return it.
 	if (set.dates.length === 7) return set;
 	else {
-		// get the first date in the set.
-		// check it's day.
-		// you want the first day to be 0 and the last to be 6
-		// basically find the ones you have, and add the ones you dont
-		// cant really generate dates from just day numbers
-		//
-		// ideally ...
-		/// if I have the first date and i base i off of adding or subtracting the day numbers,
-		// i could generate days based on the first
-		//
-		let allDays = [0, 1, 2, 3, 4, 5, 6];
-		let setDays = [];
-		for (let i = 0; i < set.dates.length; i++) {
-			setDays.push(set.dates[i].getDay());
-		}
-		allDays.filter(setDays)
-		let firstDate = set.dates[0];
+		console.log("first week: ", set.dates.length)
+		let fullWeek = set;
+		let firstDay = new Date(fullWeek.dates[0]);
+		// the first day will be used to determine where the other dates fall
+		let refDay = firstDay.getDay();
+		// find the weekdays already in the set
+		let existing = [];
+		for (let i = 0; i < fullWeek.dates.length; i++) {
+			let current = new Date(fullWeek.dates[i]);
 
-		// add dates to set behind the first by subtracting
-		for (let i = 0; i < firstDate.getDay(); i++) {
-			let prevDay = new Date(firstDate);
-			prevDay.setDate(prevDay.getDate() - set)
+			existing.push(current.getDay());
 		}
-		// then add the ones after by adding
+		console.log("existing days ", existing)
+		// loop for a week and add the missing days
+		for (let i = 0; i < 7; i++) {
+			let addDay = new Date(firstDay);
+			// increment the date relative to the reference day
+			addDay.setDate(addDay.getDate() + (i - refDay));
+			// if the new date is already in the set, exclude it
+			if (existing.includes(addDay.getDay())) {
+				continue;
+			}
+			else {
+				// if the new day comes before the reference, put it in front
+				if (addDay.getDay() < refDay) {
+					fullWeek.dates.shift(addDay);
+					fullWeek.cools.shift(null);
+					fullWeek.warms.shift(null);
+					fullWeek.humids.shift(null);
+				}
+				// if the new day comes after the reference, put it in the back
+				else if (addDay.getDay() > refDay) {
+					fullWeek.dates.push(addDay);
+					fullWeek.cools.push(null);
+					fullWeek.warms.push(null);
+					fullWeek.humids.push(null);
+				}
+			}
+		}
+		console.log(fullWeek);
+		return fullWeek;
 	}
 }
 // Convert the dates that are returned from the server to graph-usable ones
