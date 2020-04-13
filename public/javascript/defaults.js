@@ -25,4 +25,6 @@ function setDateInputsToToday() {
 	}
 };
 
+
+
 export default setDateInputsToToday;

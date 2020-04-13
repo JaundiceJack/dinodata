@@ -1,17 +1,28 @@
+import help from "./helpers.js"
+
 
 /* --- Button interaction functions --- */
 // Upon clicking the next button, cycle to the next 7 days/month to display
 function incrementTime() {
+	// Get the stored data or re-request it
 	let data = retreiveLocalData();
+	// Incrementing by week
 	if (data && data.timeScale === 'week') {
-		// Only increment if the starting day index is less than the total days
-		if (data.startDay < data.dates.length-1) {
+		// startDay is used as an index, do nothing if its out of bounds
+		if (data.startDay >= data.dates.length-1) return;
+		// If startDay is less than 7 days from the last day, do nothing
+		//if (data.dates.length - 1 - data.startDay < 7) return;
+
+		// Otherwise increment it by 7, up to the max length
+		else {
 			data.startDay += 7;
+			if (data.startDay > data.dates.length-1) data.startDay = data.dates.length-1;
+			// Store the new start index locally if possible (how to store this for server?)
 			sessionStorage.setItem('startDay', data.startDay.toString());
+			// Plot the new week
+			let weekset = weekSet(data, data.startDay);
+			if (weekset) plot(weekset);
 		}
-		// Plot the week obtained from weekSet()
-		let weekset = weekSet(data, data.startDay);
-		if (weekset) plot(weekset);
 	}
 	if (data && data.timeScale === 'month') {
 		return;
@@ -24,6 +35,7 @@ function decrementTime() {
 		// Only decrement if the starting day index over 0
 		if (data.startDay > 0) {
 			data.startDay -= 7;
+			if (data.startDay < 0) data.startDay = 0;
 			sessionStorage.setItem('startDay', data.startDay.toString());
 		}
 		// Plot the week obtained from weekSet()
@@ -77,8 +89,11 @@ function getData() {
 					chartData = convertDates(chartData);
 					// Split the data up into arrays within a set
 					data = fullSet(chartData);
+					console.log("original: ", data);
+					let firstSet = weekSet(data, 0);
+					console.log("initial weekSet:", firstSet);
 					// Give the data to the plotter to put on the graph
-					plot(weekSet(data, 0));
+					plot(firstSet);
 
 					// Store the data in the session to scroll through graph data
 					if (typeof(Storage) !== "undefined") {
@@ -114,7 +129,9 @@ function getData() {
 /* --- Dataset manipulation --- */
 // Return an empty set of contiguous dates and reading slots
 function emptySet(firstDate, lastDate) {
-	const daysBetween = (lastDate.getTime() - firstDate.getTime())/(1000 * 3600 * 24) + 1;
+	const first = new Date(firstDate);
+	const second = new Date(lastDate);
+	const daysBetween = (second.getTime() - first.getTime())/(1000 * 3600 * 24) + 1;
 	let sets = {
 		dates: [],
 		cools: [],
@@ -124,7 +141,7 @@ function emptySet(firstDate, lastDate) {
 	// Add blanks to the sets for each day
 	for (let i = 0; i < daysBetween; i++) {
 		// make a day based on the first one and increment it by i-days
-		let nextDay = new Date(firstDate);
+		let nextDay = new Date(first);
 		nextDay.setDate(nextDay.getDate() + i);
 		// put the date in the set and null for the readings
 		sets.dates.push(nextDay);
@@ -132,34 +149,12 @@ function emptySet(firstDate, lastDate) {
 		sets.warms.push(null);
 		sets.humids.push(null);
 	}
-
 	return sets;
 }
 // Split the data into separate arrays to be fed to the graphs
 function fullSet(data) {
-	if (data) {
-		const firstDate = data[0].date;
-		const lastDate = data[data.length-1].date;
-		// Obtain an empty data set with contiguous dates
-		let sets = emptySet(firstDate, lastDate);
-		let index = 0;
-		// loop over the empty set, assigning data in their sequential spots
-		for (let i = 0; i < sets.dates.length; i++) {
-			// Check that the current empty set's date matches the one in the served data
-			if (sets.dates[i].getFullYear() === data[index].date.getFullYear() &&
-				sets.dates[i].getMonth() === data[index].date.getMonth() &&
-				sets.dates[i].getDate() === data[index].date.getDate()) {
-				// Assign the readings at the current index and increment the index to assign the next datum
-				sets.cools[i] = data[index].coldest;
-				sets.warms[i] = data[index].warmest;
-				sets.humids[i] = data[index].humidity;
-				index++;
-			}
-		}
-		return sets;
-	}
-	// return an empty set if there was no data
-	else {
+	// Return an empty set if there's no data
+ 	if (!data) {
 		return {
 			dates: [],
 			cools: [],
@@ -167,81 +162,94 @@ function fullSet(data) {
 			humids: []
 		}
 	}
+	// If there's only one datapoint, return it in a set
+	else if (data.length === 1) {
+		return {
+			dates: [data[0].date],
+			cools: [data[0].coldest],
+			warms: [data[0].warmest],
+			humids: [data[0].humidity]
+		}
+	}
+	// Otherwise fill in the missing dates between datapoints
+	else {
+		// Obtain an empty data set with contiguous dates
+		const firstDate = data[0].date;
+		const lastDate = data[data.length-1].date;
+		let sets = emptySet(firstDate, lastDate);
+		// Loop over the empty set, assigning data in their sequential spots
+		let index = 0;
+		for (let i = 0; i < sets.dates.length; i++) {
+			// Check that the current empty set's date matches the one in the served data
+			if (help.datesMatch(sets.dates[i], data[index].date)) {
+				// Assign the readings at the current index
+				console.log("assigning data...");
+				sets.cools[i] = data[index].coldest;
+				sets.warms[i] = data[index].warmest;
+				sets.humids[i] = data[index].humidity;
+				// Increment the index to assign the next datum
+				index++;
+			}
+		}
+		return sets;
+	}
+}
+// Return an empty week set
+function emptyWeekSet(startWeekDate) {
+	// Form the date in case it comes in raw
+	let start = new Date(startWeekDate);
+	// Set up the first date of the week and an empty set
+	let firstOfWeek;
+	let emptyWeekSet = {
+			dates: [],
+			cools: [],
+			warms: [],
+			humids: []
+	};
+	// If the startDay is not sunday, get the most recent sunday
+	if (start.getDay() !== 0) {
+		firstOfWeek = new Date(start);
+		firstOfWeek.setDate(firstOfWeek.getDate() - start.getDay());
+	}
+	// Other wise the first date is the one given
+	else {
+		firstOfWeek = new Date(start);
+	}
+	// Loop over a week of dates, adding them to the empty set
+	for (let i = 0; i < 7; i++) {
+		let nextDay = new Date(firstOfWeek);
+		nextDay.setDate(nextDay.getDate() + i);
+		emptyWeekSet.dates.push(nextDay);
+		emptyWeekSet.cools.push(null);
+		emptyWeekSet.warms.push(null);
+		emptyWeekSet.humids.push(null);
+	}
+	// Return the set to be filled with data
+	console.log(emptyWeekSet);
+	return emptyWeekSet;
 }
 // Obtain a subset of the data spanning a week from the start date index
 function weekSet(data, start) {
-	// if the start is incremented past the data length, return nothing
+	// If the start is incremented past the data length, return nothing
 	if (start > data.dates.length-1) return;
-	// start a subset of the data to fill
-	let subset = {
-		dates: [],
-		cools: [],
-		warms: [],
-		humids: []
-	};
-	// loop over the data from the starting index and add each datum to the subset
-	for (let i = start; i < data.dates.length; i++) {
-		subset.dates.push(data.dates[i]);
-		subset.cools.push(data.cools[i]);
-		subset.warms.push(data.warms[i]);
-		subset.humids.push(data.humids[i]);
-		// end the loop once the day turns to sunday or there's no more data
-		let current = new Date(data.dates[i]);
-		if (current.getDay() === 6) {
-			break;
-		}
-	}
-	// fill in the rest of the week if neccessary
-	let fullWeek = fillWeek(subset);
-	return fullWeek;
-}
-// Take a week set and ensure it has 7 days
-function fillWeek(set) {
-	// if it has 7 days return it.
-	if (set.dates.length === 7) return set;
-	else {
-		console.log("first week: ", set.dates.length)
-		let fullWeek = set;
-		let firstDay = new Date(fullWeek.dates[0]);
-		// the first day will be used to determine where the other dates fall
-		let refDay = firstDay.getDay();
-		// find the weekdays already in the set
-		let existing = [];
-		for (let i = 0; i < fullWeek.dates.length; i++) {
-			let current = new Date(fullWeek.dates[i]);
+	// Start a subset of the data to fill
+	let subset = emptyWeekSet(data.dates[start]);
+	let startInc = start;
+	// Loop over the data and add each datum to the subset
+	for (let i = 0; i < 7; i++) {
+		if (startInc > data.dates.length-1) break;
 
-			existing.push(current.getDay());
+		// Add data to the subset if the date has a corresponding datapoint
+		if (help.datesMatch(subset.dates[i], data.dates[startInc])) {
+			console.log('setting data...')
+			subset.dates[i] = data.dates[startInc];
+			subset.cools[i] = data.cools[startInc];
+			subset.warms[i] = data.warms[startInc];
+			subset.humids[i] = data.humids[startInc];
+			startInc++;
 		}
-		console.log("existing days ", existing)
-		// loop for a week and add the missing days
-		for (let i = 0; i < 7; i++) {
-			let addDay = new Date(firstDay);
-			// increment the date relative to the reference day
-			addDay.setDate(addDay.getDate() + (i - refDay));
-			// if the new date is already in the set, exclude it
-			if (existing.includes(addDay.getDay())) {
-				continue;
-			}
-			else {
-				// if the new day comes before the reference, put it in front
-				if (addDay.getDay() < refDay) {
-					fullWeek.dates.shift(addDay);
-					fullWeek.cools.shift(null);
-					fullWeek.warms.shift(null);
-					fullWeek.humids.shift(null);
-				}
-				// if the new day comes after the reference, put it in the back
-				else if (addDay.getDay() > refDay) {
-					fullWeek.dates.push(addDay);
-					fullWeek.cools.push(null);
-					fullWeek.warms.push(null);
-					fullWeek.humids.push(null);
-				}
-			}
-		}
-		console.log(fullWeek);
-		return fullWeek;
 	}
+	return subset;
 }
 // Convert the dates that are returned from the server to graph-usable ones
 function convertDates(data) {
