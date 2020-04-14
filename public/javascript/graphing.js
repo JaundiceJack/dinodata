@@ -1,6 +1,51 @@
 import help from "./helpers.js"
 
 
+function incrementStart(data) {
+	if (data && data.timeScale === "week") {
+		// Don't increment if on the last day
+		if (data.startDay >= data.dates.length-1) return 0;
+		// Increment to the start of the next week if starting from the beginning
+		else if (data.startDay === 0) {
+			let currentDay = new Date(data.dates[0]);
+			return 7 - currentDay.getDay();
+		}
+		// Don't increment if adding a week would go past the last day
+		else if (data.startDay + 7 > data.dates.length-1) return 0;
+		// Increment by 7 days otherwise
+		else {
+			return 7;
+		}
+	}
+	else if (data && data.timeScale === "month") {
+		// Don't increment if on the last day
+		if (data.startDay >= data.dates.length-1) return 0;
+		// Don't increment if adding a month would go past the last day
+		if (data.startDay + 28 > data.dates.length-1) return 0;
+	}
+}
+
+function decrementStart(data) {
+	if (data && data.timeScale === "week") {
+		// Dont decrement if at the beginning
+		if (data.startDay === 0) return 0;
+		// If decrementing 7 days would put it below 0, return itself
+		else if (data.startDay - 7 < 0) {
+			return data.startDay;
+		}
+		// Otherwise decrement by 7 days
+		else {
+			return 7;
+		}
+	}
+	else if (data && data.timeScale === "month") {
+
+	}
+}
+
+// the initial increment of start day must depend on what day that is,
+// from there, increments of 7 can be made
+
 /* --- Button interaction functions --- */
 // Upon clicking the next button, cycle to the next 7 days/month to display
 function incrementTime() {
@@ -8,15 +53,10 @@ function incrementTime() {
 	let data = retreiveLocalData();
 	// Incrementing by week
 	if (data && data.timeScale === 'week') {
-		// startDay is used as an index, do nothing if its out of bounds
-		if (data.startDay >= data.dates.length-1) return;
-		// If startDay is less than 7 days from the last day, do nothing
-		//if (data.dates.length - 1 - data.startDay < 7) return;
-
-		// Otherwise increment it by 7, up to the max length
-		else {
-			data.startDay += 7;
-			if (data.startDay > data.dates.length-1) data.startDay = data.dates.length-1;
+		// Get the number of days to increment and do so if over 0
+		let increment = incrementStart(data);
+		if (increment > 0) {
+			data.startDay += increment;
 			// Store the new start index locally if possible (how to store this for server?)
 			sessionStorage.setItem('startDay', data.startDay.toString());
 			// Plot the new week
@@ -32,15 +72,17 @@ function incrementTime() {
 function decrementTime() {
 	let data = retreiveLocalData();
 	if (data && data.timeScale === 'week') {
-		// Only decrement if the starting day index over 0
-		if (data.startDay > 0) {
-			data.startDay -= 7;
-			if (data.startDay < 0) data.startDay = 0;
+		// Get the number of days to go back and do so if over 0
+		let decrement = decrementStart(data);
+		if (decrement > 0) {
+			data.startDay -= decrement;
 			sessionStorage.setItem('startDay', data.startDay.toString());
+			// Plot the week obtained from weekSet()
+			let weekset = weekSet(data, data.startDay);
+			console.log("WEEKSET", weekset);
+			if (weekset) plot(weekset);
 		}
-		// Plot the week obtained from weekSet()
-		let weekset = weekSet(data, data.startDay);
-		if (weekset) plot(weekset);
+
 	}
 	if (data && data.timeScale === 'month') {
 		return;
@@ -94,7 +136,6 @@ function getData() {
 					console.log("initial weekSet:", firstSet);
 					// Give the data to the plotter to put on the graph
 					plot(firstSet);
-
 					// Store the data in the session to scroll through graph data
 					if (typeof(Storage) !== "undefined") {
 						sessionStorage.setItem('dates', JSON.stringify(data.dates));
@@ -177,10 +218,10 @@ function fullSet(data) {
 		const firstDate = data[0].date;
 		const lastDate = data[data.length-1].date;
 		let sets = emptySet(firstDate, lastDate);
-		// Loop over the empty set, assigning data in their sequential spots
+		// Loop over the empty set, assigning data according to their date
 		let index = 0;
 		for (let i = 0; i < sets.dates.length; i++) {
-			// Check that the current empty set's date matches the one in the served data
+			// Check that the dates match before assigning the next datum
 			if (help.datesMatch(sets.dates[i], data[index].date)) {
 				// Assign the readings at the current index
 				console.log("assigning data...");
@@ -225,7 +266,6 @@ function emptyWeekSet(startWeekDate) {
 		emptyWeekSet.humids.push(null);
 	}
 	// Return the set to be filled with data
-	console.log(emptyWeekSet);
 	return emptyWeekSet;
 }
 // Obtain a subset of the data spanning a week from the start date index
@@ -234,11 +274,11 @@ function weekSet(data, start) {
 	if (start > data.dates.length-1) return;
 	// Start a subset of the data to fill
 	let subset = emptyWeekSet(data.dates[start]);
+	// Begin a counter at start
 	let startInc = start;
+	console.log("data given to weekSet", data.cools.slice(start, start+7));
 	// Loop over the data and add each datum to the subset
 	for (let i = 0; i < 7; i++) {
-		if (startInc > data.dates.length-1) break;
-
 		// Add data to the subset if the date has a corresponding datapoint
 		if (help.datesMatch(subset.dates[i], data.dates[startInc])) {
 			console.log('setting data...')
@@ -246,7 +286,9 @@ function weekSet(data, start) {
 			subset.cools[i] = data.cools[startInc];
 			subset.warms[i] = data.warms[startInc];
 			subset.humids[i] = data.humids[startInc];
+			// Increment the data counter and end if it was the last index
 			startInc++;
+			if (startInc > data.dates.length-1) break;
 		}
 	}
 	return subset;
