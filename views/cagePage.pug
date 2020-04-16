@@ -70,8 +70,8 @@ block content
 					div.graphInterface.ml-auto.mr-auto.mt-2
 						button#templeft.btn.bg-light.m-1(onclick="decrementTime()")
 							i.fas.fa-angle-left
-						button#tempweek.btn.bg-light.m-1 Weekly
-						button#tempmonth.btn.bg-light.m-1 Monthly					
+						button#tempweek.btn.bg-light.m-1(onclick="setWeekView()") Weekly
+						button#tempmonth.btn.bg-light.m-1(onclick="setMonthView()") Monthly					
 						button#tempright.btn.bg-light.m-1(onclick="incrementTime()")
 							i.fas.fa-angle-right
 					div.d-flex.flex-md-column.flex-lg-row.ml-3.mr-3

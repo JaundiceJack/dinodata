@@ -1,5 +1,27 @@
 import help from "./helpers.js"
 
+function setWeekView() {
+	// Get the stored data or re-request it
+	let data = retreiveLocalData();
+  if (data && data.timeScale === "month") {
+		data.timeScale = "week";
+		sessionStorage.setItem('timeScale', "week");
+		let set = weekSet(data, data.startDay);
+		if (set) plot(set);
+	}
+}
+
+function setMonthView() {
+	// Get the stored data or re-request it
+	let data = retreiveLocalData();
+	if (data && data.timeScale === "week") {
+		data.timeScale = "month";
+		sessionStorage.setItem('timeScale', "month");
+		console.log("time scale changed to ", data.timeScale);
+		let set = monthSet(data, data.startDay);
+		if (set) plot(set);
+	}
+}
 
 function incrementStart(data) {
 	if (data && data.timeScale === "week") {
@@ -20,8 +42,36 @@ function incrementStart(data) {
 	else if (data && data.timeScale === "month") {
 		// Don't increment if on the last day
 		if (data.startDay >= data.dates.length-1) return 0;
-		// Don't increment if adding a month would go past the last day
-		if (data.startDay + 28 > data.dates.length-1) return 0;
+		// Grab the starting index
+		let start = data.startDay;
+		// If starting at the beginning,
+
+		// Grab the first date for comparison
+		let compDate = new Date(data.dates[data.startDay]);
+		// Scan through the dates for 5 weeks
+		for (let i = 0; i < 5 ; i++) {
+			// If incrementing by 7 days would not go past the end,...
+			if (start + i * 7 <= data.dates.length-1) {
+				// Increment until the first sunday of the next month
+				let nextSun = new Date(data.dates[start + i * 7]);
+				if (nextSun.getMonth() !== compDate.getMonth()) {
+					// And return the number of days traversed
+					return i * 7;
+				}
+			}
+			else {
+				// Check whether the last date is a different month from the current date
+				let lastDate = new Date(data.dates[data.dates.length-1]);
+				let startDate = new Date(data.dates[data.startDate]);
+				if (lastDate.getMonth() !== firstDate.getMonth()) {
+					// If so, return the number of days between the start and last date
+					return data.dates.length - 1 - data.startDay;
+				}
+				// If not, don't increment
+				else return 0;
+			}
+
+		}
 	}
 }
 
@@ -60,12 +110,20 @@ function incrementTime() {
 			// Store the new start index locally if possible (how to store this for server?)
 			sessionStorage.setItem('startDay', data.startDay.toString());
 			// Plot the new week
-			let weekset = weekSet(data, data.startDay);
-			if (weekset) plot(weekset);
+			let set = weekSet(data, data.startDay);
+			if (set) plot(set);
 		}
 	}
 	if (data && data.timeScale === 'month') {
-		return;
+		let increment = incrementStart(data);
+		if (increment > 0) {
+			data.startDay += increment;
+			// Store the new start index locally if possible (how to store this for server?)
+			sessionStorage.setItem('startDay', data.startDay.toString());
+			// Plot the new week
+			let set = monthSet(data, data.startDay);
+			if (set) plot(set);
+		}
 	}
 }
 // Upon clicking the next button, cycle to the previous 7 days/month to display
@@ -268,6 +326,10 @@ function emptyWeekSet(startWeekDate) {
 	// Return the set to be filled with data
 	return emptyWeekSet;
 }
+
+// THOT: since the dates given to weekSet are contiguous, why don't I just take a slice of 7
+// It would cut out the need to make an empty week
+
 // Obtain a subset of the data spanning a week from the start date index
 function weekSet(data, start) {
 	// If the start is incremented past the data length, return nothing
@@ -279,6 +341,47 @@ function weekSet(data, start) {
 	console.log("data given to weekSet", data.cools.slice(start, start+7));
 	// Loop over the data and add each datum to the subset
 	for (let i = 0; i < 7; i++) {
+		// Add data to the subset if the date has a corresponding datapoint
+		if (help.datesMatch(subset.dates[i], data.dates[startInc])) {
+			console.log('setting data...')
+			subset.dates[i] = data.dates[startInc];
+			subset.cools[i] = data.cools[startInc];
+			subset.warms[i] = data.warms[startInc];
+			subset.humids[i] = data.humids[startInc];
+			// Increment the data counter and end if it was the last index
+			startInc++;
+			if (startInc > data.dates.length-1) break;
+		}
+	}
+	return subset;
+}
+function emptyMonthSet(startDate) {
+	// you want a set with all the dates in the given month
+	let aDay = new Date(startDate);
+	let daysInMonth = new Date(aDay.getFullYear(), aDay.getMonth(), 0).getDate();
+	let firstDay = new Date(aDay.getFullYear(), aDay.getMonth(), 1);
+  let monthSet = {
+		dates: [firstDay], cools: [null], warms: [null], humids: [null]
+	}
+	for (let i = 1; i < daysInMonth; i++) {
+		let nextDay = new Date(firstDay);
+		nextDay.setDate(nextDay.getDate() + i);
+		monthSet.dates.push(nextDay);
+		monthSet.cools.push(null);
+		monthSet.warms.push(null);
+		monthSet.humids.push(null);
+	}
+	return monthSet;
+}
+function monthSet(data, startIndex) {
+	// If the start is incremented past the data length, return nothing
+	if (startIndex > data.dates.length-1) return;
+	// Start a subset of the data to fill
+	let subset = emptyMonthSet(data.dates[startIndex]);
+	// Begin a counter at start
+	let startInc = startIndex;
+	// Loop over the data and add each datum to the subset
+	for (let i = 0; i < subset.dates.length; i++) {
 		// Add data to the subset if the date has a corresponding datapoint
 		if (help.datesMatch(subset.dates[i], data.dates[startInc])) {
 			console.log('setting data...')
@@ -421,4 +524,4 @@ function humidset(humids) {
 	return humiSet;
 }
 
-export default {getData, decrementTime, incrementTime};
+export default {getData, decrementTime, incrementTime, setWeekView, setMonthView};
