@@ -706,7 +706,6 @@ footer {
 }
 .itemText {
   font-family: Arial;
-  font-size: 14px;
 }
 
 .intro {
@@ -725,14 +724,14 @@ footer {
 
 .introExplain {}
 
-.entry {
+.section {
   display: grid;
   grid-template-rows: 50px auto;
   grid-template-columns: 50px auto;
   grid-template-areas: "icon desc"
                         ". content";
 }
-.entryIcon {
+.sectionIcon {
   grid-area: icon;
   width: 50px;
   height: 50px;
@@ -742,7 +741,7 @@ footer {
   padding-top: 6px;
   text-align: center;
 }
-.entryHeader {
+.sectionHeader {
   grid-area: desc;
   margin-top: 5px;
   margin-left: -10px;
@@ -753,7 +752,7 @@ footer {
   border-left: none;
   background: linear-gradient(180deg, #DDD, #DDD, #CDE);
 }
-.entryBlock {
+.sectionContent {
   grid-area: content;
   z-index: 0;
   margin-top: -6px;
@@ -777,14 +776,11 @@ footer {
   border-style: solid;
   border-color: #222;
 }
-.graphBlock {
 
-}
 .graphInterface {
 
 }
-.chart {
-}
+
 
 
 

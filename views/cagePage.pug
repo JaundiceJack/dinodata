@@ -4,88 +4,111 @@ block content
 
 	// Include the reptile selections
 	include reptiSelect.pug
-	
-	// I'd like to give the class names more sense
-	// for the page, I have an intro section that explains what to do
-	// and I have an entry section where data is entered,
-	// then a graph section where data is presented
-	// I've got most of the entry section styled the way I want, 
-	// So I should expand the style to the into above
-	// intro, entry, graph
-	// 
 
 	div#cagePage.container
 		div.d-flex.flex-column.entryArea
-			// Intro Box			
-			div.intro
-				div.introHeader.p-1
-					h2.itemHeader Enclosure Conditions:
-				div.introExplain.p-2
-					p.itemText Select a reptile above, enter the cage conditions below.
 			// Data Entry Boxes
 			form(action="/monitoring/cage/"+selected._id, method="post")
-				// Date & Time
-				div.entry
-					div.entryIcon
-						i.fas.fa-clock.fa-2x
-					div.entryHeader.p-1
-						h2.itemHeader Date & Time
-					div.entryBlock.d-flex.flex-wrap
-						div.input-group.w-50.p-3
-							div.input-group-prepend
-								span.input-group-text Date:
-							input.form-control(type="date", name="date", min="2020-01-01")
 				// Temperature & Humidity
-				div.entry.mb-2
-					div.entryIcon
+				div.section.mb-2
+					div.sectionIcon
 						i.fas.fa-thermometer-three-quarters.fa-2x
-					div.entryHeader.p-1
+					div.sectionHeader.p-1
 						h2.itemHeader Temperatures & Humidity:
-					div.entryBlock.d-flex.flex-wrap.align-items-center
-						div.input-group.w-50.p-3
-							div.input-group-prepend
-								span.input-group-text
-									i.far.fa-snowflake
-							input.form-control(type="text", name="cool", placeholder="Cool Side F°", required, autofocus)
-						div.input-group.w-50.p-3
-							div.input-group-prepend
-								span.input-group-text
-									i.fab.fa-gripfire
-							input.form-control(type="text", name="warm", placeholder="Warm Side F°", required)
-						div.input-group.w-50.p-3
-							div.input-group-prepend
-								span.input-group-text
-									i.fas.fa-cloud
-							input.form-control(type="text", name="humidity", placeholder="Humidity %", min="0", max="100", required)
-						button(type="submit").btn.btn-primary.condiSubmit.ml-auto.m-3
-							label Chart It
-							i.fas.fa-share.turn90.ml-1
+					div.sectionContent.pt-3
+						div.container
+							div.row.bg-light.border.border-dark.rounded.m-3.p-2
+								h3.itemText Select a reptile above, enter the cage conditions below.
+							div.row.bg-light.border.border-dark.rounded.m-3.pt-3
+								div.container
+									div.row.p-3
+										div.col-6
+											div.input-group
+												div.input-group-prepend
+													span.input-group-text Date:
+												input.form-control(type="date", name="date", min="2020-01-01")
+										div.col-6
+											div.input-group
+												div.input-group-prepend
+													span.input-group-text
+														i.fas.fa-cloud
+												input.form-control(type="text", name="humidity", placeholder="Humidity %", min="0", max="100", required)
+									div.row.p-3
+										div.col-6
+											div.input-group
+												div.input-group-prepend
+													span.input-group-text
+														i.far.fa-snowflake
+												input.form-control(type="text", name="cool", placeholder="Cool Side F°", required, autofocus)
+										div.col-6
+											div.input-group
+												div.input-group-prepend
+													span.input-group-text
+														i.fab.fa-gripfire
+												input.form-control(type="text", name="warm", placeholder="Warm Side F°", required)
+									div.row.p-3.justify-content-center
+										button(type="submit").btn.btn-primary
+											label Chart It
+											i.fas.fa-share.turn90.ml-1
+
 			// Enclosure Data Charts Area		
-			div.entry
-				div.entryIcon
+			div.section
+				div.sectionIcon
 					i.fas.fa-chart-line
-				div.entryHeader.p-1
+				div.sectionHeader
 					h2.itemHeader Charts
-				div.entryBlock.d-flex.flex-column
-					div.graphInterface.ml-auto.mr-auto.mt-2
-						button#templeft.btn.bg-light.m-1(onclick="decrementTime()")
-							i.fas.fa-angle-left
-						button#tempweek.btn.bg-light.m-1(onclick="setWeekView()") Weekly
-						button#tempmonth.btn.bg-light.m-1(onclick="setMonthView()") Monthly					
-						button#tempright.btn.bg-light.m-1(onclick="incrementTime()")
-							i.fas.fa-angle-right
-					div.d-flex.flex-md-column.flex-lg-row.ml-3.mr-3
-						// Temperature Chart		
-						div.w-50.p-3
-							div.graph
-								div.graphHeader.p-2
-									h2.itemHeader Temperatures:
-								div.graphBlock.p-2
-									canvas#temperatureChart.chart.w-100(data-id=selected._id)
-						// Humidity Chart
-						div.w-50.p-3
-							div.graph
-								div.graphHeader.p-2
-									h3.itemHeader Humidity:
-								div.graphBlock.p-2
-									canvas#humidityChart.chart.w-100(data-id=selected._id)
+				div.sectionContent
+					div.container
+						div.row
+							div.col-2.bg-light.border.border-dark.rounded.m-3.p-2
+								div.row.justify-content-end.mb-3.mt-2.mr-2
+									button#templeft.btn.btn-primary.m-1(onclick="decrementTime()")
+										i.fas.fa-angle-left
+									button#tempright.btn.btn-primary.m-1(onclick="incrementTime()")
+										i.fas.fa-angle-right
+								div.row.justify-content-end.mb-2.mr-2
+									div.btn-group
+										button#tempweek.btn.btn-outline-secondary(onclick="setWeekView()") Week
+										div.btn-group
+											button.btn.btn-secondary.dropdown-toggle(data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
+											div.dropdown-menu
+												a(href="#").dropdown-item 0eqweq
+												a(href="#").dropdown-item 0eqweq
+								div.row.justify-content-end.mb-2.mr-2
+									div.btn-group
+										button#tempmonth.btn.btn-outline-secondary(onclick="setMonthView()") Month
+										div.btn-group
+											button.btn.btn-secondary.dropdown-toggle(data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
+											div.dropdown-menu
+												a(href="#").dropdown-item 0eqweq
+												a(href="#").dropdown-item 0eqweq
+								div.row.mb-2.mr-2
+									div.input-group.justify-content-end
+										div.input-group-prepend
+											div.input-group-text
+												span Cool Temps
+										div.border.rounded-right.p-2.bg-secondary
+											input(type="checkbox")
+								div.row.mb-2.mr-2
+									div.input-group.justify-content-end
+										div.input-group-prepend
+											div.input-group-text
+												span Warm Temps
+										div.border.rounded-right.p-2.bg-secondary
+											input(type="checkbox")
+								div.row.mb-2.mr-2
+									div.input-group.justify-content-end
+										div.input-group-prepend
+											div.input-group-text
+												span Humidity
+										div.border.rounded-right.p-2.bg-secondary
+											input(type="checkbox")
+												
+							div.col-9.m-3
+								// Temperature Chart		
+								div.p-3
+									div.graph
+										div.graphHeader.p-2
+											h2.itemHeader Readings:
+										div.p-2
+											canvas#readingChart.w-100(data-id=selected._id)
