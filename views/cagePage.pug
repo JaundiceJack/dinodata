@@ -60,55 +60,58 @@ block content
 				div.sectionContent
 					div.container
 						div.row
-							div.col-2.bg-light.border.border-dark.rounded.m-3.p-2
-								div.row.justify-content-end.mb-3.mt-2.mr-2
-									button#templeft.btn.btn-primary.m-1(onclick="decrementTime()")
+							div.col-2.bg-light.border.border-dark.rounded.m-3.shadow
+							
+								div.row.bg-dark.justify-content-center.shadow
+									h3.itemText.text-light.mt-3.mb-2 Options
+								div.row.justify-content-center.mb-3.mt-2
+									button#templeft.btn.btn-lg.btn-primary.m-1(onclick="decrementTime()")
 										i.fas.fa-angle-left
-									button#tempright.btn.btn-primary.m-1(onclick="incrementTime()")
+									button#tempright.btn.btn-lg.btn-primary.m-1(onclick="incrementTime()")
 										i.fas.fa-angle-right
-								div.row.justify-content-end.mb-2.mr-2
-									div.btn-group
+										
+								div.row.justify-content-center.mb-2
+									div.btn-group.w-responsive
 										button#tempweek.btn.btn-outline-secondary(onclick="setWeekView()") Week
 										div.btn-group
 											button.btn.btn-secondary.dropdown-toggle(data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
 											div.dropdown-menu
 												a(href="#").dropdown-item 0eqweq
 												a(href="#").dropdown-item 0eqweq
-								div.row.justify-content-end.mb-2.mr-2
-									div.btn-group
+												
+								div.row.justify-content-center.mb-3
+									div.btn-group.w-responsive
 										button#tempmonth.btn.btn-outline-secondary(onclick="setMonthView()") Month
 										div.btn-group
 											button.btn.btn-secondary.dropdown-toggle(data-toggle="dropdown" aria-haspopup="true" aria-expanded="false")
 											div.dropdown-menu
 												a(href="#").dropdown-item 0eqweq
 												a(href="#").dropdown-item 0eqweq
-								div.row.mb-2.mr-2
-									div.input-group.justify-content-end
-										div.input-group-prepend
-											div.input-group-text
-												span Cool Temps
-										div.border.rounded-right.p-2.bg-secondary
+								
+								div.row.mb-2
+									div.input-group.justify-content-center.w-responsive
+										div.input-group-prepend.bg-secondary.rounded-left.p-2
 											input(type="checkbox")
-								div.row.mb-2.mr-2
-									div.input-group.justify-content-end
-										div.input-group-prepend
-											div.input-group-text
-												span Warm Temps
-										div.border.rounded-right.p-2.bg-secondary
+										span.input-group-text.shadow Cool Temps
+										
+								div.row.mb-2
+									div.input-group.justify-content-center.w-responsive
+										div.input-group-prepend.bg-secondary.rounded-left.p-2
 											input(type="checkbox")
-								div.row.mb-2.mr-2
-									div.input-group.justify-content-end
+										span.input-group-text Warm Temps
+						
+											
+								div.row.mb-2
+									div.input-group.justify-content-start.ml-4.w-responsive
 										div.input-group-prepend
-											div.input-group-text
-												span Humidity
-										div.border.rounded-right.p-2.bg-secondary
-											input(type="checkbox")
+											div.input-group-prepend.bg-secondary.rounded-left.p-2
+												input(type="checkbox")
+										span.input-group-text.shadow Humidity											
 												
-							div.col-9.m-3
+							div.col-9
 								// Temperature Chart		
-								div.p-3
-									div.graph
-										div.graphHeader.p-2
-											h2.itemHeader Readings:
-										div.p-2
-											canvas#readingChart.w-100(data-id=selected._id)
+								div.container.bg-light.border.border-dark.rounded.m-3.shadow
+									div.row.bg-dark.justify-content-center.shadow
+										h3.itemText.text-light.mt-3.mb-2 Readings
+									div.row.p-2
+										canvas#readingChart.w-100(data-id=selected._id)
