@@ -64,6 +64,10 @@ html, body, main {
 }
 /* Bootstrap messin with mah labels */
 label { margin: 0 !important; }
+p {
+  margin-top: auto !important;
+  margin-bottom: auto !important;
+}
 
 
 /**********************************/
@@ -377,32 +381,38 @@ footer {
 
 
 /** Reptile Selection Icons **/
-.selectName {
-  background: linear-gradient(180deg, var(--lightD), var(--lightB));
-  border-width: 1px 1px 1px 2px;
+.selectSeparator {
+  border-width: 0 2px 0 0;
   border-style: solid;
-  border-color: var(--lightD);
-  border-radius: 0 0 5px 5px;
-  width: 80px;
-  margin-top: -4px;
-  padding: 4px;
-  font-family: Arial;
-  text-align: center;
-  box-shadow: inset 1px 0px 4px 2px var(--darkD);
-  pointer-events: none;
-  text-transform: capitalize;
+  border-color: #666;
+}
+.selectBorder {
+  border-width: 2px;
+  border-style: solid;
+  border-color: #666;
 }
 .selectImage {
-  width: 80px;
-  height: 80px;
-  border-color: var(--lightD);
+  height: 75px;
+  width: 75px;
+  border-radius: 50%;
+  border-width: 2px;
   border-style: solid;
-  border-width: 2px 1px 1px 2px;
-  border-radius: 5px 5px 0 0;
-  box-shadow: inset 1px 1px 4px 2px var(--darkD);
+  border-color: #23F;
 }
+.selectName {
+  font-family: 'Righteous', Arial, Verdana;
+  font-color: #222;
+  text-transform: capitalize;
+}
+
 .reptiSelectFlex li:hover *{border-color: var(--darkA);}
 .selectedReptile * {border-color: var(--primaryA);}
+.selectedReptile #repName {
+  background-image: linear-gradient(to top,#d4fc79 0,#96e6a1 100%);
+}
+.unselectedReptile #repName {
+  background-image: linear-gradient(to bottom,#5ee7df 0,#b490ca 100%);
+}
 
 /** Morph Color Options (generated in infoScripts.js) **/
 .cBoxContainer {
@@ -513,6 +523,33 @@ footer {
 /******************/
 /* Color Stylings */
 /******************/
+.near-moon-gradient {
+  background-image: linear-gradient(to top,#5ee7df 0,#b490ca 100%);
+}
+.heavy-rain-gradient {
+  background-image: linear-gradient(to top,#cfd9df 0,#e2ebf0 100%);
+}
+.cloudy-knoxville-gradient {
+  background-image: linear-gradient(120deg,#fdfbfb 0,#ebedee 100%);
+}
+.blue-gradient {
+  background: linear-gradient(40deg,#45cafc,#303f9f) !important;
+}
+.deep-blue-gradient {
+  background-image: linear-gradient(120deg,#e0c3fc 0,#8ec5fc 100%);
+}
+.morpheus-den-gradient {
+  background: linear-gradient(to top,#30cfd0 0,#330867 100%);
+}
+.dusty-grass-gradient {
+  background-image: linear-gradient(120deg,#d4fc79 0,#96e6a1 100%);
+}
+.ripe-malinka-gradient {
+  background-image: linear-gradient(120deg,#f093fb 0,#f5576c 100%);
+}
+.tempting-azure-gradient {
+  background-image: linear-gradient(0deg,#84fab0 0,#8fd3f4 100%);
+}
 .headerGradient {
   background: linear-gradient(170deg, var(--darkD), var(--lightA));
 }
@@ -586,6 +623,7 @@ footer {
 .fancyText {
   font-family: 'Righteous', Arial, Verdana;
 }
+
 .basicText {
   font-family: Arial, Verdana;
 }
@@ -609,23 +647,35 @@ footer {
   text-shadow: 2px 2px 1px #BBB;
   text-decoration: none;
 }
-.h1Size {
-  font-size: 28px;
+.text-size-12 {
+  font-size: 12px;
 }
-.h2Size {
-  font-size: 24px;
+.text-size-14 {
+  font-size: 14px;
 }
-.h3Size {
-  font-size: 22px;
+.text-size-16 {
+  font-size: 16px;
 }
-.h4Size {
-  font-size: 20px;
-}
-.h5Size {
+.text-size-18 {
   font-size: 18px;
 }
-.h5Size {
-  font-size: 16px;
+.text-size-20 {
+  font-size: 20px;
+}
+.text-size-22 {
+  font-size: 22px;
+}
+.text-size-24 {
+  font-size: 24px;
+}
+.text-size-26 {
+  font-size: 26px;
+}
+.text-size-28 {
+  font-size: 28px;
+}
+.text-size-30 {
+  font-size: 30px;
 }
 
 /*******************/
@@ -691,7 +741,10 @@ footer {
 .righted { text-align: right; }
 .innerShadow { box-shadow: inset 0 0 8px 1px var(--darkD); }
 .tuchit { cursor: pointer; }
-
+.rotated {
+  writing-mode: vertical-lr;
+  transform: rotate(180deg);
+}
 
 
 
@@ -782,7 +835,9 @@ footer {
 
 }
 
-
+.linkWithText:hover {
+  text-decoration: none;
+}
 
 
 

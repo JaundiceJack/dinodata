@@ -1,16 +1,18 @@
 // Only add ifs and imgs for new types here
-a(href="/monitoring"+routePath+reptile._id)
-  // Use a different icon for each reptile type
-  if reptile.type === "pythonRegius"
-    img.selectImage(src="http://www.rfadventures.com/images/Animals/Reptiles/Snakes/Non%20Ven/python%20heat%20pits.jpg" alt="Ball Python")
-  if reptile.type === "pogonaGenus"
-    img.selectImage(src="https://bbsmenagerie.files.wordpress.com/2013/10/beardie.jpg" alt="Bearded Dragon")
-  if reptile.type === "eublepharisGenus"
-    img.selectImage(src="http://img15.deviantart.net/a7c2/i/2013/044/c/0/smiles_the_leopard_gecko__by_psychopaticcupcake-d5uty2t.jpg" alt="Leopard Gecko")
-  if reptile.type === "pantherophisGuttatus"
-    img.selectImage(src="https://www.hugglepets.co.uk/wp-content/uploads/2015/01/corn-snake.jpg" alt="Corn Snake")
-  if reptile.type === "tegu"
-    img.selectImage(src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Tupinambis-merianae-BA-Zoo.JPG/1200px-Tupinambis-merianae-BA-Zoo.JPG" alt="Tegu")
-  if reptile.type === "iguanaIguana"
-    img.selectImage(src="https://doowansnewsandevents.files.wordpress.com/2013/07/lizard1.jpg" alt="Green Iguana")
-  p.selectName= reptile.name
+a(href="/monitoring"+routePath+reptile._id).d-flex.flex-column.linkWithText
+  div.ml-auto.mr-auto
+    // Use a different icon for each reptile type
+    if reptile.type === "pythonRegius"
+      img.selectImage(src="http://www.rfadventures.com/images/Animals/Reptiles/Snakes/Non%20Ven/python%20heat%20pits.jpg" alt="Ball Python")
+    if reptile.type === "pogonaGenus"
+      img.selectImage(src="https://bbsmenagerie.files.wordpress.com/2013/10/beardie.jpg" alt="Bearded Dragon")
+    if reptile.type === "eublepharisGenus"
+      img.selectImage(src="http://img15.deviantart.net/a7c2/i/2013/044/c/0/smiles_the_leopard_gecko__by_psychopaticcupcake-d5uty2t.jpg" alt="Leopard Gecko")
+    if reptile.type === "pantherophisGuttatus"
+      img.selectImage(src="https://www.hugglepets.co.uk/wp-content/uploads/2015/01/corn-snake.jpg" alt="Corn Snake")
+    if reptile.type === "tegu"
+      img.selectImage(src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Tupinambis-merianae-BA-Zoo.JPG/1200px-Tupinambis-merianae-BA-Zoo.JPG" alt="Tegu")
+    if reptile.type === "iguanaIguana"
+      img.selectImage(src="https://doowansnewsandevents.files.wordpress.com/2013/07/lizard1.jpg" alt="Green Iguana")
+  div#repName.rounded.d-flex.justify-content-center.align-items-center.mt-1.border.border-dark
+    p.selectName.text-dark.p-1= reptile.name
