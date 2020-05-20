@@ -4,20 +4,57 @@ div.m-2.rounded.selectBorder.heavy-rain-gradient.d-flex.align-items-center
 		h2.basicText.text-warning.text-size-16.rotated Select Reptile:	
 	div#reptile_id(name="reptile_id", data-id=selected._id)
 	div.flex-grow-1
-		div(data-ride="carousel")#carouselControl.carousel.slide
+		div#carouselControl(data-ride="carousel" data-interval="false").carousel.slide
 			div.carousel-inner
-				- var pages = reptiles.length % 3;
-				- for (var i = 0; i < pages; i++) {
-					div.carousel-item
-					- for (var j = i*3; j < i*3+3; j++) {
-							include reptiPictureLinks.pug
+				- let reptiPages = [];
+				- let pageBlank = [];
+				- let activeIndex = 0;
+				// Loop over the reptiles, adding 3 at a time to the pages
+				- for (let i = 0; i < reptiles.length; i++) {
+					- pageBlank.push(reptiles[i]);					
+					- if (pageBlank.length >= 5) { // add a full page and reset
+						- reptiPages.push(pageBlank);
+						- pageBlank = [];
 					- }
-				- }		
-			a(href="carouselControl" role="button" date-slide="prev").carousel-control-prev
-				span.carousel-control-prev-icon
+					// if on the last reptile, put it in the pages
+					- if (reptiles.length - 1 - i === 0 && pageBlank.length < 5 && pageBlank.length > 0) reptiPages.push(pageBlank);
+				- }
+				// Loop over the pages to find the selected reptile and active carousel page
+				- for (let i = 0; i < reptiPages.length; i++) {
+					- for (let j = 0; j < reptiPages[i].length; j++) {
+						- if (reptiPages[i][j]._id === selected._id) {
+							- activeIndex = i;
+						- }
+					- }
+				- }
+
+				each page, index in reptiPages
+					if index === activeIndex
+						div.carousel-item.active
+							ul.d-flex.justify-content-center.noBullets
+								each reptile in page
+									if reptile._id === selected._id
+										li.hoverItem.clickItem.tuchit.m-2.selectedReptile(id=reptile._id)
+											include reptiPictureLinks.pug
+									else
+										li.hoverItem.clickItem.tuchit.m-2.unselectedReptile(id=reptile._id)
+											include reptiPictureLinks.pug
+					else
+						div.carousel-item
+							ul.d-flex.justify-content-center.noBullets
+								each reptile in page
+									if reptile._id === selected._id
+										li.hoverItem.clickItem.tuchit.m-2.selectedReptile(id=reptile._id)
+											include reptiPictureLinks.pug
+									else
+										li.hoverItem.clickItem.tuchit.m-2.unselectedReptile(id=reptile._id)
+											include reptiPictureLinks.pug
+
+			a(href="#carouselControl" role="button" data-slide="prev").carousel-control-prev
+				span(aria-hidden="true").carousel-control-prev-icon
 				span.sr-only Previous
-			a(href="carouselControl" role="button" data-slide="next").carousel-control-next
-				span.carousel-control-next-icon
+			a(href="#carouselControl" role="button" data-slide="next").carousel-control-next
+				span(aria-hidden="true").carousel-control-next-icon
 				span.sr-only Next
 	ul.d-flex.flex-column.noBullets
 		// Create icons to add and remove reptiles
