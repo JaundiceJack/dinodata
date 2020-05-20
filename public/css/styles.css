@@ -517,64 +517,21 @@ footer {
   font-family: 'Righteous', Arial, Verdana;
   cursor: pointer;
 }
-.buttonTypeB {}
-.buttonTypeC {}
 
 /******************/
 /* Color Stylings */
 /******************/
-.near-moon-gradient {
-  background-image: linear-gradient(to top,#5ee7df 0,#b490ca 100%);
-}
-.heavy-rain-gradient {
-  background-image: linear-gradient(to top,#cfd9df 0,#e2ebf0 100%);
-}
-.cloudy-knoxville-gradient {
-  background-image: linear-gradient(120deg,#fdfbfb 0,#ebedee 100%);
-}
-.blue-gradient {
-  background: linear-gradient(40deg,#45cafc,#303f9f) !important;
-}
-.deep-blue-gradient {
-  background-image: linear-gradient(120deg,#e0c3fc 0,#8ec5fc 100%);
-}
-.morpheus-den-gradient {
-  background: linear-gradient(to top,#30cfd0 0,#330867 100%);
-}
-.dusty-grass-gradient {
-  background-image: linear-gradient(120deg,#d4fc79 0,#96e6a1 100%);
-}
-.ripe-malinka-gradient {
-  background-image: linear-gradient(120deg,#f093fb 0,#f5576c 100%);
-}
-.tempting-azure-gradient {
-  background-image: linear-gradient(0deg,#84fab0 0,#8fd3f4 100%);
-}
-.headerGradient {
-  background: linear-gradient(170deg, var(--darkD), var(--lightA));
-}
-.footerGradient {
-  background: linear-gradient(10deg, var(--darkD), var(--lightA));
-}
-.gradientA {
-  background: linear-gradient(-45deg, var(--lightB), var(--darkB));
-}
-.gradientB {
-  background: radial-gradient(var(--primaryC), var(--lightD));
-}
-.gradientC {
-  background: linear-gradient(45deg, var(--lightB), var(--lightC));
-}
-.solidColorA {
-  background: var(--darkD);
-}
-.solidColorB {
-  background: var(--lightA);
-}
-.solidColorC {
-  background: #F5F5F5;
-  /*background: var(--primaryC);*/
-}
+.near-moon-gradient { background-image: linear-gradient(to top,#5ee7df 0,#b490ca 100%); }
+.heavy-rain-gradient { background-image: linear-gradient(to top,#cfd9df 0,#e2ebf0 100%); }
+.cloudy-knoxville-gradient { background-image: linear-gradient(120deg,#fdfbfb 0,#ebedee 100%); }
+.blue-gradient { background: linear-gradient(40deg,#45cafc,#303f9f) !important; }
+.deep-blue-gradient { background-image: linear-gradient(120deg,#e0c3fc 0,#8ec5fc 100%); }
+.morpheus-den-gradient { background: linear-gradient(to top,#30cfd0 0,#330867 100%); }
+.dusty-grass-gradient { background-image: linear-gradient(120deg,#d4fc79 0,#96e6a1 100%); }
+.ripe-malinka-gradient { background-image: linear-gradient(120deg,#f093fb 0,#f5576c 100%); }
+.tempting-azure-gradient { background-image: linear-gradient(0deg,#84fab0 0,#8fd3f4 100%); }
+.headerGradient { background: linear-gradient(170deg, var(--darkD), var(--lightA)); }
+.footerGradient { background: linear-gradient(10deg, var(--darkD), var(--lightA)); }
 
 /*************************/
 /* Sizing (height/width) */
@@ -593,132 +550,39 @@ footer {
 .width-800 {width: 800px;}
 .width-min {width: auto;}
 
-/****************************/
-/* Spacing (margin/padding) */
-/****************************/
-/* Bottom Margins */
-.smBotMarg {
-  margin-bottom: 10px;
-}
-.medBotMarg {
-  margin-bottom: 20px;
-}
-.bigBotMarg {
-  margin-bottom: 30px;
-}
-/* Even Paddings */
-.smEvenPad {
-  padding: 10px;
-}
-.medEvenPad {
-  padding: 20px;
-}
-.bigEvenPad {
-  padding: 30px;
-}
-
 /****************/
 /* Text Sylings */
 /****************/
-.fancyText {
-  font-family: 'Righteous', Arial, Verdana;
-}
-
-.basicText {
-  font-family: Arial, Verdana;
-}
+.fancyText { font-family: 'Righteous', Arial, Verdana; }
+.basicText { font-family: Arial, Verdana; }
 .standardText {
   font-family: Arial, Verdana;
   line-height: 30px;
   font-weight: 500;
 }
-.textEffectA {
-  color: var(--darkA);
-  text-shadow: 2px 2px 4px var(--darkD);
-  text-decoration: underline;
-}
-.textEffectB {
-  color: var(--primaryB);
-  text-shadow: 1px 1px 0px var(--darkD);
-  text-decoration: none;
-}
-.textEffectC {
-  color: var(--textA);
-  text-shadow: 2px 2px 1px #BBB;
-  text-decoration: none;
-}
-.text-size-12 {
-  font-size: 12px;
-}
-.text-size-14 {
-  font-size: 14px;
-}
-.text-size-16 {
-  font-size: 16px;
-}
-.text-size-18 {
-  font-size: 18px;
-}
-.text-size-20 {
-  font-size: 20px;
-}
-.text-size-22 {
-  font-size: 22px;
-}
-.text-size-24 {
-  font-size: 24px;
-}
-.text-size-26 {
-  font-size: 26px;
-}
-.text-size-28 {
-  font-size: 28px;
-}
-.text-size-30 {
-  font-size: 30px;
-}
+
+.text-size-12 { font-size: 12px; }
+.text-size-14 { font-size: 14px; }
+.text-size-16 { font-size: 16px; }
+.text-size-18 { font-size: 18px; }
+.text-size-20 { font-size: 20px; }
+.text-size-22 { font-size: 22px; }
+.text-size-24 { font-size: 24px; }
+.text-size-26 { font-size: 26px; }
+.text-size-28 { font-size: 28px; }
+.text-size-30 { font-size: 30px; }
 
 /*******************/
 /* Border Stylings */
 /*******************/
-.borderA {
-  border-style: solid;
-  border-width: 1px 1px 2px 2px;
-  border-radius: 5px;
-  border-color: var(--darkB);
-  box-shadow: 2px 2px 4px 1px var(--darkD);
-}
-.borderB {
-  border-style: solid;
-  border-width: 2px 1px 1px 2px;
-  border-radius: 5px;
-  border-color: var(--darkA);
-  box-shadow: 1px 1px 2px 1px var(--darkC);
-}
-.borderC {
-  /* Good for labeled text entries */
+.button-border {
   border-width: 2px 1px 1px 2px;
   border-style: solid;
-  border-color: var(--darkB);
+  border-color: #330867;
   border-radius: 15px 5px 5px 15px;
-  box-shadow: 1px 1px 2px 1px var(--darkB);
+  box-shadow: 1px 1px 2px 1px #30cfd0;
 }
-.borderD {
-  /*  */
-  border-style: solid;
-  border-width: 1px 1px 2px 2px;
-  border-radius: 10px;
-  border-color: var(--darkB);
-  box-shadow: 2px 2px 4px 1px var(--darkD);
-}
-.borderE {
-  /* Good for encasing page elements */
-  border-color: var(--primaryB);
-  border-style: solid;
-  border-width: 2px 1px 1px 2px;
-  border-radius: 5px;
-  box-shadow: inset 0 0 8px 1px var(--darkD);
-}
+
 /* Note: Make sure these are below the border definitions */
 .topEdgeBorder {
   border-width: 0 1px 1px 2px;
